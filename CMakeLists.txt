@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.14)
 
-project(QtSerialPort_test LANGUAGES CXX)
+project(Qml_test LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
 # Check https://doc.qt.io/qt/deployment-android.html for more information.
-# They need to be set before the find_package( ...) calls below.
+# They need to be set before the find_package(...) calls below.
 
 #if(ANDROID)
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
@@ -24,41 +24,38 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #    endif()
 #endif()
 
-find_package(QT NAMES Qt5 COMPONENTS Widgets Core SerialPort REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core SerialPort REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick SerialPort REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick SerialPort REQUIRED)
 find_package(Threads REQUIRED)
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+        qml.qrc
+        ttext.h
+        ttext.cpp
 )
 
-qt5_add_resources(RESOURCES resources.qrc)
-
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(QtSerialPort_test
+    qt_add_executable(Qml_test
         ${PROJECT_SOURCES}
-        ${RESOURCES}
     )
 else()
     if(ANDROID)
-        add_library(QtSerialPort_test SHARED
+        add_library(Qml_test SHARED
             ${PROJECT_SOURCES}
-            ${RESOURCES}
         )
     else()
-        add_executable(QtSerialPort_test
-            ${PROJECT_SOURCES}
-            ${RESOURCES}
+        add_executable(Qml_test
+          ${PROJECT_SOURCES}
         )
     endif()
 endif()
 
-target_link_libraries(QtSerialPort_test PRIVATE
-                                        Qt${QT_VERSION_MAJOR}::Widgets
-                                        Qt${QT_VERSION_MAJOR}::Core
-                                        Qt${QT_VERSION_MAJOR}::SerialPort
-                                        Threads::Threads
+target_compile_definitions(Qml_test
+  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+target_link_libraries(Qml_test
+  PRIVATE Qt${QT_VERSION_MAJOR}::Core
+          Qt${QT_VERSION_MAJOR}::Quick
+          Qt${QT_VERSION_MAJOR}::SerialPort
+          Threads::Threads
 )

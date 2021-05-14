@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>resources/images/background.png</file>
+        <file>resources/images/background2.png</file>
+        <file>resources/images/background2_logo.png</file>
+        <file>resources/images/Icons/Americano.png</file>
+        <file>resources/images/Icons/CaffeCrema.png</file>
+        <file>resources/images/Icons/Cappuccino.png</file>
+        <file>resources/images/Icons/CoffeeLong.png</file>
+        <file>resources/images/Icons/custom_espresso.png</file>
+        <file>resources/images/Icons/custom_macchiato.png</file>
+        <file>resources/images/Icons/Espresso.png</file>
+        <file>resources/images/Icons/Espresso_Intenso.png</file>
+        <file>resources/images/Icons/Espresso_Lungo.png</file>
+        <file>resources/images/Icons/Espresso_Macchiato.png</file>
+        <file>resources/images/Icons/favorites.png</file>
+        <file>resources/images/Icons/Flat_White.png</file>
+        <file>resources/images/Icons/Macchiato.png</file>
+        <file>resources/images/Icons/Ristretto.png</file>
+        <file>resources/images/Icons/settings.png</file>
+    </qresource>
+</RCC>
