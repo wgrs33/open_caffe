@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import com.company.ttext 1.0
+//import com.company.ttext 1.0
 
 ApplicationWindow {
     width: 800
@@ -11,14 +11,20 @@ ApplicationWindow {
         source: "qrc:///resources/images/background2.png"
     }
 
-    TestText {
-        id: label
+//    TestText {
+//        id: label
+//    }
+    Connections {
+        target: TestText
+        function onTextChanged(newText) {
+            test.text = newText
+        }
     }
 
     Text {
         anchors.centerIn: parent
         id: test
-        text: label.text
+        text: ""
         font.family: "Courier"
         font.pointSize: 16
         color: "white"

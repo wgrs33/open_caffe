@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 #include <thread>
 #include <chrono>
 #include <iostream>
@@ -15,7 +16,9 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    qmlRegisterType<ttext>("com.company.ttext", 1,0, "TestText");
+//    qmlRegisterType<ttext>("com.company.ttext", 1,0, "TestText");
+    ttext testText;
+    engine.rootContext()->setContextProperty("TestText", &testText);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

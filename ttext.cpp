@@ -3,11 +3,11 @@
 #include <iostream>
 
 ttext::ttext(QObject *parent):
+    QObject(parent),
     serial_stop(false)
 {
-    (void)parent;
 
-    text = "";
+    text_ = "";
 
     ptr_serial = new QSerialPort();
     ptr_serial->setPortName("/dev/pts/2");
@@ -48,12 +48,14 @@ ttext::~ttext()
 }
 
 void ttext::setText(const QString &text) {
-    this->text = text;
+    if (text_ == text)
+        return;
+    this->text_ = text;
     emit textChanged(text);
 }
 
-QString& ttext::getText() {
-    return this->text;
+QString ttext::text() {
+    return this->text_;
 }
 
 void ttext::serialReceived() {
