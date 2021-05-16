@@ -1,8 +1,20 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(Qml_test LANGUAGES CXX)
+project(open_caffe
+        VERSION 0.1
+        DESCRIPTION "OpenCaffe Application"
+        LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# support folders in IDE's
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+# find_package(Doxygen)
+#     if(Doxygen_FOUND)
+#     add_subdirectory(docs)
+# else()
+#     message(STATUS "Doxygen not found, not building docs")
+# endif()
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -28,34 +40,37 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick SerialPort REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick SerialPort REQUIRED)
 find_package(Threads REQUIRED)
 
+# include_directories(${CMAKE_SOURCE_DIR}/api/inc)
+
 set(PROJECT_SOURCES
         main.cpp
         qml.qrc
-        ttext.h
-        ttext.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(Qml_test
-        ${PROJECT_SOURCES}
+    qt_add_executable(${CMAKE_PROJECT_NAME}
+                      ${PROJECT_SOURCES}
     )
 else()
     if(ANDROID)
-        add_library(Qml_test SHARED
+        add_library(${CMAKE_PROJECT_NAME} SHARED
             ${PROJECT_SOURCES}
         )
     else()
-        add_executable(Qml_test
+        add_executable(${CMAKE_PROJECT_NAME}
           ${PROJECT_SOURCES}
         )
     endif()
 endif()
 
-target_compile_definitions(Qml_test
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${PROJECT_INC_DIRS})
+target_compile_definitions(${CMAKE_PROJECT_NAME}
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-target_link_libraries(Qml_test
+target_link_libraries(${CMAKE_PROJECT_NAME}
   PRIVATE Qt${QT_VERSION_MAJOR}::Core
           Qt${QT_VERSION_MAJOR}::Quick
           Qt${QT_VERSION_MAJOR}::SerialPort
           Threads::Threads
 )
+
+add_subdirectory(api)
