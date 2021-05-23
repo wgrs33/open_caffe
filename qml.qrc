@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>InterractiveImage.qml</file>
         <file>resources/images/background.png</file>
         <file>resources/images/background2.png</file>
         <file>resources/images/background2_logo.png</file>

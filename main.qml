@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.12
 //import com.company.ttext 1.0
 
 ApplicationWindow {
+    id: app
     width: 800
     height: 480
     visible: true
@@ -12,9 +13,6 @@ ApplicationWindow {
         source: "qrc:///resources/images/background2.png"
     }
 
-//    TestText {
-//        id: label
-//    }
     Connections {
         target: TestText
         function onTextChanged(newText) {
@@ -32,14 +30,23 @@ ApplicationWindow {
         visible: false
     }
 
-    Page {
+    Column {
         anchors.fill: parent
-        background: null
-        header: ToolBar {
-            id: header
+        ToolBar {
+            id: head
             background: null
+            height: 50
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
             RowLayout {
-                anchors.fill: parent
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
+                    bottom: parent.bottom
+                }
                 ToolButton {
                     contentItem: Text {
                         text: qsTr("<")
@@ -72,96 +79,87 @@ ApplicationWindow {
             }
         }
 
-        contentItem: SwipeView {
+        SwipeView {
             id: swipeView
             currentIndex: 0
+            height: (parent.height - head.height - footer.height)
             anchors {
-                top: header.bottom
                 left: parent.left
                 right: parent.right
-                bottom: footer.top
             }
+
             Page {
                 id: firstPage
                 background: null
-                contentItem: RowLayout {
-                    ColumnLayout {
-                        width: 200
-                        height: 200
-                        Layout.alignment: Qt.AlignVCenter
-                        Image {
-                            fillMode: Image.PreserveAspectFit
-                            source: "qrc:///resources/images/Icons/Espresso.png"
-                            sourceSize.width: parent.width
-                        }
-                        Text {
-                            id: espresso
-                            height: 35
-                            text: qsTr("Espresso")
-                            color: "#f0f0f0"
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: 25
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-                        MouseArea {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            onClicked: {
-                                header_text.text = espresso.text
-                            }
-                        }
-                    }
-
-                    ColumnLayout {
-                        width: 200
-                        Layout.alignment: Qt.AlignVCenter
-                        Image {
-                            fillMode: Image.PreserveAspectFit
-                            source: "qrc:///resources/images/Icons/Espresso_Intenso.png"
-                            sourceSize.width: parent.width
-                        }
-                        Text {
-                            text: qsTr("Espresso Intenso")
-                            color: "#f0f0f0"
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: 25
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-                    }
-
-                    ColumnLayout {
-                        width: 200
-                        Layout.alignment: Qt.AlignVCenter
-                        Image {
-                            fillMode: Image.PreserveAspectFit
-                            source: "qrc:///resources/images/Icons/Espresso_Lungo.png"
-                            sourceSize.width: parent.width
-                        }
-                        Text {
-                            height: 35
-                            text: qsTr("Espresso Lungo")
-                            color: "#f0f0f0"
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: 25
-                            horizontalAlignment: Text.AlignHCenter
-                        }
+                height: 150
+                anchors {
+                    top: parent.top
+                    topMargin: (100 + head.height)
+                }
+                contentItem: Row {
+                    height: parent.height
+                    anchors {
+                        left: parent.left
+                        right: parent.right
                     }
                     
-                    ColumnLayout {
+                    InterractiveImage {
                         width: 200
-                        Layout.alignment: Qt.AlignVCenter
-                        Image {
-                            fillMode: Image.PreserveAspectFit
-                            source: "qrc:///resources/images/Icons/Espresso_Macchiato.png"
-                            sourceSize.width: parent.width
+                        height: 150
+                        image.source: "qrc:///resources/images/Icons/Ristretto.png"
+                        text.text: qsTr("Ristretto")
+                        text.color: "#f0f0f0"
+                        text.height: 25
+                        onClicked: {
+                            header_text.text = text.text
                         }
-                        Text {
-                            height: 35
-                            text: qsTr("Espresso Macchiato")
-                            color: "#f0f0f0"
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: 25
-                            horizontalAlignment: Text.AlignHCenter
+                    }
+
+                    InterractiveImage {
+                        width: 200
+                        height: 150
+                        image.source: "qrc:///resources/images/Icons/Espresso.png"
+                        text.text: qsTr("Espresso")
+                        text.color: "#f0f0f0"
+                        text.height: 25
+                        onClicked: {
+                            header_text.text = text.text
+                            // console.log("Swipe height: ", swipeView.height)
+                            // console.log("Swipe width: ", swipeView.width)
+                            // console.log("Swipe x: ", swipeView.x)
+                            // console.log("Swipe y: ", swipeView.y)
+                            // console.log("Swipe parent: ", swipeView.parent)
+                            // console.log("Swipe parent.y: ", swipeView.parent.y)
+                            // console.log("firstPage height: ", firstPage.height)
+                            // console.log("firstPage width: ", firstPage.width)
+                            // console.log("firstPage x: ", firstPage.x)
+                            // console.log("firstPage y: ", firstPage.y)
+                            // console.log("firstPage parent: ", firstPage.parent)
+                            // console.log("firstPage parent.y: ", firstPage.parent.y)
+                        }
+                    }
+
+                    InterractiveImage {
+                        width: 200
+                        height: 150
+                        image.source: "qrc:///resources/images/Icons/Espresso_Intenso.png"
+                        text.text: qsTr("Espresso Intenso")
+                        text.color: "#f0f0f0"
+                        text.height: 25
+                        onClicked: {
+                            header_text.text = text.text
+                        }
+                    }
+
+                    InterractiveImage {
+                        width: 200
+                        height: 150
+                        image.source: "qrc:///resources/images/Icons/Espresso_Lungo.png"
+                        text.text: qsTr("Espresso Lungo")
+                        text.color: "#f0f0f0"
+                        text.height: 25
+                        onClicked: {
+                            header_text.text = text.text
                         }
                     }
                 }
@@ -170,75 +168,63 @@ ApplicationWindow {
             Page {
                 id: secondPage
                 background: null
-                contentItem: RowLayout {
-                    ColumnLayout {
+                height: 150
+                anchors {
+                    top: parent.top
+                    topMargin: (100 + head.height)
+                }
+                contentItem: Row {
+                    height: parent.height
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
+
+                    InterractiveImage {
                         width: 200
-                        Layout.alignment: Qt.AlignVCenter
-                        Image {
-                            fillMode: Image.PreserveAspectFit
-                            source: "qrc:///resources/images/Icons/Americano.png"
-                            sourceSize.width: parent.width
-                        }
-                        Text {
-                            height: 35
-                            text: qsTr("Americano")
-                            color: "#f0f0f0"
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: 25
-                            horizontalAlignment: Text.AlignHCenter
+                        height: 150
+                        image.source: "qrc:///resources/images/Icons/Espresso_Macchiato.png"
+                        text.text: qsTr("Espresso Macchiato")
+                        text.color: "#f0f0f0"
+                        text.height: 25
+                        onClicked: {
+                            header_text.text = text.text
                         }
                     }
 
-                    ColumnLayout {
+                    InterractiveImage {
                         width: 200
-                        Layout.alignment: Qt.AlignVCenter
-                        Image {
-                            fillMode: Image.PreserveAspectFit
-                            source: "qrc:///resources/images/Icons/CaffeCrema.png"
-                            sourceSize.width: parent.width
-                        }
-                        Text {
-                            text: qsTr("Caffe Crema")
-                            color: "#f0f0f0"
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: 25
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-                    }
-
-                    ColumnLayout {
-                        width: 200
-                        Layout.alignment: Qt.AlignVCenter
-                        Image {
-                            fillMode: Image.PreserveAspectFit
-                            source: "qrc:///resources/images/Icons/CoffeeLong.png"
-                            sourceSize.width: parent.width
-                        }
-                        Text {
-                            height: 35
-                            text: qsTr("Coffee Long")
-                            color: "#f0f0f0"
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: 25
-                            horizontalAlignment: Text.AlignHCenter
+                        height: 150
+                        image.source: "qrc:///resources/images/Icons/Cappuccino.png"
+                        text.text: qsTr("Cappuccino")
+                        text.color: "#f0f0f0"
+                        text.height: 25
+                        onClicked: {
+                            header_text.text = text.text
                         }
                     }
                     
-                    ColumnLayout {
+                    InterractiveImage {
                         width: 200
-                        Layout.alignment: Qt.AlignVCenter
-                        Image {
-                            fillMode: Image.PreserveAspectFit
-                            source: "qrc:///resources/images/Icons/Cappuccino.png"
-                            sourceSize.width: parent.width
+                        height: 150
+                        image.source: "qrc:///resources/images/Icons/Macchiato.png"
+                        text.text: qsTr("Macchiato")
+                        text.color: "#f0f0f0"
+                        text.height: 25
+                        onClicked: {
+                            header_text.text = text.text
                         }
-                        Text {
-                            height: 35
-                            text: qsTr("Cappuccino")
-                            color: "#f0f0f0"
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: 25
-                            horizontalAlignment: Text.AlignHCenter
+                    }
+
+                    InterractiveImage {
+                        width: 200
+                        height: 150
+                        image.source: "qrc:///resources/images/Icons/Flat_White.png"
+                        text.text: qsTr("Flat White")
+                        text.color: "#f0f0f0"
+                        text.height: 25
+                        onClicked: {
+                            header_text.text = text.text
                         }
                     }
                 }
@@ -247,77 +233,65 @@ ApplicationWindow {
             Page {
                 id: thirdPage
                 background: null
-                contentItem: RowLayout {
-                    ColumnLayout {
+                height: 150
+                anchors {
+                    top: parent.top
+                    topMargin: (100 + head.height)
+                }
+                contentItem: Row {
+                    height: parent.height
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
+
+                    InterractiveImage {
                         width: 200
-                        Layout.alignment: Qt.AlignVCenter
-                        Image {
-                            fillMode: Image.PreserveAspectFit
-                            source: "qrc:///resources/images/Icons/Flat_White.png"
-                            sourceSize.width: parent.width
-                        }
-                        Text {
-                            height: 35
-                            text: qsTr("Flat White")
-                            color: "#f0f0f0"
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: 25
-                            horizontalAlignment: Text.AlignHCenter
+                        height: 150
+                        image.source: "qrc:///resources/images/Icons/CoffeeLong.png"
+                        text.text: qsTr("Coffee Long")
+                        text.color: "#f0f0f0"
+                        text.height: 25
+                        onClicked: {
+                            header_text.text = text.text
                         }
                     }
 
-                    ColumnLayout {
+                    InterractiveImage {
                         width: 200
-                        Layout.alignment: Qt.AlignVCenter
-                        Image {
-                            fillMode: Image.PreserveAspectFit
-                            source: "qrc:///resources/images/Icons/Ristretto.png"
-                            sourceSize.width: parent.width
-                        }
-                        Text {
-                            text: qsTr("Ristretto")
-                            color: "#f0f0f0"
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: 25
-                            horizontalAlignment: Text.AlignHCenter
+                        height: 150
+                        image.source: "qrc:///resources/images/Icons/Americano.png"
+                        text.text: qsTr("Americano")
+                        text.color: "#f0f0f0"
+                        text.height: 25
+                        onClicked: {
+                            header_text.text = text.text
                         }
                     }
 
-                    ColumnLayout {
+                    InterractiveImage {
                         width: 200
-                        Layout.alignment: Qt.AlignVCenter
-                        Image {
-                            fillMode: Image.PreserveAspectFit
-                            source: "qrc:///resources/images/Icons/Macchiato.png"
-                            sourceSize.width: parent.width
-                        }
-                        Text {
-                            height: 35
-                            text: qsTr("Macchiato")
-                            color: "#f0f0f0"
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: 25
-                            horizontalAlignment: Text.AlignHCenter
+                        height: 150
+                        image.source: "qrc:///resources/images/Icons/CaffeCrema.png"
+                        text.text: qsTr("Caffe Crema")
+                        text.color: "#f0f0f0"
+                        text.height: 25
+                        onClicked: {
+                            header_text.text = text.text
                         }
                     }
-                    
-                    ColumnLayout {
+
+                    InterractiveImage {
                         width: 200
-                        Layout.alignment: Qt.AlignVCenter
-                        Image {
-                            fillMode: Image.PreserveAspectFit
-                            source: "qrc:///resources/images/Icons/favorites.png"
-                            sourceSize.width: parent.width - 75
-                            horizontalAlignment: Qt.AlignHCenter
-                            // sourceSize.height: parent.height
-                        }
-                        Text {
-                            height: 35
-                            text: qsTr("Favorite")
-                            color: "#f0f0f0"
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: 25
-                            horizontalAlignment: Text.AlignHCenter
+                        height: 150
+                        image.source: "qrc:///resources/images/Icons/favorites.png"
+                        image.sourceSize.width: 100
+                        image.sourceSize.height: 100
+                        text.text: qsTr("Favorites")
+                        text.color: "#f0f0f0"
+                        text.height: 25
+                        onClicked: {
+                            header_text.text = text.text
                         }
                     }
                 }
@@ -326,32 +300,42 @@ ApplicationWindow {
             Page {
                 id: fourthPage
                 background: null
-                contentItem: RowLayout {
-                    ColumnLayout {
+                height: 150
+                anchors {
+                    top: parent.top
+                    topMargin: (100 + head.height)
+                }
+                contentItem: Row {
+                    height: parent.height
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
+                    InterractiveImage {
                         width: 200
-                        Layout.alignment: Qt.AlignVCenter
-                        Image {
-                            fillMode: Image.PreserveAspectFit
-                            source: "qrc:///resources/images/Icons/settings.png"
-                            sourceSize.width: parent.width - 75
-                            horizontalAlignment: Qt.AlignHCenter
-                        }
-                        Text {
-                            height: 35
-                            text: qsTr("Settings")
-                            color: "#f0f0f0"
-                            Layout.preferredWidth: parent.width
-                            Layout.preferredHeight: 25
-                            horizontalAlignment: Text.AlignHCenter
+                        height: 150
+                        image.source: "qrc:///resources/images/Icons/settings.png"
+                        image.sourceSize.width: 100
+                        image.sourceSize.height: 100
+                        text.text: qsTr("Settings")
+                        text.color: "#f0f0f0"
+                        text.height: 25
+                        onClicked: {
+                            header_text.text = text.text
                         }
                     }
                 }
             }
         }
 
-        footer:  ToolBar {
+        ToolBar {
             id: footer
             background: null
+            height: 50
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
             RowLayout {
                 anchors.fill: parent
                 Label {
