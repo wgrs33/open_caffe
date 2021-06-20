@@ -21,7 +21,7 @@ install(TARGETS ${CMAKE_PROJECT_NAME}_core
 )
 
 add_custom_command(TARGET ${CMAKE_PROJECT_NAME}_core 
-    PRE_BUILD
+    POST_BUILD
         COMMAND cp -r 
             ${CMAKE_CURRENT_SOURCE_DIR}/include 
             ${GENERATE_FILES_DIRECTORY}/include
