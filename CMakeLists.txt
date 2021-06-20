@@ -9,11 +9,11 @@ project(open_caffe
 option(GUI_QT5 "GUI based on QT5" ON)
 option(HEADLESS "Headless version" OFF)
 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib CACHE PATH "Output directory of libraries.")
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib CACHE PATH "Output directory of all archived executables.")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin CACHE PATH "Output directory of all executables.")
+set(GENERATE_FILES_DIRECTORY ${PROJECT_BINARY_DIR}/generated)
 
-set(GENERATE_FILES_DIRECTORY ${CMAKE_BINARY_DIR}/generated)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${GENERATE_FILES_DIRECTORY}/lib CACHE PATH "Output directory of libraries.")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${GENERATE_FILES_DIRECTORY}/lib CACHE PATH "Output directory of all archived executables.")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${GENERATE_FILES_DIRECTORY}/bin CACHE PATH "Output directory of all executables.")
 
 if(NOT CMAKE_BUILD_TYPE)
         set(CMAKE_BUILD_TYPE "Release" CACHE STRING

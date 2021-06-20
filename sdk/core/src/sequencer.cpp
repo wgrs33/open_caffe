@@ -2,7 +2,7 @@
 
 class Sequencer {
 public:
-    Sequencer() {test_ = 0;}
+    Sequencer() {test_ = DUMMY;}
     ~Sequencer() {}
 private:
     int test_;
