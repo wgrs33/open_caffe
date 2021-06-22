@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.10)
 
 project(open_caffe
         VERSION 0.1
@@ -24,12 +24,12 @@ endif(NOT CMAKE_BUILD_TYPE)
 # support folders in IDE's
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-# find_package(Doxygen)
-#     if(Doxygen_FOUND)
-#     add_subdirectory(docs)
-# else()
-#     message(STATUS "Doxygen not found, not building docs")
-# endif()
+find_package(Doxygen)
+    if(Doxygen_FOUND)
+    add_subdirectory(docs)
+else()
+    message(STATUS "Doxygen not found, not building docs")
+endif()
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

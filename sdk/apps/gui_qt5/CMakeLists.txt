@@ -52,7 +52,10 @@ endif()
 
 target_link_libraries(${APP_NAME} PRIVATE
     ${apps_link_libs}
-    # OpenCaffeSDK::core
+)
+
+target_link_libraries(${APP_NAME} LINK_PUBLIC
+    OpenCaffeSDK::Core
 )
 
 target_include_directories(${APP_NAME} PRIVATE 

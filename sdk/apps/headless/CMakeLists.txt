@@ -9,7 +9,6 @@ set(CMAKE_PREFIX_PATH
 )
 
 find_package(Threads REQUIRED)
-find_library(OpenCaffeCore open_caffe_core)
 
 set(apps_link_libs
     ${apps_link_libs}
@@ -33,9 +32,12 @@ add_executable(${APP_NAME}
     # soft/whatever_is_here_and_in_subdirs.cpp
 )
 
+target_link_libraries(${APP_NAME} LINK_PUBLIC
+    OpenCaffeSDK::Core
+)
+
 target_link_libraries(${APP_NAME} PRIVATE
     ${apps_link_libs}
-    "${OpenCaffeCore}"
 )
 
 target_include_directories(${APP_NAME} PRIVATE 
