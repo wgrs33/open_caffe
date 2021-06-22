@@ -1,10 +1,9 @@
-#include "opencaffe/sdk/core/dummy.h"
 #include "opencaffe/sdk/core/sequencer.h"
 
 namespace OpenCaffe {
 
 Sequencer::Sequencer() :
-test_(DUMMY){}
+test_(0){}
 
 Sequencer::~Sequencer() {}
 
