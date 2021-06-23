@@ -7,31 +7,48 @@
 #include <memory>
 #include <stdarg.h>
 
-namespace OpenCaffe {
+#include "opencaffe/sdk/core/logger.h"
 
-template<typename ... Args>
-std::string string_format( const std::string& format, Args ... args )
-{
-    int size_s = std::snprintf( nullptr, 0, format.c_str(), args ... ) + 1; // Extra space for '\0'
-    if( size_s <= 0 ){ throw std::runtime_error( "Error during formatting." ); }
-    auto size = static_cast<size_t>( size_s );
-    auto buf = std::make_unique<char[]>( size );
-    std::snprintf( buf.get(), size, format.c_str(), args ... );
-    return std::string( buf.get(), buf.get() + size - 1 ); // We don't want the '\0' inside
-}
+namespace OpenCaffe {
 
 class Base {
 public:
-    enum LogLevel { INFO, WARNING, ERROR, DEBUG };
-    Base(bool log_messages = false, LogLevel level = LogLevel::INFO);
-    virtual ~Base();
-    void enable_messages(bool);
-    void log(LogLevel level, const char* format, ...);
+    enum Type {COUT, CERR, CLOG};
+    Base(Type output = Type::COUT) {
+        switch(output) {
+        case Type::COUT:
+            logger_ = std::make_unique<OpenCaffe::logger>(std::cout, "");
+            break;
+        case Type::CERR:
+            logger_ = std::make_unique<OpenCaffe::logger>(std::cerr, "");
+            break;
+        case Type::CLOG:
+            logger_ = std::make_unique<OpenCaffe::logger>(std::clog, "");
+            break;
+        }
+    }
+    Base(std::string name, Type output = Type::COUT) {
+        switch(output) {
+        case Type::COUT:
+            logger_ = std::make_unique<OpenCaffe::logger>(std::cout, name);
+            break;
+        case Type::CERR:
+            logger_ = std::make_unique<OpenCaffe::logger>(std::cerr, name);
+            break;
+        case Type::CLOG:
+            logger_ = std::make_unique<OpenCaffe::logger>(std::clog, name);
+            break;
+        }
+    }
+    virtual ~Base() {}
+    OpenCaffe::logger& log(unsigned level) {
+        return (*logger_)(level);
+    }
+    void set_log_level(unsigned level) {
+        logger_->set_log_level(level);
+    }
 private:
-    class Logger;
-    std::unique_ptr<Logger> logger_;
-    bool log_messages_;
-    LogLevel level_;
+    std::unique_ptr<OpenCaffe::logger> logger_;
 };
 
 } //namespace OpenCaffe

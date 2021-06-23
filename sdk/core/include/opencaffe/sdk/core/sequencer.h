@@ -1,9 +1,11 @@
 #ifndef _SDK_CORE_SEQUENCER_H
 #define _SDK_CORE_SEQUENCER_H
 
+#include "opencaffe/sdk/core/base.h"
+
 namespace OpenCaffe {
 
-class Sequencer {
+class Sequencer : public Base{
 public:
     Sequencer();
     ~Sequencer();
