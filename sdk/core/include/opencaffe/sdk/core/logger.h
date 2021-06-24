@@ -21,6 +21,7 @@
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 #define DEBUG_PRETTY_LINE(x) (x << "[" << __FILENAME__ << ':'<< __PRETTY_FUNCTION__ << ':' << __LINE__ << "] ")
 #define DEBUG_LINE(x)        (x << "[" << __FILENAME__ << ':'<< __FUNCTION__ << ':' << __LINE__ << "] ")
+#define OBJECT_LINE(x, y)    (x << "[" << typeid(y).name() << "] ")
 
 namespace OpenCaffe {
 

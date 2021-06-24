@@ -6,7 +6,8 @@ Sequencer::Sequencer() :
 Base("Sequencer"),
 test_(0){
     set_log_level(LOG_DEBUG);
-    log(LOG_DEBUG) << "test_: " << test_ << std::endl;
+    // log(LOG_DEBUG) << "test_: " << test_ << std::endl;
+    OBJECT_LINE(log(LOG_DEBUG), this) << "test_: " << test_ << std::endl;
 }
 
 Sequencer::~Sequencer() {}
