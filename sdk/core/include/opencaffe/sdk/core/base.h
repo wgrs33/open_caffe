@@ -41,6 +41,10 @@ public:
         }
     }
     virtual ~Base() {}
+    virtual int init() = 0;
+    virtual int main() = 0;
+    virtual int deinit() = 0;
+
     OpenCaffe::logger& log(unsigned level) {
         return (*logger_)(level);
     }
