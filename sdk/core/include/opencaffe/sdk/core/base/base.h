@@ -1,5 +1,5 @@
-#ifndef _OPENCAFFE_SDK_CORE_BASE_H
-#define _OPENCAFFE_SDK_CORE_BASE_H
+#ifndef _OPENCAFFE_SDK_CORE_BASE_BASE_H
+#define _OPENCAFFE_SDK_CORE_BASE_BASE_H
 
 #include <stdexcept>
 #include <iostream>
@@ -7,7 +7,7 @@
 #include <memory>
 #include <stdarg.h>
 
-#include "opencaffe/sdk/core/logger.h"
+#include "opencaffe/sdk/core/base/logger.h"
 
 namespace OpenCaffe {
 
@@ -45,7 +45,7 @@ public:
     virtual int main() = 0;
     virtual int deinit() = 0;
 
-    OpenCaffe::logger& log(unsigned level) {
+    logger& log(unsigned level) {
         return (*logger_)(level);
     }
     void set_log_level(unsigned level) {
