@@ -45,11 +45,13 @@ int Sequencer::init() {
 
 int Sequencer::main() {
     int res = 0;
+    int c = 0;
     do {
         for (auto it = object_list_.begin(); it != object_list_.end(); ++it) {
             res = it->main();
         }
-    } while(res == 0);
+        ++c;
+    } while(res == 0 && c < 10);
     return res;
 }
 
@@ -59,6 +61,7 @@ int Sequencer::deinit() {
         res = it->deinit();
         if (res != 0) break;
     }
+    DEBUG_LINE(log(LOG_DEBUG)) << "Finished" << std::endl;
     return res;
 }
 

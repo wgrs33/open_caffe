@@ -52,7 +52,6 @@ std::string logger::prep_name() { return "[" + _name + "] "; }
 void logger::flush() { _fac.flush(); }
 
 unsigned& logger::_loglevel() {
-    static unsigned _ll_internal = LOG_DEFAULT;
     return _ll_internal;
 };
 void logger::set_log_level(unsigned ll) { _loglevel() = ll; }

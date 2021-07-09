@@ -43,6 +43,7 @@ public:
 
  private:
     unsigned _message_level;
+    unsigned _ll_internal = LOG_DEFAULT;
     std::ostream& _fac;
     std::string _name;
 };
