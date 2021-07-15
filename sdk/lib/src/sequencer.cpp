@@ -1,4 +1,7 @@
 #include "opencaffe/sequencer.h"
+#include "opencaffe/apl/apl_core.h"
+#include "opencaffe/mid/mid_core.h"
+#include "opencaffe/mid/mid_acq.h"
 #include "opencaffe/mid/mid_send.h"
 
 namespace OpenCaffe {
@@ -30,6 +33,9 @@ test_(0){
     // log(LOG_DEBUG) << "test_: " << test_ << std::endl;
     opencaffeobject_ = std::make_shared<OpenCaffeObject>();
     OBJECT_LINE(log(LOG_DEBUG), this) << "test_: " << test_ << std::endl;
+    object_list_.push_front(ExecutableObject(std::move(std::make_unique<MidAcquisition>(opencaffeobject_))));
+    object_list_.push_front(ExecutableObject(std::move(std::make_unique<MidCore>(opencaffeobject_))));
+    object_list_.push_front(ExecutableObject(std::move(std::make_unique<AplCore>(opencaffeobject_))));
     object_list_.push_front(ExecutableObject(std::move(std::make_unique<MidSend>(opencaffeobject_))));
 }
 

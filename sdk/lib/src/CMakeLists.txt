@@ -5,3 +5,4 @@ target_sources(${CMAKE_PROJECT_NAME}_core PRIVATE
 
 add_subdirectory(base)
 add_subdirectory(mid)
+add_subdirectory(apl)
