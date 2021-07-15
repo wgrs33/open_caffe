@@ -1,0 +1,13 @@
+{
+  "acquisition": {
+    "ref_voltage" : 3300,
+    "resolution" : 1023,
+    "brew_ohm_resolution" : 1,
+    "no_switch_ref_voltage" : 3300,
+    "high_switch_ref_voltage" : 1820,
+    "low_switch_ref_voltage" : 1340,
+    "both_switch_ref_voltage" : 1010,
+    "switch_delta" : 150,
+    "temp_table" : "ntc.cfg"
+  }
+}
