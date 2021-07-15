@@ -13,7 +13,13 @@ public:
     int main();
     int deinit();
 private:
-    int test_;
+    int update_analogs(void);
+    int update_inputs(void);
+    int update_device_positions(void);
+    int update_temperatures(void);
+    int update_currents(void);
+
+    std::vector<std::pair<uint32_t, int16_t>>ntc_temp_table_;
 };
 
 } //namespace OpenCaffe

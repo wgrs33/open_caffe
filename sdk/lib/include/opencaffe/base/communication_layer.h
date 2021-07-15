@@ -3,6 +3,8 @@
 
 #include "opencaffe/base/common_types.h"
 #include <vector>
+#include <fstream>
+#include <nlohmann/json.hpp>
 
 namespace OpenCaffe {
 
@@ -52,7 +54,7 @@ typedef enum
 
 class OpenCaffeObject {
 public:
-    OpenCaffeObject() {}
+    OpenCaffeObject(std::string cfg_path) { read_cfg(cfg_path); }
     ~OpenCaffeObject() {}
 
     void register_module(T_SystemStatus *module_state) {module_state_.push_back(module_state);}
@@ -75,7 +77,48 @@ public:
     /* Command requests APL <-> MID */
     T_CommandFrame AE_commands[E_TYPE_COMMAND_MAX];
 
+    // MidAcquisition parameters
+    struct {
+        uint32_t ref_voltage_; //ADC reference voltage
+        uint32_t resolution_; //ADC bit resolution
+        uint32_t brew_ohm_resolution_; //brew Ohm resolution
+        uint32_t no_switch_ref_voltage_; //no switch reference voltage
+        uint32_t high_switch_ref_voltage_; //2k7 switch reference voltage
+        uint32_t low_switch_ref_voltage_; //1k5 switch reference voltage
+        uint32_t both_switch_ref_voltage_; //boh switches reference voltage
+        uint32_t switch_delta_; //voltage delta for switches
+        std::string temp_table_; //tempreture converstion table
+    } MidAcquisitionParameters;
 private:
+    template<typename Ta, typename Tb>
+    void get_param(nlohmann::json &j, std::string key, Ta &param, Tb def_value) {
+        if (j.find(key) != j.end()) {
+            param = j[key].get<Ta>();
+        } else {
+            param = (Ta)def_value;
+        }
+    }
+
+    void read_cfg(const std::string cfg_path) {
+        std::ifstream cfg_file(cfg_path);
+        if (cfg_file.is_open()) {
+            nlohmann::json json_file;
+            cfg_file >> json_file;
+            if (json_file.find("acquisition") != json_file.end()) {
+                get_param(json_file["acquisition"], "ref_voltage", MidAcquisitionParameters.ref_voltage_, 3300UL);
+                get_param(json_file["acquisition"], "resolution", MidAcquisitionParameters.resolution_, 1023);
+                get_param(json_file["acquisition"], "brew_ohm_resolution", MidAcquisitionParameters.brew_ohm_resolution_, 1U);
+                get_param(json_file["acquisition"], "no_switch_ref_voltage", MidAcquisitionParameters.no_switch_ref_voltage_, 3300UL);
+                get_param(json_file["acquisition"], "high_switch_ref_voltage", MidAcquisitionParameters.high_switch_ref_voltage_, 1820UL);
+                get_param(json_file["acquisition"], "low_switch_ref_voltage", MidAcquisitionParameters.low_switch_ref_voltage_, 1340UL);
+                get_param(json_file["acquisition"], "both_switch_ref_voltage", MidAcquisitionParameters.both_switch_ref_voltage_, 1010UL);
+                get_param(json_file["acquisition"], "switch_delta", MidAcquisitionParameters.switch_delta_, 150U);
+                get_param(json_file["acquisition"], "temp_table", MidAcquisitionParameters.temp_table_, std::string());
+            }
+        } else {
+            throw std::runtime_error("No config file " + cfg_path + " was found!");
+        }
+    }
     std::vector<T_SystemStatus*> module_state_;
 
 };

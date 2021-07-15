@@ -17,9 +17,22 @@ target_include_directories(${CMAKE_PROJECT_NAME}_core
         $<INSTALL_INTERFACE:include>  
 )
 
+include(FetchContent)
+
+FetchContent_Declare(json
+  GIT_REPOSITORY https://github.com/ArthurSonzogni/nlohmann_json_cmake_fetchcontent
+  GIT_TAG v3.9.1)
+
+FetchContent_GetProperties(json)
+if(NOT json_POPULATED)
+  FetchContent_Populate(json)
+  add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
+endif()
+
 target_link_libraries(${CMAKE_PROJECT_NAME}_core
     PUBLIC
         ${EXTRA_LINK_LIBS}
+        nlohmann_json::nlohmann_json
 )
 
 install(TARGETS ${CMAKE_PROJECT_NAME}_core

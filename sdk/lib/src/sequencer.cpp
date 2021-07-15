@@ -31,7 +31,7 @@ Base("Sequencer"),
 test_(0){
     set_log_level(LOG_DEBUG);
     // log(LOG_DEBUG) << "test_: " << test_ << std::endl;
-    opencaffeobject_ = std::make_shared<OpenCaffeObject>();
+    opencaffeobject_ = std::make_shared<OpenCaffeObject>("./config.json");
     OBJECT_LINE(log(LOG_DEBUG), this) << "test_: " << test_ << std::endl;
     object_list_.push_front(ExecutableObject(std::move(std::make_unique<MidAcquisition>(opencaffeobject_))));
     object_list_.push_front(ExecutableObject(std::move(std::make_unique<MidCore>(opencaffeobject_))));
