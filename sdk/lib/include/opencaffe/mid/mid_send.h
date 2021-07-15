@@ -1,8 +1,8 @@
-#ifndef _SDK_CORE_MID_SEND_H
-#define _SDK_CORE_MID_SEND_H
+#ifndef _OPENCAFFE_MID_SEND_H
+#define _OPENCAFFE_MID_SEND_H
 
-#include "opencaffe/sdk/core/base/base.h"
-#include "opencaffe/sdk/core/mid/mid_send/mid_mtr.h"
+#include "opencaffe/base/base.h"
+#include "opencaffe/mid/mid_send/mid_mtr.h"
 #include "vector"
 
 namespace OpenCaffe {
@@ -22,4 +22,4 @@ private:
 } //namespace OpenCaffe
 
 
-#endif //_SDK_CORE_MID_SEND_H
+#endif //_OPENCAFFE_MID_SEND_H

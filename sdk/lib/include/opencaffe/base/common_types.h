@@ -1,5 +1,5 @@
-#ifndef _OPENCAFFE_SDK_CORE_COMMON_BASE_TYPES_H_
-#define _OPENCAFFE_SDK_CORE_COMMON_BASE_TYPES_H_
+#ifndef _OPENCAFFE_OPENCAFFE_COMMON_BASE_TYPES_H_
+#define _OPENCAFFE_OPENCAFFE_COMMON_BASE_TYPES_H_
 
 #include <cstdint>
 
@@ -132,4 +132,4 @@ typedef state_value<bool,     T_ValueStatus> T_B_Value;
 
 }
 
-#endif /* _OPENCAFFE_SDK_CORE_COMMON_BASE_TYPES_H_ */
+#endif /* _OPENCAFFE_OPENCAFFE_COMMON_BASE_TYPES_H_ */

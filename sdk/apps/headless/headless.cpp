@@ -1,6 +1,6 @@
 #include <iostream>
 #include <memory>
-#include "opencaffe/sdk/core/sequencer.h"
+#include "opencaffe/sequencer.h"
 
 
 int main(int argc, char **argv) {

@@ -1,5 +1,5 @@
-#include "opencaffe/sdk/core/sequencer.h"
-#include "opencaffe/sdk/core/mid/mid_send.h"
+#include "opencaffe/sequencer.h"
+#include "opencaffe/mid/mid_send.h"
 
 namespace OpenCaffe {
 

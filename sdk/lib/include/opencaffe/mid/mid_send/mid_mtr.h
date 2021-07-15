@@ -2,7 +2,7 @@
 #define SDK_CORE_MID_MID_MTR_H
 
 #include "vector"
-#include "opencaffe/sdk/core/base/base.h"
+#include "opencaffe/base/base.h"
 
 namespace OpenCaffe {
 

@@ -1,4 +1,4 @@
-#include "opencaffe/sdk/core/base/logger.h"
+#include "opencaffe/base/logger.h"
 
 namespace OpenCaffe {
 

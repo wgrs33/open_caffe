@@ -1,4 +1,4 @@
-#include "opencaffe/sdk/core/mid/mid_send/mid_mtr.h"
+#include "opencaffe/mid/mid_send/mid_mtr.h"
 
 namespace OpenCaffe {
 

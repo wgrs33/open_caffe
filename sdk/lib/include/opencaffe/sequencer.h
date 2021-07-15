@@ -1,7 +1,7 @@
-#ifndef _SDK_CORE_SEQUENCER_H
-#define _SDK_CORE_SEQUENCER_H
+#ifndef _OPENCAFFE_SEQUENCER_H
+#define _OPENCAFFE_SEQUENCER_H
 
-#include "opencaffe/sdk/core/base/base.h"
+#include "opencaffe/base/base.h"
 #include "forward_list"
 #include <memory>
 
@@ -25,4 +25,4 @@ private:
 } //namespace OpenCaffe
 
 
-#endif //_SDK_CORE_SEQUENCER_H
+#endif //_OPENCAFFE_SEQUENCER_H

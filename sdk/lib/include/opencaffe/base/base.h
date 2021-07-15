@@ -1,5 +1,5 @@
-#ifndef _OPENCAFFE_SDK_CORE_BASE_BASE_H
-#define _OPENCAFFE_SDK_CORE_BASE_BASE_H
+#ifndef _OPENCAFFE_OPENCAFFE_BASE_BASE_H
+#define _OPENCAFFE_OPENCAFFE_BASE_BASE_H
 
 #include <stdexcept>
 #include <iostream>
@@ -7,8 +7,8 @@
 #include <memory>
 #include <stdarg.h>
 
-#include "opencaffe/sdk/core/base/logger.h"
-#include "opencaffe/sdk/core/base/communication_layer.h"
+#include "opencaffe/base/logger.h"
+#include "opencaffe/base/communication_layer.h"
 
 namespace OpenCaffe {
 
@@ -60,4 +60,4 @@ protected:
 
 } //namespace OpenCaffe
 
-#endif //_OPENCAFFE_SDK_CORE_BASE_H
+#endif //_OPENCAFFE_OPENCAFFE_BASE_H

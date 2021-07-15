@@ -1,7 +1,7 @@
-#ifndef _OPENCAFFE_SDK_CORE_COMMUNICATION_LAYER_H
-#define _OPENCAFFE_SDK_CORE_COMMUNICATION_LAYER_H
+#ifndef _OPENCAFFE_OPENCAFFE_COMMUNICATION_LAYER_H
+#define _OPENCAFFE_OPENCAFFE_COMMUNICATION_LAYER_H
 
-#include "opencaffe/sdk/core/base/common_types.h"
+#include "opencaffe/base/common_types.h"
 #include <vector>
 
 namespace OpenCaffe {
@@ -82,4 +82,4 @@ private:
 
 } //namespace OpenCaffe
 
-#endif //_OPENCAFFE_SDK_CORE_COMMUNICATION_LAYER_H
+#endif //_OPENCAFFE_OPENCAFFE_COMMUNICATION_LAYER_H

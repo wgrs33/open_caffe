@@ -1,5 +1,5 @@
-#ifndef _OPENCAFFE_SDK_CORE_BASE_LOGGER_H
-#define _OPENCAFFE_SDK_CORE_BASE_LOGGER_H
+#ifndef _OPENCAFFE_OPENCAFFE_BASE_LOGGER_H
+#define _OPENCAFFE_OPENCAFFE_BASE_LOGGER_H
 
 #include <iostream>
 #include <memory>
@@ -60,4 +60,4 @@ logger& logger::operator<<(const T& s) {
 
 } //namespace OpenCaffe
 
-#endif //_OPENCAFFE_SDK_CORE_LOGGER_H
+#endif //_OPENCAFFE_OPENCAFFE_LOGGER_H
