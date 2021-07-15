@@ -3,6 +3,7 @@
 
 #include "opencaffe/sdk/core/base/base.h"
 #include "forward_list"
+#include <memory>
 
 namespace OpenCaffe {
 

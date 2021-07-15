@@ -1,10 +1,10 @@
-#include "opencaffe/sdk/core/mid/mid_mtr.h"
+#include "opencaffe/sdk/core/mid/mid_send/mid_mtr.h"
 
 namespace OpenCaffe {
 
 std::vector<uint8_t> MiddlewareMotor::mtr_list_{};
 
-MiddlewareMotor::MiddlewareMotor(MotorType type, uint8_t id) :
+MiddlewareMotor::MiddlewareMotor(MotorType type, uint8_t id, std::shared_ptr<OpenCaffeObject> &oco) :
 Base("MidMtr_" + std::to_string(id)),
 type_(type)
 {
@@ -15,6 +15,7 @@ type_(type)
         }
     }
     id_ = id;
+    opencaffeobject_ = oco;
     OBJECT_LINE(log(LOG_DEBUG), this) << "Ctor: " << std::to_string(id_) << std::endl;
 }
 

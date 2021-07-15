@@ -8,6 +8,7 @@
 #include <stdarg.h>
 
 #include "opencaffe/sdk/core/base/logger.h"
+#include "opencaffe/sdk/core/base/communication_layer.h"
 
 namespace OpenCaffe {
 
@@ -53,6 +54,8 @@ public:
     }
 private:
     std::unique_ptr<OpenCaffe::logger> logger_;
+protected:
+    std::shared_ptr<OpenCaffeObject> opencaffeobject_;
 };
 
 } //namespace OpenCaffe

@@ -1,16 +1,16 @@
-#ifndef _SDK_CORE_MID_MID_H
-#define _SDK_CORE_MID_MID_H
+#ifndef _SDK_CORE_MID_SEND_H
+#define _SDK_CORE_MID_SEND_H
 
 #include "opencaffe/sdk/core/base/base.h"
-#include "opencaffe/sdk/core/mid/mid_mtr.h"
+#include "opencaffe/sdk/core/mid/mid_send/mid_mtr.h"
 #include "vector"
 
 namespace OpenCaffe {
 
-class Mid : public Base {
+class MidSend : public Base {
 public:
-    Mid();
-    ~Mid();
+    MidSend(std::shared_ptr<OpenCaffeObject> &oco);
+    ~MidSend();
     int init();
     int main();
     int deinit();
@@ -22,4 +22,4 @@ private:
 } //namespace OpenCaffe
 
 
-#endif //_SDK_CORE_MID_H
+#endif //_SDK_CORE_MID_SEND_H

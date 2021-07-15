@@ -1,5 +1,5 @@
 #include "opencaffe/sdk/core/sequencer.h"
-#include "opencaffe/sdk/core/mid/mid.h"
+#include "opencaffe/sdk/core/mid/mid_send.h"
 
 namespace OpenCaffe {
 
@@ -28,8 +28,9 @@ Base("Sequencer"),
 test_(0){
     set_log_level(LOG_DEBUG);
     // log(LOG_DEBUG) << "test_: " << test_ << std::endl;
+    opencaffeobject_ = std::make_shared<OpenCaffeObject>();
     OBJECT_LINE(log(LOG_DEBUG), this) << "test_: " << test_ << std::endl;
-    object_list_.push_front(ExecutableObject(std::move(std::make_unique<Mid>())));
+    object_list_.push_front(ExecutableObject(std::move(std::make_unique<MidSend>(opencaffeobject_))));
 }
 
 Sequencer::~Sequencer() {}

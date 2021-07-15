@@ -33,7 +33,7 @@ public:
         E_MID_MTR_PHASE_MAX
     };
 
-    MiddlewareMotor(MotorType type, uint8_t id);
+    MiddlewareMotor(MotorType type, uint8_t id, std::shared_ptr<OpenCaffeObject> &oco);
     ~MiddlewareMotor();
 
     int init();
