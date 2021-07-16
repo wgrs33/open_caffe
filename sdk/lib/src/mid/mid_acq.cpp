@@ -43,10 +43,83 @@ int MidAcquisition::init() {
 }
 
 int MidAcquisition::main() {
-    return 0;
+    int err = 0U;
+
+    if(update_analogs() != 0) {
+        err |= 1U;
+    }
+
+    if(update_inputs() != 0)
+    {
+        err |= 2U;
+    }
+    else
+    {
+        /* Nothing to do */
+        ;
+    }
+
+   return err;
 }
 
 int MidAcquisition::deinit() {
+    return 0;
+}
+
+int MidAcquisition::update_analogs() {
+    int err = 0U;
+    static uint8_t cnt = 0U;
+
+    if (update_temperatures() != 0){
+        err |= 1U;
+    }
+
+    if (update_currents() != 0) {
+        err |= 2U;
+    }
+    // Execute analog switch update 5Hz
+    if (cnt > 9) {
+        cnt = 0U;
+        if (update_device_positions() != 0) {
+            err |= 4U;
+        }
+    } else {
+        ++cnt;
+    }
+
+    return err;
+}
+
+int MidAcquisition::update_inputs() {
+    int err = 0;
+    uint8_t idx = 0U;
+    // T_MID_DIO_State loc_E_state = E_MID_DIO_INACTIVE;
+    
+    // for(idx = 0U; idx < MID_ACQ_DIGITAL_INPUT_MAX; ++idx) {
+    //     if(mid_dio_in_->get_input(idx, loc_E_state) != 0) {
+    //         if(loc_E_state == E_MID_DIO_ACTIVE) {
+    //             opencaffeobject_->AE_Switches[idx] = E_SWITCH_STATE_CLOSED;
+    //         } else {
+    //             opencaffeobject_->AE_Switches[idx] = E_SWITCH_STATE_OPENED;
+    //         }
+    //     } else {
+    //         opencaffeobject_->AE_Switches[idx] = E_SWITCH_STATE_OOR;
+    //         err = 1U;
+    //     }
+    // }
+    
+    return err;
+}
+
+int MidAcquisition::update_temperatures() {
+    return 0;
+}
+
+int MidAcquisition::update_device_positions() {
+    return 0;
+}
+
+int MidAcquisition::update_currents() {
     return 0;
 }
 

@@ -5,61 +5,29 @@
 #include <vector>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <queue>
 
 namespace OpenCaffe {
 
-typedef enum
-{
-    E_IN_CAPPUCCINO_SW  = 0,
-    E_IN_DRIP_PRES_SW   ,
-    E_IN_CUPLIFT_UP     ,
-    E_IN_CUPLIFT_DOWN   ,
-    E_IN_DRIP_WATER_SW  ,
-    E_IN_WATERTANK_EMPTY,
-    E_IN_DOOR_SW        ,
-    E_IN_DRAWER_SW      ,
-    E_IN_DRAW_CLOSED_SW ,
-    E_IN_WATERTANK_SW   ,
-    E_IN_BREW_INS_SW 	,  
-    E_IN_GRINDER_OV     ,
-    E_IN_UNUSED         ,
-    E_IN_BREW_DIAG      ,
-    /* external inputs */
-    E_IN_BREW_HOME      ,
-    E_IN_BREW_WORK      ,
-    E_IN_DRAWER_CAPP    ,
-    E_IN_MILK_CONTAINER ,
-    E_IN_MLTV_BOT       ,
-    E_IN_MLTV_TOP       ,
-    E_IN_LIFT_BOT       ,
-    E_IN_LIFT_TOP       ,
-    E_IN_MAX_NB      
-}T_DigitalInputs;
-
-typedef enum
-{
-    E_TYPE_EEPROM = 0U,
-    E_TYPE_BREW,
-    E_TYPE_CAPP,
-    E_TYPE_LIFT,
-    E_TYPE_MLTV,
-    E_TYPE_PUMP,
-    E_TYPE_HEATER,
-    E_TYPE_CUP_HEATER,
-    E_TYPE_GRINDER,
-    E_TYPE_LED,
-    E_TYPE_ELECTROM,
-    E_TYPE_COMMAND_MAX
-}T_TypeCommand;
+typedef struct  {
+    uint8_t priority :2;
+    uint8_t id       :6;
+    uint8_t reftime;
+    uint8_t message[15];
+    uint8_t crc;
+}DataPacket;
 
 class OpenCaffeObject {
 public:
     OpenCaffeObject(std::string cfg_path) { read_cfg(cfg_path); }
     ~OpenCaffeObject() {}
 
-    void register_module(T_SystemStatus *module_state) {module_state_.push_back(module_state);}
-    size_t get_registered_modules() {return module_state_.size();}
-    T_SystemStatus get_module_state(uint8_t idx) {return *module_state_[idx];}
+    int get_input();
+    int get_output();
+    int set_output();
+    int get_analog();
+    int receive_packet(DataPacket &data);
+    int transfer_packet(DataPacket &data);
 
     /* TIME */
     uint32_t I_timeReference = 0U;
@@ -89,7 +57,13 @@ public:
         uint32_t switch_delta_; //voltage delta for switches
         std::string temp_table_; //tempreture converstion table
     } MidAcquisitionParameters;
+
 private:
+    std::queue<DataPacket> buffer_;
+    int decode();
+    int encode();
+    void read_cfg(const std::string cfg_path);
+
     template<typename Ta, typename Tb>
     void get_param(nlohmann::json &j, std::string key, Ta &param, Tb def_value) {
         if (j.find(key) != j.end()) {
@@ -98,29 +72,6 @@ private:
             param = (Ta)def_value;
         }
     }
-
-    void read_cfg(const std::string cfg_path) {
-        std::ifstream cfg_file(cfg_path);
-        if (cfg_file.is_open()) {
-            nlohmann::json json_file;
-            cfg_file >> json_file;
-            if (json_file.find("acquisition") != json_file.end()) {
-                get_param(json_file["acquisition"], "ref_voltage", MidAcquisitionParameters.ref_voltage_, 3300UL);
-                get_param(json_file["acquisition"], "resolution", MidAcquisitionParameters.resolution_, 1023);
-                get_param(json_file["acquisition"], "brew_ohm_resolution", MidAcquisitionParameters.brew_ohm_resolution_, 1U);
-                get_param(json_file["acquisition"], "no_switch_ref_voltage", MidAcquisitionParameters.no_switch_ref_voltage_, 3300UL);
-                get_param(json_file["acquisition"], "high_switch_ref_voltage", MidAcquisitionParameters.high_switch_ref_voltage_, 1820UL);
-                get_param(json_file["acquisition"], "low_switch_ref_voltage", MidAcquisitionParameters.low_switch_ref_voltage_, 1340UL);
-                get_param(json_file["acquisition"], "both_switch_ref_voltage", MidAcquisitionParameters.both_switch_ref_voltage_, 1010UL);
-                get_param(json_file["acquisition"], "switch_delta", MidAcquisitionParameters.switch_delta_, 150U);
-                get_param(json_file["acquisition"], "temp_table", MidAcquisitionParameters.temp_table_, std::string());
-            }
-        } else {
-            throw std::runtime_error("No config file " + cfg_path + " was found!");
-        }
-    }
-    std::vector<T_SystemStatus*> module_state_;
-
 };
 
 } //namespace OpenCaffe

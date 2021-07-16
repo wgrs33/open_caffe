@@ -2,6 +2,7 @@
 #define _OPENCAFFE_OPENCAFFE_COMMON_BASE_TYPES_H_
 
 #include <cstdint>
+#include <iostream>
 
 #define K_NULL_PTR  ((void*)0)
 
@@ -41,6 +42,50 @@ typedef enum
     E_SYSTEM_USER_SET,
     E_SYSTEM_SERVICE
 }T_SystemStatus;
+
+typedef enum
+{
+    E_IN_CAPPUCCINO_SW  = 0,
+    E_IN_DRIP_PRES_SW   ,
+    E_IN_CUPLIFT_UP     ,
+    E_IN_CUPLIFT_DOWN   ,
+    E_IN_DRIP_WATER_SW  ,
+    E_IN_WATERTANK_EMPTY,
+    E_IN_DOOR_SW        ,
+    E_IN_DRAWER_SW      ,
+    E_IN_DRAW_CLOSED_SW ,
+    E_IN_WATERTANK_SW   ,
+    E_IN_BREW_INS_SW 	,  
+    E_IN_GRINDER_OV     ,
+    E_IN_UNUSED         ,
+    E_IN_BREW_DIAG      ,
+    /* external inputs */
+    E_IN_BREW_HOME      ,
+    E_IN_BREW_WORK      ,
+    E_IN_DRAWER_CAPP    ,
+    E_IN_MILK_CONTAINER ,
+    E_IN_MLTV_BOT       ,
+    E_IN_MLTV_TOP       ,
+    E_IN_LIFT_BOT       ,
+    E_IN_LIFT_TOP       ,
+    E_IN_MAX_NB      
+}T_DigitalInputs;
+
+typedef enum
+{
+    E_TYPE_EEPROM = 0U,
+    E_TYPE_BREW,
+    E_TYPE_CAPP,
+    E_TYPE_LIFT,
+    E_TYPE_MLTV,
+    E_TYPE_PUMP,
+    E_TYPE_HEATER,
+    E_TYPE_CUP_HEATER,
+    E_TYPE_GRINDER,
+    E_TYPE_LED,
+    E_TYPE_ELECTROM,
+    E_TYPE_COMMAND_MAX
+}T_TypeCommand;
 
 typedef enum
 {
