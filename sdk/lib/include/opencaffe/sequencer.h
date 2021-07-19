@@ -9,7 +9,7 @@ namespace OpenCaffe {
 
 class Sequencer : public Base{
 public:
-    Sequencer();
+    Sequencer(std::string &config);
     ~Sequencer();
     int init();
     int main();

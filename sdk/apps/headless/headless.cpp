@@ -4,12 +4,16 @@
 
 
 int main(int argc, char **argv) {
-    (void)argc;
-    (void)argv;
-
     int res = 0;
+    std::string config_path = "./config.json";
 
-    std::unique_ptr<OpenCaffe::Sequencer> seq = std::make_unique<OpenCaffe::Sequencer>();
+    if (argc > 2) {
+        throw std::runtime_error("Usage: ./program config_path");
+    } else if (argc == 2) {
+        config_path = std::string(argv[1]);
+    }
+
+    std::unique_ptr<OpenCaffe::Sequencer> seq = std::make_unique<OpenCaffe::Sequencer>(config_path);
 
     if (seq->init() == 0) {
         res = seq->main();
