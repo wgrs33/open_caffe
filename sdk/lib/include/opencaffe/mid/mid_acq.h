@@ -2,6 +2,7 @@
 #define _OPENCAFFE_MID_ACQ_H
 
 #include "opencaffe/base/base.h"
+#include <forward_list>
 
 namespace OpenCaffe {
 
@@ -15,11 +16,12 @@ public:
 private:
     int update_analogs(void);
     int update_inputs(void);
-    int update_device_positions(void);
+    int update_analog_switches(void);
     int update_temperatures(void);
     int update_currents(void);
+    int transform(const uint32_t&, uint32_t&);
 
-    std::vector<std::pair<uint32_t, int16_t>>ntc_temp_table_;
+    std::forward_list<std::pair<uint32_t, int16_t>>ntc_temp_table_;
 };
 
 } //namespace OpenCaffe

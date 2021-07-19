@@ -3,11 +3,53 @@
     "ref_voltage" : 3300,
     "resolution" : 1023,
     "brew_ohm_resolution" : 1,
-    "no_switch_ref_voltage" : 3300,
-    "high_switch_ref_voltage" : 1820,
-    "low_switch_ref_voltage" : 1340,
-    "both_switch_ref_voltage" : 1010,
-    "switch_delta" : 150,
-    "temp_table" : "/home/pwagner/qtcreator-workspace/open_caffe/sdk/config_files/temperature_sensors/ntc.cfg"
+    "temp_table" : "/home/pwagner/qtcreator-workspace/open_caffe/sdk/config_files/temperature_sensors/ntc.cfg",
+    "steam_used" : false,
+    "analog_switches" : [
+      {
+        "name" : "E_IN_BREW_HOME/E_IN_BREW_WORK",
+        "adc_chan_id" : 4,
+        "low_id" : 14,
+        "high_id" : 15,
+        "no_ref_voltage_" : 3300,
+        "high_ref_voltage_" : 1820,
+        "low_ref_voltage_" : 1340,
+        "both_ref_voltage_" : 1010,
+        "delta_" : 150
+      },
+      {
+        "name" : "E_IN_DRAWER_CAPP/E_IN_MILK_CONTAINER",
+        "adc_chan_id" : 5,
+        "low_id" : 16,
+        "high_id" : 17,
+        "no_ref_voltage_" : 3300,
+        "high_ref_voltage_" : 1820,
+        "low_ref_voltage_" : 1340,
+        "both_ref_voltage_" : 1010,
+        "delta_" : 150
+      },
+      {
+        "name" : "E_IN_LIFT_BOT/E_IN_LIFT_TOP",
+        "adc_chan_id" : 6,
+        "low_id" : 20,
+        "high_id" : 21,
+        "no_ref_voltage_" : 3300,
+        "high_ref_voltage_" : 1820,
+        "low_ref_voltage_" : 1340,
+        "both_ref_voltage_" : 1010,
+        "delta_" : 150
+      },
+      {
+        "name" : "E_IN_MLTV_BOT/E_IN_MLTV_TOP",
+        "adc_chan_id" : 7,
+        "low_id" : 18,
+        "high_id" : 19,
+        "no_ref_voltage_" : 3300,
+        "high_ref_voltage_" : 1820,
+        "low_ref_voltage_" : 1340,
+        "both_ref_voltage_" : 1010,
+        "delta_" : 150
+      }
+    ]
   }
 }

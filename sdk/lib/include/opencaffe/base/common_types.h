@@ -89,6 +89,19 @@ typedef enum
 
 typedef enum
 {
+    E_ADC_TEMP_BOILER = 0,
+    E_ADC_STEAM       ,
+    E_ADC_BREW_I      ,
+    E_ADC_UNUSED      ,
+    E_ADC_BREW_POS    ,
+    E_ADC_CAPP_POS    ,
+    E_ADC_LIFT_POS    ,
+    E_ADC_MLTV_POS    ,
+    E_ADC_CHAN_MAX
+}T_ADC_Channel;
+
+typedef enum
+{
     E_COMMAND_INACTIVE = 0U,
     E_COMMAND_REQUESTED,
     E_COMMAND_DONE,
@@ -124,6 +137,11 @@ typedef enum
     E_SWITCH_STATE_OOR
 }T_SwitchState;
 
+typedef enum {
+    E_DIO_STATE_INACTIVE = 0U,
+    E_DIO_STATE_ACTIVE
+}T_Dio_State;
+
 typedef struct
 {   
     T_Command e_command;
@@ -142,8 +160,9 @@ typedef T_ReturnStatus (*PF_callbackRet)();
 template <typename T, typename S>
 class state_value {
 public:
+    state_value() {}
     state_value(T val, S st) : value_(val), state_(st) {}
-    state_value& operator=(T &value) {
+    state_value& operator=(const T &value) {
         value_ = value;
         return *this;
     }

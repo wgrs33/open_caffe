@@ -1,5 +1,7 @@
 #include "opencaffe/mid/mid_acq.h"
 
+#define DIGITAL_INPUT_MAX E_IN_BREW_DIAG
+
 namespace OpenCaffe {
 
 MidAcquisition::MidAcquisition(std::shared_ptr<OpenCaffeObject> &oco) : 
@@ -8,35 +10,35 @@ MidAcquisition::MidAcquisition(std::shared_ptr<OpenCaffeObject> &oco) :
     set_log_level(LOG_DEBUG);
     opencaffeobject_ = oco;
     OBJECT_LINE(log(LOG_DEBUG), this)
-        << "ref_voltage_(" <<             opencaffeobject_->MidAcquisitionParameters.ref_voltage_ << "), "
-        << "resolution_(" <<              opencaffeobject_->MidAcquisitionParameters.resolution_ << "), "
-        << "brew_ohm_resolution_(" <<     opencaffeobject_->MidAcquisitionParameters.brew_ohm_resolution_ << "), "
-        << "no_switch_ref_voltage_(" <<   opencaffeobject_->MidAcquisitionParameters.no_switch_ref_voltage_ << "),\n";
-    OBJECT_LINE(log(LOG_DEBUG), this)
-        << "high_switch_ref_voltage_(" << opencaffeobject_->MidAcquisitionParameters.high_switch_ref_voltage_ << "), "
-        << "low_switch_ref_voltage_(" <<  opencaffeobject_->MidAcquisitionParameters.low_switch_ref_voltage_ << "), "
-        << "both_switch_ref_voltage_(" << opencaffeobject_->MidAcquisitionParameters.both_switch_ref_voltage_ << "), "
-        << "switch_delta_(" <<            opencaffeobject_->MidAcquisitionParameters.switch_delta_ << ")\n";
-    OBJECT_LINE(log(LOG_DEBUG), this)
-        << "temp_table(\"" << opencaffeobject_->MidAcquisitionParameters.temp_table_ << "\")\n";
+        << "ref_voltage_(" <<             opencaffeobject_->acquisition_params_.ref_voltage_ << "), "
+        << "resolution_(" <<              opencaffeobject_->acquisition_params_.resolution_ << "), "
+        << "brew_ohm_resolution_(" <<     opencaffeobject_->acquisition_params_.brew_ohm_resolution_ << "), "
+        << "temp_table(\"" <<             opencaffeobject_->acquisition_params_.temp_table_ << "\"), "
+        << "steam_used(" <<             opencaffeobject_->acquisition_params_.steam_used_ << ")\n";
 }
 
 MidAcquisition::~MidAcquisition() {}
 
 int MidAcquisition::init() {
-    std::ifstream table(opencaffeobject_->MidAcquisitionParameters.temp_table_, std::ios::in);
+    DEBUG_LINE(log(LOG_DEBUG)) << std::endl;
+    std::ifstream table(opencaffeobject_->acquisition_params_.temp_table_, std::ios::in);
     if (table.is_open()) {
         while (!table.eof()) {
             std::pair<uint32_t, int16_t> f;
             table >> f.first >> f.second;
-            ntc_temp_table_.push_back(f);
+            ntc_temp_table_.push_front(f);
         }
-        log(LOG_DEBUG) << "ntc_temp_table_\n";
-        for (auto &item : ntc_temp_table_) {
-            log(LOG_DEBUG) << item.first << "-" << item.second << std::endl;
+        // log(LOG_DEBUG) << "ntc_temp_table_\n";
+        // for (auto &item : ntc_temp_table_) {
+        //     log(LOG_DEBUG) << item.first << "-" << item.second << std::endl;
+        // }
+        int analog_switch_count = 0;
+        for (auto& aswitch : opencaffeobject_->acquisition_params_.analog_double_switches_) {
+            ++analog_switch_count;
         }
+        log(LOG_DEBUG) << "analog_switches: " << analog_switch_count << std::endl;
     } else {
-        throw std::runtime_error("No temp table \"" + opencaffeobject_->MidAcquisitionParameters.temp_table_ + "\" has been found");
+        throw std::runtime_error("No temp table \"" + opencaffeobject_->acquisition_params_.temp_table_ + "\" has been found");
     }
 
     return 0;
@@ -59,7 +61,11 @@ int MidAcquisition::main() {
         ;
     }
 
-   return err;
+    if (err != 0) {
+        log(LOG_ERR) << __PRETTY_FUNCTION__ << " code : " << err << std::endl;
+    }
+
+    return err;
 }
 
 int MidAcquisition::deinit() {
@@ -80,11 +86,15 @@ int MidAcquisition::update_analogs() {
     // Execute analog switch update 5Hz
     if (cnt > 9) {
         cnt = 0U;
-        if (update_device_positions() != 0) {
+        if (update_analog_switches() != 0) {
             err |= 4U;
         }
     } else {
         ++cnt;
+    }
+
+    if (err != 0) {
+        log(LOG_ERR) << __PRETTY_FUNCTION__ << " code : " << err << std::endl;
     }
 
     return err;
@@ -92,35 +102,136 @@ int MidAcquisition::update_analogs() {
 
 int MidAcquisition::update_inputs() {
     int err = 0;
-    uint8_t idx = 0U;
-    // T_MID_DIO_State loc_E_state = E_MID_DIO_INACTIVE;
+    uint8_t state = E_DIO_STATE_INACTIVE;
     
-    // for(idx = 0U; idx < MID_ACQ_DIGITAL_INPUT_MAX; ++idx) {
-    //     if(mid_dio_in_->get_input(idx, loc_E_state) != 0) {
-    //         if(loc_E_state == E_MID_DIO_ACTIVE) {
-    //             opencaffeobject_->AE_Switches[idx] = E_SWITCH_STATE_CLOSED;
-    //         } else {
-    //             opencaffeobject_->AE_Switches[idx] = E_SWITCH_STATE_OPENED;
-    //         }
-    //     } else {
-    //         opencaffeobject_->AE_Switches[idx] = E_SWITCH_STATE_OOR;
-    //         err = 1U;
-    //     }
-    // }
-    
+    for(uint8_t idx = 0U; idx < DIGITAL_INPUT_MAX; ++idx) {
+        if(opencaffeobject_->get_input(idx, state) != 0) {
+            if(state == (uint8_t)E_DIO_STATE_ACTIVE) {
+                opencaffeobject_->AE_Switches[idx] = E_SWITCH_STATE_CLOSED;
+            } else {
+                opencaffeobject_->AE_Switches[idx] = E_SWITCH_STATE_OPENED;
+            }
+        } else {
+            opencaffeobject_->AE_Switches[idx] = E_SWITCH_STATE_OOR;
+            err = 1;
+        }
+    }
+
+    if (err != 0) {
+        log(LOG_ERR) << __PRETTY_FUNCTION__ << " code : " << err << std::endl;
+    }
+
     return err;
 }
 
-int MidAcquisition::update_temperatures() {
-    return 0;
+int MidAcquisition::transform(const uint32_t& channel_val, uint32_t& trans_val) {
+    uint16_t voltage = (uint16_t)((opencaffeobject_->acquisition_params_.ref_voltage_ * channel_val) / opencaffeobject_->acquisition_params_.resolution_);
+    
+    for (auto& row : ntc_temp_table_) {
+        if (voltage < row.first) {
+            trans_val = row.second;
+            return 0;
+        }
+    }
+    return 1;
 }
 
-int MidAcquisition::update_device_positions() {
+int MidAcquisition::update_temperatures() {
+    uint32_t chanel_value = 0U;
+    uint32_t temperature = 0U;
+    int err = 0;
+
+    if (opencaffeobject_->get_analog(E_ADC_TEMP_BOILER, chanel_value) == 0) {
+        if (transform(chanel_value, temperature) == 0) {
+            opencaffeobject_->AE_analogs[E_ADC_TEMP_BOILER] = temperature;
+            opencaffeobject_->AE_analogs[E_ADC_TEMP_BOILER] = E_VALUE_VALID;
+        } else {
+            opencaffeobject_->AE_analogs[E_ADC_TEMP_BOILER] = E_VALUE_OOR;
+        }
+    } else {
+        opencaffeobject_->AE_analogs[E_ADC_TEMP_BOILER] = E_VALUE_OOR;
+        err |= 1;
+    }
+
+    if (opencaffeobject_->acquisition_params_.steam_used_) {
+        if (opencaffeobject_->get_analog(E_ADC_STEAM, chanel_value) == 0) {
+            if (transform(chanel_value, temperature) == 0) {
+                opencaffeobject_->AE_analogs[E_ADC_TEMP_BOILER] = temperature;
+                opencaffeobject_->AE_analogs[E_ADC_TEMP_BOILER] = E_VALUE_VALID;
+            } else {
+                opencaffeobject_->AE_analogs[E_ADC_TEMP_BOILER] = E_VALUE_OOR;
+            }
+        } else {
+            opencaffeobject_->AE_analogs[E_ADC_TEMP_BOILER] = E_VALUE_OOR;
+            err |= 2;
+        }
+    }
+
+    if (err != 0) {
+        log(LOG_ERR) << __PRETTY_FUNCTION__ << " code : " << err << std::endl;
+    }
+
+    return err;
+}
+
+int MidAcquisition::update_analog_switches() {
+    uint32_t channel_val = 0;
+
+    for (auto& aswitch : opencaffeobject_->acquisition_params_.analog_double_switches_) {
+       if (opencaffeobject_->get_analog(aswitch.adc_chan_id, channel_val) == 0) {
+            uint32_t voltage = (opencaffeobject_->acquisition_params_.ref_voltage_ * channel_val) / opencaffeobject_->acquisition_params_.resolution_;
+            if (voltage > (aswitch.no_ref_voltage_ - aswitch.delta_))
+            {
+                opencaffeobject_->AE_Switches[aswitch.high_id] = E_SWITCH_STATE_OPENED;
+                opencaffeobject_->AE_Switches[aswitch.low_id]  = E_SWITCH_STATE_OPENED;
+            }
+            else if (voltage > (aswitch.high_ref_voltage_ - aswitch.delta_))
+            {
+                opencaffeobject_->AE_Switches[aswitch.high_id] = E_SWITCH_STATE_OPENED;
+                opencaffeobject_->AE_Switches[aswitch.low_id]  = E_SWITCH_STATE_CLOSED;
+            }
+            else if (voltage > (aswitch.low_ref_voltage_ - aswitch.delta_))
+            {
+                opencaffeobject_->AE_Switches[aswitch.high_id] = E_SWITCH_STATE_CLOSED;
+                opencaffeobject_->AE_Switches[aswitch.low_id]  = E_SWITCH_STATE_OPENED;
+            }
+            else if (voltage > (aswitch.no_ref_voltage_ - aswitch.delta_))
+            {
+                opencaffeobject_->AE_Switches[aswitch.high_id] = E_SWITCH_STATE_CLOSED;
+                opencaffeobject_->AE_Switches[aswitch.low_id]  = E_SWITCH_STATE_CLOSED;
+            }
+            else
+            {
+                opencaffeobject_->AE_Switches[aswitch.high_id] = E_SWITCH_STATE_OOR;
+                opencaffeobject_->AE_Switches[aswitch.low_id]  = E_SWITCH_STATE_OOR;
+            }
+       } else {
+           opencaffeobject_->AE_Switches[aswitch.high_id] = E_SWITCH_STATE_OOR;
+           opencaffeobject_->AE_Switches[aswitch.low_id]  = E_SWITCH_STATE_OOR;
+       }
+    }
     return 0;
 }
 
 int MidAcquisition::update_currents() {
-    return 0;
+    uint32_t channel_val = 0U;
+
+    int err = 0;
+    if (opencaffeobject_->get_analog(E_ADC_BREW_I, channel_val) == 0) {
+        opencaffeobject_->AE_analogs[E_ADC_BREW_I] = (uint32_t)(((opencaffeobject_->acquisition_params_.ref_voltage_ * channel_val) / 
+                             opencaffeobject_->acquisition_params_.resolution_) /
+                             opencaffeobject_->acquisition_params_.brew_ohm_resolution_);
+        opencaffeobject_->AE_analogs[E_ADC_BREW_I] = E_VALUE_VALID;
+    } else {
+        opencaffeobject_->AE_analogs[E_ADC_BREW_I] = E_VALUE_OOR;
+        err |= 1;
+    }
+
+    if (err != 0) {
+        log(LOG_ERR) << __PRETTY_FUNCTION__ << " code : " << err << std::endl;
+    }
+
+    return err;
 }
 
 } // OpenCaffe
