@@ -32,11 +32,21 @@ int MidAcquisition::init() {
         // for (auto &item : ntc_temp_table_) {
         //     log(LOG_DEBUG) << item.first << "-" << item.second << std::endl;
         // }
-        int analog_switch_count = 0;
+        int count = 0;
         for (auto& aswitch : opencaffeobject_->acquisition_params_.analog_double_switches_) {
-            ++analog_switch_count;
+            ++count;
         }
-        log(LOG_DEBUG) << "analog_switches: " << analog_switch_count << std::endl;
+        log(LOG_DEBUG) << "analog_switches: " << count << std::endl;
+        count = 0;
+        for (auto& aswitch : opencaffeobject_->acquisition_params_.digital_inputs_) {
+            ++count;
+        }
+        log(LOG_DEBUG) << "digital_inputs_: " << count << std::endl;
+        count = 0;
+        for (auto& aswitch : opencaffeobject_->acquisition_params_.digital_outputs) {
+            ++count;
+        }
+        log(LOG_DEBUG) << "digital_outputs: " << count << std::endl;
     } else {
         throw std::runtime_error("No temp table \"" + opencaffeobject_->acquisition_params_.temp_table_ + "\" has been found");
     }

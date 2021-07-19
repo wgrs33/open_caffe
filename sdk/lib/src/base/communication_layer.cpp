@@ -30,6 +30,26 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
                     acquisition_params_.analog_double_switches_.push_front(aswitch);
                 }
             }
+            if (json_acq.find("digitalin") != json_acq.end()) {
+                auto array = json_acq["digitalin"];
+                for (auto& item : array) {
+                    MidAcquisitionParameters::DigitalIOInput input;
+                    get_param(item, "io_chan_id", input.io_chan_id);
+                    get_param(item, "active_state_high", input.active_state_high_);
+                    get_param(item, "debounce_time_ms", input.debounce_time_ms_);
+                    acquisition_params_.digital_inputs_.push_front(input);
+                }
+            }
+            if (json_acq.find("digitalout") != json_acq.end()) {
+                auto array = json_acq["digitalout"];
+                for (auto& item : array) {
+                    MidAcquisitionParameters::DigitalIOOutput output;
+                    get_param(item, "io_chan_id", output.io_chan_id);
+                    get_param(item, "active_state_high", output.active_state_high_);
+                    get_param(item, "default_state", output.default_state_);
+                    acquisition_params_.digital_outputs.push_front(output);
+                }
+            }
         }
     } else {
         throw std::runtime_error("No config file " + cfg_path + " was found!");

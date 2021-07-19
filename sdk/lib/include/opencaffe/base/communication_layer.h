@@ -50,15 +50,29 @@ public:
             uint32_t no_ref_voltage_; //no switch reference voltage
             uint32_t high_ref_voltage_; //2k7 switch reference voltage
             uint32_t low_ref_voltage_; //1k5 switch reference voltage
-            uint32_t both_ref_voltage_; //boh switches reference voltage
+            uint32_t both_ref_voltage_; //both switches reference voltage
             uint32_t delta_; //voltage delta for switches
         };
+        struct DigitalIOInput{
+            uint8_t io_chan_id; //io channel id
+            bool active_state_high_; // is active state is high
+            uint32_t debounce_time_ms_; // debouce time to consider signal as stable
+        };
+        struct DigitalIOOutput{
+            uint8_t io_chan_id; //io channel id
+            bool active_state_high_; // is active state is high
+            bool default_state_; //default io state
+        };
+
         uint32_t ref_voltage_; //ADC reference voltage
         uint32_t resolution_; //ADC bit resolution
         uint32_t brew_ohm_resolution_; //brew Ohm resolution
         std::string temp_table_; //tempreture converstion table
         bool     steam_used_; //steam used
+
         std::forward_list<AnalogDoubleSwitch> analog_double_switches_; //analog double switches vector table
+        std::forward_list<DigitalIOInput> digital_inputs_; //digital inputs configuration
+        std::forward_list<DigitalIOOutput> digital_outputs; //digital outputs configuration
     } acquisition_params_;
 
 private:
