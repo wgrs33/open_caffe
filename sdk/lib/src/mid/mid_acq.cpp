@@ -10,11 +10,11 @@ MidAcquisition::MidAcquisition(std::shared_ptr<OpenCaffeObject> &oco) :
     set_log_level(LOG_DEBUG);
     opencaffeobject_ = oco;
     OBJECT_LINE(log(LOG_DEBUG), this)
-        << "ref_voltage_(" <<             opencaffeobject_->acquisition_params_.ref_voltage_ << "), "
-        << "resolution_(" <<              opencaffeobject_->acquisition_params_.resolution_ << "), "
-        << "brew_ohm_resolution_(" <<     opencaffeobject_->acquisition_params_.brew_ohm_resolution_ << "), "
-        << "temp_table(\"" <<             opencaffeobject_->acquisition_params_.temp_table_ << "\"), "
-        << "steam_used(" <<             opencaffeobject_->acquisition_params_.steam_used_ << ")\n";
+        << "ref_voltage_("         <<  opencaffeobject_->acquisition_params_.ref_voltage_ << "), "
+        << "resolution_("          <<  opencaffeobject_->acquisition_params_.resolution_ << "), "
+        << "brew_ohm_resolution_(" <<  opencaffeobject_->acquisition_params_.brew_ohm_resolution_ << "), "
+        << "temp_table(\""         <<  opencaffeobject_->acquisition_params_.temp_table_ << "\"), "
+        << "steam_used("           <<  opencaffeobject_->acquisition_params_.steam_used_ << ")\n";
 }
 
 MidAcquisition::~MidAcquisition() {}
@@ -114,15 +114,15 @@ int MidAcquisition::update_inputs() {
     int err = 0;
     uint8_t state = E_DIO_STATE_INACTIVE;
     
-    for(uint8_t idx = 0U; idx < DIGITAL_INPUT_MAX; ++idx) {
-        if(opencaffeobject_->get_input(idx, state) != 0) {
-            if(state == (uint8_t)E_DIO_STATE_ACTIVE) {
-                opencaffeobject_->AE_Switches[idx] = E_SWITCH_STATE_CLOSED;
+    for (auto& input : opencaffeobject_->acquisition_params_.digital_inputs_) {
+        if(opencaffeobject_->get_input(input.io_chan_id, state) != 0) {
+            if(state == input.active_state_high_) {
+                opencaffeobject_->AE_Switches[input.io_chan_id] = E_SWITCH_STATE_CLOSED;
             } else {
-                opencaffeobject_->AE_Switches[idx] = E_SWITCH_STATE_OPENED;
+                opencaffeobject_->AE_Switches[input.io_chan_id] = E_SWITCH_STATE_OPENED;
             }
         } else {
-            opencaffeobject_->AE_Switches[idx] = E_SWITCH_STATE_OOR;
+            opencaffeobject_->AE_Switches[input.io_chan_id] = E_SWITCH_STATE_OOR;
             err = 1;
         }
     }
@@ -135,7 +135,8 @@ int MidAcquisition::update_inputs() {
 }
 
 int MidAcquisition::transform(const uint32_t& channel_val, uint32_t& trans_val) {
-    uint16_t voltage = (uint16_t)((opencaffeobject_->acquisition_params_.ref_voltage_ * channel_val) / opencaffeobject_->acquisition_params_.resolution_);
+    uint16_t voltage = (uint16_t)((opencaffeobject_->acquisition_params_.ref_voltage_ * channel_val) / 
+                                   opencaffeobject_->acquisition_params_.resolution_);
     
     for (auto& row : ntc_temp_table_) {
         if (voltage < row.first) {
@@ -166,13 +167,13 @@ int MidAcquisition::update_temperatures() {
     if (opencaffeobject_->acquisition_params_.steam_used_) {
         if (opencaffeobject_->get_analog(E_ADC_STEAM, chanel_value) == 0) {
             if (transform(chanel_value, temperature) == 0) {
-                opencaffeobject_->AE_analogs[E_ADC_TEMP_BOILER] = temperature;
-                opencaffeobject_->AE_analogs[E_ADC_TEMP_BOILER] = E_VALUE_VALID;
+                opencaffeobject_->AE_analogs[E_ADC_STEAM] = temperature;
+                opencaffeobject_->AE_analogs[E_ADC_STEAM] = E_VALUE_VALID;
             } else {
-                opencaffeobject_->AE_analogs[E_ADC_TEMP_BOILER] = E_VALUE_OOR;
+                opencaffeobject_->AE_analogs[E_ADC_STEAM] = E_VALUE_OOR;
             }
         } else {
-            opencaffeobject_->AE_analogs[E_ADC_TEMP_BOILER] = E_VALUE_OOR;
+            opencaffeobject_->AE_analogs[E_ADC_STEAM] = E_VALUE_OOR;
             err |= 2;
         }
     }
@@ -189,7 +190,8 @@ int MidAcquisition::update_analog_switches() {
 
     for (auto& aswitch : opencaffeobject_->acquisition_params_.analog_double_switches_) {
        if (opencaffeobject_->get_analog(aswitch.adc_chan_id, channel_val) == 0) {
-            uint32_t voltage = (opencaffeobject_->acquisition_params_.ref_voltage_ * channel_val) / opencaffeobject_->acquisition_params_.resolution_;
+            uint32_t voltage = (opencaffeobject_->acquisition_params_.ref_voltage_ * channel_val) / 
+                                opencaffeobject_->acquisition_params_.resolution_;
             if (voltage > (aswitch.no_ref_voltage_ - aswitch.delta_))
             {
                 opencaffeobject_->AE_Switches[aswitch.high_id] = E_SWITCH_STATE_OPENED;

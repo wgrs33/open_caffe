@@ -3,6 +3,7 @@
 #include "opencaffe/mid/mid_core.h"
 #include "opencaffe/mid/mid_acq.h"
 #include "opencaffe/mid/mid_send.h"
+#include "opencaffe/base/tools.h"
 
 namespace OpenCaffe {
 
@@ -53,11 +54,17 @@ int Sequencer::init() {
 int Sequencer::main() {
     int res = 0;
     int c = 0;
+    Tools::Timer tim;
+    tim.start(20);
     do {
-        for (auto it = object_list_.begin(); it != object_list_.end(); ++it) {
-            res = it->main();
+        tim.update();
+        if (tim.is_time_elapsed()) {
+            for (auto it = object_list_.begin(); it != object_list_.end(); ++it) {
+                res = it->main();
+            }
+            ++c;
+            tim.start(20);
         }
-        ++c;
     } while(res == 0 && c < 10);
     return res;
 }
