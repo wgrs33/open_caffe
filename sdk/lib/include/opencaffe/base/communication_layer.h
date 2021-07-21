@@ -27,6 +27,7 @@ public:
     int get_output(uint8_t channel, uint8_t &state);
     int set_output(uint8_t channel, uint8_t state);
     int get_analog(uint8_t channel, uint32_t &value);
+    int get_counter(uint8_t channel, uint32_t &value);
     int receive_packet(DataPacket &data);
     int transfer_packet(DataPacket &data);
 
@@ -63,6 +64,10 @@ public:
             bool active_state_high_; // is active state is high
             bool default_state_; //default io state
         };
+        struct Counter{
+            uint8_t cnt_chan_id;
+            uint8_t ratio_;
+        };
 
         uint32_t ref_voltage_; //ADC reference voltage
         uint32_t resolution_; //ADC bit resolution
@@ -73,6 +78,7 @@ public:
         std::forward_list<AnalogDoubleSwitch> analog_double_switches_; //analog double switches vector table
         std::forward_list<DigitalIOInput> digital_inputs_; //digital inputs configuration
         std::forward_list<DigitalIOOutput> digital_outputs; //digital outputs configuration
+        std::forward_list<Counter> counters;
     } acquisition_params_;
 
 private:
@@ -80,6 +86,7 @@ private:
     std::vector<uint8_t> inputs_;
     std::vector<uint8_t> outputs_;
     std::vector<uint32_t> analogs_;
+    std::vector<uint32_t> counters_;
     int decode(DataPacket &data);
     int encode(DataPacket &data);
     void read_cfg(const std::string cfg_path);

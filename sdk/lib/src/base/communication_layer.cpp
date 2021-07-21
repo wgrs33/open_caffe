@@ -92,6 +92,15 @@ int OpenCaffeObject::get_analog(uint8_t channel, uint32_t &value) {
     return 0;
 }
 
+int OpenCaffeObject::get_counter(uint8_t channel, uint32_t &value) {
+    if (channel < counters_.size()) {
+        value = counters_[channel];
+    } else {
+        return 1;
+    }
+    return 0;
+}
+
 int OpenCaffeObject::receive_packet(DataPacket &data) {
     return decode(data);
 }
