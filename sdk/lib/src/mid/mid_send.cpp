@@ -2,12 +2,12 @@
 
 namespace OpenCaffe {
 
-MidSend::MidSend(std::shared_ptr<OpenCaffeObject> &oco) : Base("MidSend"), test_(0)
+MidSend::MidSend(std::shared_ptr<OpenCaffeObject> &oco) : Base("MidSend")
 {
     set_log_level(LOG_DEBUG);
     opencaffeobject_ = oco;
-    OBJECT_LINE(log(LOG_DEBUG), this) << "test_: " << test_ << std::endl;
-    motors_vec_.push_back(std::move(std::make_unique<MiddlewareMotor>(MiddlewareMotor::MotorType::STEPPER_MOTOR, 0, opencaffeobject_)));
+    OBJECT_LINE(log(LOG_DEBUG), this) << std::endl;
+    motors_vec_.push_back(std::move(std::make_unique<MiddlewareMotor>(MiddlewareMotor::MotorType::STEPPER_MOTOR, 0)));
 }
 
 MidSend::~MidSend() {}

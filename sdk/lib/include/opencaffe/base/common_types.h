@@ -73,8 +73,7 @@ typedef enum
 
 typedef enum
 {
-    E_TYPE_EEPROM = 0U,
-    E_TYPE_BREW,
+    E_TYPE_BREW = 0U,
     E_TYPE_CAPP,
     E_TYPE_LIFT,
     E_TYPE_MLTV,

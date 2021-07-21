@@ -15,7 +15,9 @@ public:
     int main();
     int deinit();
 private:
-    int test_;
+    int run_motor(uint8_t &id, void *params);
+    int run_device(uint8_t &id, void *params);
+    
     std::vector<std::unique_ptr<MiddlewareMotor>> motors_vec_;
 };
 
