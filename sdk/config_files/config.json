@@ -1,5 +1,5 @@
 {
-  "acquisition": {
+  "acquisition" : {
     "ref_voltage" : 3300,
     "resolution" : 1023,
     "brew_ohm_resolution" : 1,
@@ -288,6 +288,83 @@
         "active_state_high" : true,
         "default_state" : false
       }
+    ],
+    "counters" : [
+      {
+        "name" : "E_MID_FLOW",
+        "cnt_chan_id" : 0,
+        "ratio" : 1
+      },
+      {
+        "name" : "E_MID_GRINDER",
+        "cnt_chan_id" : 1,
+        "ratio" : 1
+      },
+      {
+        "name" : "E_MID_PHASE",
+        "cnt_chan_id" : 2,
+        "ratio" : 1
+      }
     ]
-  }
+  },
+  "ctrl_dev" : [
+    {
+      "name" : "brew_unit",
+      "model" : "saeco_primea"
+    },
+    {
+      "name" : "water_pump",
+      "model" : "simple"
+    },
+    {
+      "name" : "heater",
+      "model" : "simple",
+      "temp_sensor" : "/home/pwagner/qtcreator-workspace/open_caffe/sdk/config_files/temperature_sensors/ntc.cfg"
+    },
+    {
+      "name" : "grinder",
+      "model" : "do_ov_cnt"
+    },
+    {
+      "name" : "watertank",
+      "model" : "pres_empty"
+    },
+    {
+      "name" : "flow_meter",
+      "model" : "counter"
+    },
+    {
+      "name" : "door",
+      "model" : "pres"
+    },
+    {
+      "name" : "drawer",
+      "model" : "pres_full"
+    },
+    {
+      "name" : "dir_ctrl",
+      "model" : "multivalve_saeco_1H"
+    },
+
+    {
+      "name" : "drip",
+      "model" : "saeco_primea"
+    },
+    {
+      "name" : "cappucinatore",
+      "model" : "saeco_primea"
+    },
+    {
+      "name" : "cup_lifter",
+      "model" : "saeco_primea"
+    },
+    {
+      "name" : "light",
+      "model" : "simple"
+    },
+    {
+      "name" : "cup_heater",
+      "model" : "simple"
+    }
+  ]
 }
