@@ -31,8 +31,6 @@ public:
     int receive_packet(DataPacket &data);
     int transfer_packet(DataPacket &data);
 
-    /* TIME */
-    uint32_t I_timeReference = 0U;
     /* DIO*/
     T_SwitchState AE_Switches[E_IN_MAX_NB];
     /* ADC */

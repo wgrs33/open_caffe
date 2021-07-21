@@ -318,8 +318,7 @@
     },
     {
       "name" : "heater",
-      "model" : "simple",
-      "temp_sensor" : "/home/pwagner/qtcreator-workspace/open_caffe/sdk/config_files/temperature_sensors/ntc.cfg"
+      "model" : "simple_ntc"
     },
     {
       "name" : "grinder",
@@ -338,7 +337,7 @@
       "model" : "pres"
     },
     {
-      "name" : "drawer",
+      "name" : "dreg_drawer",
       "model" : "pres_full"
     },
     {
@@ -347,8 +346,8 @@
     },
 
     {
-      "name" : "drip",
-      "model" : "saeco_primea"
+      "name" : "drip_drawer",
+      "model" : "pres_full"
     },
     {
       "name" : "cappucinatore",
