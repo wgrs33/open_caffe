@@ -3,7 +3,7 @@
     "ref_voltage" : 3300,
     "resolution" : 1023,
     "brew_ohm_resolution" : 1,
-    "temp_table" : "/home/pwagner/priv/open_caffe/sdk/config_files/temperature_sensors/ntc.cfg",
+    "temp_table" : "/home/pwagner/qtcreator-workspace/open_caffe/sdk/config_files/temperature_sensors/ntc.cfg",
     "steam_used" : false,
     "analog_channels" : [
       {

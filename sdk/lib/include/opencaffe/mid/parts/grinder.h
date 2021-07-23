@@ -2,6 +2,7 @@
 #define _OPENCAFFE_MID_PARTS_GRINDER_H
 
 #include "opencaffe/base/base.h"
+#include "opencaffe/base/devices/motor.h"
 
 namespace OpenCaffe {
 
@@ -12,7 +13,6 @@ public:
         DoubleOutput,
         HBridge
     };
-    class OutputDevice;
     class InputDevice;
     class CntDevice;
 
@@ -31,7 +31,7 @@ private:
     int check_fault();
     int update_cnt();
     
-    std::unique_ptr<OutputDevice> out_;
+    std::unique_ptr<MotorDevice> motor_;
     std::unique_ptr<InputDevice> overvoltage_;
     std::unique_ptr<InputDevice> ctrl_error_;
     std::unique_ptr<CntDevice> spin_;

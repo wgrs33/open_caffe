@@ -6,7 +6,7 @@
 
 namespace OpenCaffe {
 
-class Motor : public Base {
+class MotorDevice : public Base {
 public:
     enum class MotorType {
         STEPPER_MOTOR,
@@ -33,8 +33,8 @@ public:
         E_MID_MTR_PHASE_MAX
     };
 
-    Motor(MotorType type, uint8_t id);
-    ~Motor();
+    MotorDevice(MotorType type, uint8_t id);
+    ~MotorDevice();
 
     int init();
     int main();

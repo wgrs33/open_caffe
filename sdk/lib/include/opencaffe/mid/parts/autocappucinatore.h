@@ -2,6 +2,7 @@
 #define _OPENCAFFE_MID_PARTS_AUTOCAPPUCINATORE_H
 
 #include "opencaffe/base/base.h"
+#include "opencaffe/base/devices/motor.h"
 
 namespace OpenCaffe {
 
@@ -15,7 +16,6 @@ public:
         Milk,
         Foam
     };
-    class StepperMtrDevice;
     class InputDevice;
 
     AutoCappucinatore(Type type, std::shared_ptr<OpenCaffeObject> &oco);
@@ -33,7 +33,7 @@ public:
 
 private:
     int check_fault();
-    std::unique_ptr<StepperMtrDevice> stepper_;
+    std::unique_ptr<MotorDevice> motor_;
     std::unique_ptr<InputDevice> overvoltage_;
     std::unique_ptr<InputDevice> ctrl_error_;
 };

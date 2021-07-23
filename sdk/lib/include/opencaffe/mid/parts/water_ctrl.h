@@ -2,6 +2,7 @@
 #define _OPENCAFFE_MID_PARTS_WATER_CTRL_H
 
 #include "opencaffe/base/base.h"
+#include "opencaffe/base/devices/motor.h"
 
 namespace OpenCaffe {
 
@@ -24,7 +25,7 @@ public:
 
 private:
     int check_status();
-    std::unique_ptr<OutputDevice> multivalve_;
+    std::unique_ptr<MotorDevice> multivalve_;
     std::unique_ptr<OutputDevice> steam_valve_;
     std::unique_ptr<OutputDevice> drop_valve_;
 
