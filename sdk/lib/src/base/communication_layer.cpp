@@ -1,4 +1,5 @@
 #include "opencaffe/base/communication_layer.h"
+#include "opencaffe/base/tools.h"
 
 namespace OpenCaffe {
 
@@ -19,7 +20,7 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
                 auto array = json_acq["analog_switches"];
                 for (auto& item : array) {
                     MidAcquisitionParameters::AnalogDoubleSwitch aswitch;
-                    get_param(item, "adc_chan_id", aswitch.adc_chan_id);
+                    get_param(item, "chan_id", aswitch.chan_id);
                     get_param(item, "low_id", aswitch.low_id);
                     get_param(item, "high_id", aswitch.high_id);
                     get_param(item, "no_ref_voltage", aswitch.no_ref_voltage_, 3300UL);
@@ -34,7 +35,7 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
                 auto array = json_acq["digitalin"];
                 for (auto& item : array) {
                     MidAcquisitionParameters::DigitalIOInput input;
-                    get_param(item, "io_chan_id", input.io_chan_id);
+                    get_param(item, "chan_id", input.chan_id);
                     get_param(item, "active_state_high", input.active_state_high_);
                     get_param(item, "debounce_time_ms", input.debounce_time_ms_);
                     acquisition_params_.digital_inputs_.push_front(input);
@@ -44,12 +45,35 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
                 auto array = json_acq["digitalout"];
                 for (auto& item : array) {
                     MidAcquisitionParameters::DigitalIOOutput output;
-                    get_param(item, "io_chan_id", output.io_chan_id);
+                    get_param(item, "chan_id", output.chan_id);
                     get_param(item, "active_state_high", output.active_state_high_);
                     get_param(item, "default_state", output.default_state_);
-                    acquisition_params_.digital_outputs.push_front(output);
+                    acquisition_params_.digital_outputs_.push_front(output);
                 }
             }
+            if (json_acq.find("counters") != json_acq.end()) {
+                auto array = json_acq["counters"];
+                for (auto& item : array) {
+                    MidAcquisitionParameters::Counter counter;
+                    get_param(item, "chan_id", counter.chan_id);
+                    get_param(item, "ratio", counter.ratio_);
+                    acquisition_params_.counters_.push_front(counter);
+                }
+            }
+            if (json_acq.find("analog_channels") != json_acq.end()) {
+                auto array = json_acq["analog_channels"];
+                for (auto& item : array) {
+                    MidAcquisitionParameters::Analog analog;
+                    get_param(item, "chan_id", analog.chan_id);
+                    acquisition_params_.analog_channels_.push_front(analog);
+                }
+            }
+            inputs_.resize(Tools::get_param_highest_id(acquisition_params_.digital_inputs_));
+            outputs_.resize(Tools::get_param_highest_id(acquisition_params_.digital_outputs_));
+            counters_.resize(Tools::get_param_highest_id(acquisition_params_.counters_));
+            size_t analog_channel_size = Tools::get_param_highest_id(acquisition_params_.analog_channels_);
+            size_t analog_switches_size = Tools::get_param_highest_id(acquisition_params_.analog_double_switches_);
+            analogs_.resize((analog_switches_size > analog_channel_size) ? analog_switches_size : analog_channel_size);
         }
     } else {
         throw std::runtime_error("No config file " + cfg_path + " was found!");

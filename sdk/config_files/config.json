@@ -3,12 +3,24 @@
     "ref_voltage" : 3300,
     "resolution" : 1023,
     "brew_ohm_resolution" : 1,
-    "temp_table" : "/home/pwagner/qtcreator-workspace/open_caffe/sdk/config_files/temperature_sensors/ntc.cfg",
+    "temp_table" : "/home/pwagner/priv/open_caffe/sdk/config_files/temperature_sensors/ntc.cfg",
     "steam_used" : false,
+    "analog_channels" : [
+      {
+        "name" : "E_ADC_TEMP_BOILER",
+        "chan_id" : 0,
+        "convertion" : "temp_ntc"
+      },
+      {
+        "name" : "E_ADC_BREW_I",
+        "chan_id" : 2,
+        "convertion" : "current_1"
+      }
+    ],
     "analog_switches" : [
       {
         "name" : "E_IN_BREW_HOME/E_IN_BREW_WORK",
-        "adc_chan_id" : 4,
+        "chan_id" : 4,
         "low_id" : 14,
         "high_id" : 15,
         "no_ref_voltage_" : 3300,
@@ -19,7 +31,7 @@
       },
       {
         "name" : "E_IN_DRAWER_CAPP/E_IN_MILK_CONTAINER",
-        "adc_chan_id" : 5,
+        "chan_id" : 5,
         "low_id" : 16,
         "high_id" : 17,
         "no_ref_voltage_" : 3300,
@@ -30,7 +42,7 @@
       },
       {
         "name" : "E_IN_LIFT_BOT/E_IN_LIFT_TOP",
-        "adc_chan_id" : 6,
+        "chan_id" : 6,
         "low_id" : 20,
         "high_id" : 21,
         "no_ref_voltage_" : 3300,
@@ -41,7 +53,7 @@
       },
       {
         "name" : "E_IN_MLTV_BOT/E_IN_MLTV_TOP",
-        "adc_chan_id" : 7,
+        "chan_id" : 7,
         "low_id" : 18,
         "high_id" : 19,
         "no_ref_voltage_" : 3300,
@@ -54,85 +66,85 @@
     "digitalin" : [
       {
         "name" : "E_MID_DIO_IN_CAPPUCCINO_SW",
-        "io_chan_id" : 0,
+        "chan_id" : 0,
         "active_state_high" : true,
         "debounce_time_ms" : 60
       },
       {
         "name" : "E_MID_DIO_IN_DRIP_PRES_SW",
-        "io_chan_id" : 1,
+        "chan_id" : 1,
         "active_state_high" : true,
         "debounce_time_ms" : 60
       },
       {
         "name" : "E_MID_DIO_IN_CUPLIFT_UP",
-        "io_chan_id" : 2,
+        "chan_id" : 2,
         "active_state_high" : true,
         "debounce_time_ms" : 60
       },
       {
         "name" : "E_MID_DIO_IN_CUPLIFT_DOWN",
-        "io_chan_id" : 3,
+        "chan_id" : 3,
         "active_state_high" : true,
         "debounce_time_ms" : 60
       },
       {
         "name" : "E_MID_DIO_IN_DRIP_WATER_SW",
-        "io_chan_id" : 4,
+        "chan_id" : 4,
         "active_state_high" : true,
         "debounce_time_ms" : 60
       },
       {
         "name" : "E_MID_DIO_IN_WATERTANK_EMPTY",
-        "io_chan_id" : 5,
+        "chan_id" : 5,
         "active_state_high" : true,
         "debounce_time_ms" : 60
       },
       {
         "name" : "E_MID_DIO_IN_DOOR_SW",
-        "io_chan_id" : 6,
+        "chan_id" : 6,
         "active_state_high" : true,
         "debounce_time_ms" : 60
       },
       {
         "name" : "E_MID_DIO_IN_DRAWER_SW",
-        "io_chan_id" : 7,
+        "chan_id" : 7,
         "active_state_high" : true,
         "debounce_time_ms" : 60
       },
       {
         "name" : "E_MID_DIO_IN_DRAW_CLOSED_SW",
-        "io_chan_id" : 8,
+        "chan_id" : 8,
         "active_state_high" : true,
         "debounce_time_ms" : 60
       },
       {
         "name" : "E_MID_DIO_IN_WATERTANK_SW",
-        "io_chan_id" : 9,
+        "chan_id" : 9,
         "active_state_high" : true,
         "debounce_time_ms" : 60
       },
       {
         "name" : "E_MID_DIO_IN_BREW_INS_SW",
-        "io_chan_id" : 10,
+        "chan_id" : 10,
         "active_state_high" : true,
         "debounce_time_ms" : 60
       },
       {
         "name" : "E_MID_DIO_IN_GRINDER_OV",
-        "io_chan_id" : 11,
+        "chan_id" : 11,
         "active_state_high" : true,
         "debounce_time_ms" : 60
       },
       {
         "name" : "E_MID_DIO_IN_UNUSED",
-        "io_chan_id" : 12,
+        "chan_id" : 12,
         "active_state_high" : true,
         "debounce_time_ms" : 60
       },
       {
         "name" : "E_MID_DIO_IN_BREW_DIAG",
-        "io_chan_id" : 13,
+        "chan_id" : 13,
         "active_state_high" : true,
         "debounce_time_ms" : 60
       }
@@ -140,151 +152,151 @@
     "digitalout" : [
       {
         "name" : "E_MID_DIO_OUT_LED",
-        "io_chan_id" : 0,
+        "chan_id" : 0,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_ELECTROM",
-        "io_chan_id" : 1,
+        "chan_id" : 1,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_GRINDER_L",
-        "io_chan_id" : 2,
+        "chan_id" : 2,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_CUPHEATER",
-        "io_chan_id" : 3,
+        "chan_id" : 3,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_BOILER",
-        "io_chan_id" : 4,
+        "chan_id" : 4,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_UNKNOWN",
-        "io_chan_id" : 5,
+        "chan_id" : 5,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_STEAM",
-        "io_chan_id" : 6,
+        "chan_id" : 6,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_PUMP",
-        "io_chan_id" : 7,
+        "chan_id" : 7,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_GRINDER_N",
-        "io_chan_id" : 8,
+        "chan_id" : 8,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_LIFT_PH1",
-        "io_chan_id" : 9,
+        "chan_id" : 9,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_LIFT_PH2",
-        "io_chan_id" : 10,
+        "chan_id" : 10,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_LIFT_I0",
-        "io_chan_id" : 11,
+        "chan_id" : 11,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_LIFT_I1",
-        "io_chan_id" : 12,
+        "chan_id" : 12,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_CAP_PH1",
-        "io_chan_id" : 13,
+        "chan_id" : 13,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_CAP_PH2",
-        "io_chan_id" : 14,
+        "chan_id" : 14,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_CAP_I0",
-        "io_chan_id" : 15,
+        "chan_id" : 15,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_CAP_I1",
-        "io_chan_id" : 16,
+        "chan_id" : 16,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_MLTV_PH1",
-        "io_chan_id" : 17,
+        "chan_id" : 17,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_MLTV_PH2",
-        "io_chan_id" : 18,
+        "chan_id" : 18,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_MLTV_I0",
-        "io_chan_id" : 19,
+        "chan_id" : 19,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_MLTV_I1",
-        "io_chan_id" : 20,
+        "chan_id" : 20,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_BREW_IN1",
-        "io_chan_id" : 21,
+        "chan_id" : 21,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_BREW_IN2",
-        "io_chan_id" : 22,
+        "chan_id" : 22,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_BREW_IN3",
-        "io_chan_id" : 23,
+        "chan_id" : 23,
         "active_state_high" : true,
         "default_state" : false
       },
       {
         "name" : "E_MID_DIO_OUT_BREW_IN4",
-        "io_chan_id" : 24,
+        "chan_id" : 24,
         "active_state_high" : true,
         "default_state" : false
       }
@@ -292,17 +304,17 @@
     "counters" : [
       {
         "name" : "E_MID_FLOW",
-        "cnt_chan_id" : 0,
+        "chan_id" : 0,
         "ratio" : 1
       },
       {
         "name" : "E_MID_GRINDER",
-        "cnt_chan_id" : 1,
+        "chan_id" : 1,
         "ratio" : 1
       },
       {
         "name" : "E_MID_PHASE",
-        "cnt_chan_id" : 2,
+        "chan_id" : 2,
         "ratio" : 1
       }
     ]
@@ -318,7 +330,7 @@
     },
     {
       "name" : "heater",
-      "model" : "simple_ntc"
+      "model" : "simple"
     },
     {
       "name" : "grinder",

@@ -1,4 +1,5 @@
 #include "opencaffe/mid/mid_acq.h"
+#include "opencaffe/base/tools.h"
 
 #define DIGITAL_INPUT_MAX E_IN_BREW_DIAG
 
@@ -32,21 +33,11 @@ int MidAcquisition::init() {
         // for (auto &item : ntc_temp_table_) {
         //     log(LOG_DEBUG) << item.first << "-" << item.second << std::endl;
         // }
-        int count = 0;
-        for (auto& aswitch : opencaffeobject_->acquisition_params_.analog_double_switches_) {
-            ++count;
-        }
-        log(LOG_DEBUG) << "analog_switches: " << count << std::endl;
-        count = 0;
-        for (auto& aswitch : opencaffeobject_->acquisition_params_.digital_inputs_) {
-            ++count;
-        }
-        log(LOG_DEBUG) << "digital_inputs_: " << count << std::endl;
-        count = 0;
-        for (auto& aswitch : opencaffeobject_->acquisition_params_.digital_outputs) {
-            ++count;
-        }
-        log(LOG_DEBUG) << "digital_outputs: " << count << std::endl;
+        log(LOG_DEBUG) << "analog_channels: " << opencaffeobject_->acquisition_params_.analog_channels_.size() << std::endl;
+        log(LOG_DEBUG) << "analog_switches: " << opencaffeobject_->acquisition_params_.analog_double_switches_.size() << std::endl;
+        log(LOG_DEBUG) << "digital_inputs_: " << opencaffeobject_->acquisition_params_.digital_inputs_.size() << std::endl;
+        log(LOG_DEBUG) << "digital_outputs: " << opencaffeobject_->acquisition_params_.digital_outputs_.size() << std::endl;
+        log(LOG_DEBUG) << "counters: " << opencaffeobject_->acquisition_params_.counters_.size() << std::endl;
     } else {
         throw std::runtime_error("No temp table \"" + opencaffeobject_->acquisition_params_.temp_table_ + "\" has been found");
     }
@@ -115,20 +106,17 @@ int MidAcquisition::update_inputs() {
     uint8_t state = E_DIO_STATE_INACTIVE;
     
     for (auto& input : opencaffeobject_->acquisition_params_.digital_inputs_) {
-        if(opencaffeobject_->get_input(input.io_chan_id, state) != 0) {
+        if(opencaffeobject_->get_input(input.chan_id, state) == 0) {
             if(state == input.active_state_high_) {
-                opencaffeobject_->AE_Switches[input.io_chan_id] = E_SWITCH_STATE_CLOSED;
+                opencaffeobject_->AE_Switches[input.chan_id] = E_SWITCH_STATE_CLOSED;
             } else {
-                opencaffeobject_->AE_Switches[input.io_chan_id] = E_SWITCH_STATE_OPENED;
+                opencaffeobject_->AE_Switches[input.chan_id] = E_SWITCH_STATE_OPENED;
             }
         } else {
-            opencaffeobject_->AE_Switches[input.io_chan_id] = E_SWITCH_STATE_OOR;
+            opencaffeobject_->AE_Switches[input.chan_id] = E_SWITCH_STATE_OOR;
             err = 1;
+            log(LOG_ERR) << __PRETTY_FUNCTION__ << " code : " << err << " channel: " << input.chan_id << std::endl;
         }
-    }
-
-    if (err != 0) {
-        log(LOG_ERR) << __PRETTY_FUNCTION__ << " code : " << err << std::endl;
     }
 
     return err;
@@ -189,7 +177,7 @@ int MidAcquisition::update_analog_switches() {
     uint32_t channel_val = 0;
 
     for (auto& aswitch : opencaffeobject_->acquisition_params_.analog_double_switches_) {
-       if (opencaffeobject_->get_analog(aswitch.adc_chan_id, channel_val) == 0) {
+       if (opencaffeobject_->get_analog(aswitch.chan_id, channel_val) == 0) {
             uint32_t voltage = (opencaffeobject_->acquisition_params_.ref_voltage_ * channel_val) / 
                                 opencaffeobject_->acquisition_params_.resolution_;
             if (voltage > (aswitch.no_ref_voltage_ - aswitch.delta_))

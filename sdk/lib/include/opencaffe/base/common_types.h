@@ -156,6 +156,10 @@ typedef struct
 typedef void (*PF_callBack)();
 typedef T_ReturnStatus (*PF_callbackRet)();
 
+struct BaseParam{
+    int  chan_id; // channel id
+};
+
 template <typename T, typename S>
 class state_value {
 public:

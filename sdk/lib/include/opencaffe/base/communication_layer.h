@@ -6,7 +6,7 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <queue>
-#include <forward_list>
+#include <list>
 
 namespace OpenCaffe {
 
@@ -42,8 +42,7 @@ public:
 
     // MidAcquisition parameters
     struct MidAcquisitionParameters {
-        struct AnalogDoubleSwitch{
-            uint8_t  adc_chan_id; // adc channel id
+        struct AnalogDoubleSwitch : public BaseParam {
             uint8_t  low_id; // switch id for low resistance
             uint8_t  high_id; // switch id for high resistance
             uint32_t no_ref_voltage_; //no switch reference voltage
@@ -52,19 +51,19 @@ public:
             uint32_t both_ref_voltage_; //both switches reference voltage
             uint32_t delta_; //voltage delta for switches
         };
-        struct DigitalIOInput{
-            uint8_t io_chan_id; //io channel id
+        struct DigitalIOInput : public BaseParam {
             bool active_state_high_; // is active state is high
             uint32_t debounce_time_ms_; // debouce time to consider signal as stable
         };
-        struct DigitalIOOutput{
-            uint8_t io_chan_id; //io channel id
+        struct DigitalIOOutput : public BaseParam {
             bool active_state_high_; // is active state is high
             bool default_state_; //default io state
         };
-        struct Counter{
-            uint8_t cnt_chan_id;
+        struct Counter : public BaseParam {
             uint8_t ratio_;
+        };
+        struct Analog : public BaseParam {
+            uint8_t convertion;
         };
 
         uint32_t ref_voltage_; //ADC reference voltage
@@ -73,10 +72,11 @@ public:
         std::string temp_table_; //tempreture converstion table
         bool     steam_used_; //steam used
 
-        std::forward_list<AnalogDoubleSwitch> analog_double_switches_; //analog double switches vector table
-        std::forward_list<DigitalIOInput> digital_inputs_; //digital inputs configuration
-        std::forward_list<DigitalIOOutput> digital_outputs; //digital outputs configuration
-        std::forward_list<Counter> counters;
+        std::list<Analog> analog_channels_;;
+        std::list<AnalogDoubleSwitch> analog_double_switches_; //analog double switches vector table
+        std::list<DigitalIOInput> digital_inputs_; //digital inputs configuration
+        std::list<DigitalIOOutput> digital_outputs_; //digital outputs configuration
+        std::list<Counter> counters_;
     } acquisition_params_;
 
 private:

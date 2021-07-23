@@ -2,6 +2,7 @@
 #define _OPENCAFFE_BASE_TOOLS_H
 
 #include <cstdint>
+#include "opencaffe/base/common_types.h"
 #include <forward_list>
 
 namespace OpenCaffe {
@@ -29,6 +30,16 @@ int dicrement(T &value, const T max) {
         return 1;
     }
     return 0;
+}
+
+template <class Container>
+size_t get_param_highest_id(Container &acont) {
+    uint8_t highest_id = 0;
+    for (auto& item : acont) {
+        BaseParam &param = static_cast<BaseParam&>(item);
+        if (param.chan_id > highest_id) highest_id = param.chan_id;
+    }
+    return highest_id + 1;
 }
 
 void get_u16_from_bytes(uint8_t (&data)[2U], uint16_t &value);
