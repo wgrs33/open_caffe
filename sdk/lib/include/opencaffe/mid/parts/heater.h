@@ -1,5 +1,5 @@
-#ifndef _OPENCAFFE_MID_DEVICES_HEATER_H
-#define _OPENCAFFE_MID_DEVICES_HEATER_H
+#ifndef _OPENCAFFE_MID_PARTS_HEATER_H
+#define _OPENCAFFE_MID_PARTS_HEATER_H
 
 #include "opencaffe/mid/devices/simple_output_device.h"
 
@@ -33,4 +33,4 @@ private:
 
 } //namespace OpenCaffe
 
-#endif //_OPENCAFFE_MID_DEVICES_HEATER_H
+#endif //_OPENCAFFE_MID_PARTS_HEATER_H

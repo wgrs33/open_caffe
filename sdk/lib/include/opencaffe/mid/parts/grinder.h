@@ -1,5 +1,5 @@
-#ifndef _OPENCAFFE_MID_DEVICES_GRINDER_H
-#define _OPENCAFFE_MID_DEVICES_GRINDER_H
+#ifndef _OPENCAFFE_MID_PARTS_GRINDER_H
+#define _OPENCAFFE_MID_PARTS_GRINDER_H
 
 #include "opencaffe/base/base.h"
 
@@ -39,4 +39,4 @@ private:
 
 } //namespace OpenCaffe
 
-#endif //_OPENCAFFE_MID_DEVICES_GRINDER_H
+#endif //_OPENCAFFE_MID_PARTS_GRINDER_H
