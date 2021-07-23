@@ -1,12 +1,12 @@
-#ifndef SDK_CORE_MID_MID_MTR_H
-#define SDK_CORE_MID_MID_MTR_H
+#ifndef SDK_CORE_BASE_DEVICES_MOTOR_H
+#define SDK_CORE_BASE_DEVICES_MOTOR_H
 
 #include "vector"
 #include "opencaffe/base/base.h"
 
 namespace OpenCaffe {
 
-class MiddlewareMotor : public Base {
+class Motor : public Base {
 public:
     enum class MotorType {
         STEPPER_MOTOR,
@@ -33,8 +33,8 @@ public:
         E_MID_MTR_PHASE_MAX
     };
 
-    MiddlewareMotor(MotorType type, uint8_t id);
-    ~MiddlewareMotor();
+    Motor(MotorType type, uint8_t id);
+    ~Motor();
 
     int init();
     int main();
@@ -49,10 +49,8 @@ private:
     MotorDir   dir_ = E_MID_MTR_STOP;
     MotorPower power_ = E_MID_MTR_POWER_NONE;
     MotorPhase phase_ = E_MID_MTR_PHASE_0;
-
-    static std::vector<uint8_t> mtr_list_;
 };
 
 } //namespace OpenCaffe
 
-#endif //SDK_CORE_MID_MID_MTR_H
+#endif //SDK_CORE_BASE_DEVICES_MOTOR_H

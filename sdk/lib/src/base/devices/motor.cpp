@@ -1,38 +1,31 @@
-#include "opencaffe/mid/mid_send/mid_mtr.h"
+#include "opencaffe/base/devices/motor.h"
 
 namespace OpenCaffe {
 
-std::vector<uint8_t> MiddlewareMotor::mtr_list_{};
-
-MiddlewareMotor::MiddlewareMotor(MotorType type, uint8_t id) :
+Motor::Motor(MotorType type, uint8_t id) :
 Base("MidMtr_" + std::to_string(id)),
 type_(type)
 {
     set_log_level(LOG_DEBUG);
-    for (auto mtr_id : mtr_list_) {
-        if (mtr_id == id) {
-            throw std::runtime_error("MiddlewareMotor has been already register using id: " + std::to_string(id));
-        }
-    }
     id_ = id;
     OBJECT_LINE(log(LOG_DEBUG), this) << "Ctor: " << std::to_string(id_) << std::endl;
 }
 
-MiddlewareMotor::~MiddlewareMotor() {}
+Motor::~Motor() {}
 
-int MiddlewareMotor::init() {
+int Motor::init() {
     DEBUG_LINE(log(LOG_DEBUG)) << "type_: " << std::to_string(uint8_t(type_)) << " id_: " << std::to_string(id_) << std::endl;
 }
 
-int MiddlewareMotor::main() {
+int Motor::main() {
     return execute_move_();
 }
 
-int MiddlewareMotor::deinit() {
+int Motor::deinit() {
     return 0;
 }
 
-int MiddlewareMotor::move(const MotorDir dir, const MotorPower power) {
+int Motor::move(const MotorDir dir, const MotorPower power) {
     int res = 0;
 
     if (dir < E_MID_MTR_DIR_MAX &&
@@ -47,7 +40,7 @@ int MiddlewareMotor::move(const MotorDir dir, const MotorPower power) {
     return res;
 }
 
-int MiddlewareMotor::execute_move_() {
+int Motor::execute_move_() {
     int res = 0;
     
     switch (type_) {
@@ -64,7 +57,7 @@ int MiddlewareMotor::execute_move_() {
     return res;
 }
 
-int MiddlewareMotor::set_phase_() {
+int Motor::set_phase_() {
     int res = 0;
 
     switch (dir_) {
