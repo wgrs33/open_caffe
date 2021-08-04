@@ -14,6 +14,20 @@ public:
         Steam,
         Drop
     };
+    enum class Position {
+        Steam = -2, // Heater -> Steam/Cappuccinatore
+        Drain = -1, // pressure/temp down, Heater -> Pressblock
+        DrainUnit = 0, // Brew unit -> Drip, pressure down
+        BrewUnit = 1, // Heater -> BrewUnit
+        HotWater = 2, // Heater -> Water_out
+        Unknown
+    };
+    enum class Process {
+        Stop = 0,
+        MovingUp,
+        MovingDown,
+        Error
+    };
     class OutputDevice;
 
     WaterCtrl(Type type, std::shared_ptr<OpenCaffeObject> &oco);

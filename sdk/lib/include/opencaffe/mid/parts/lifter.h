@@ -11,6 +11,17 @@ public:
     enum class Type{
         Stepper = 0
     };
+    enum class Position {
+        Bottom = 0,
+        Top,
+        Unknown
+    };
+    enum class Process {
+        Stop = 0,
+        MovingUp,
+        MovingDown,
+        Error
+    };
     class InputDevice;
 
     Lifter(Type type, std::shared_ptr<OpenCaffeObject> &oco);
@@ -23,7 +34,8 @@ public:
     int go_up();
     int go_down();
     int stop();
-    int get_status();
+    Process get_status();
+    Position get_position();
 
 private:
     int check_fault();

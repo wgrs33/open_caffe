@@ -11,18 +11,23 @@ public:
         Simple = 0,
         DoubleOut
     };
+    enum class Process {
+        Off = 0,
+        On,
+        Error
+    };
     class OutputDevice;
 
     SimpleOutputPart(Type type, std::shared_ptr<OpenCaffeObject> &oco);
     ~SimpleOutputPart();
     
-    int init();
-    int main();
-    int deinit();
+    virtual int init();
+    virtual int main();
+    virtual int deinit();
 
     int on();
     int off();
-    int get_status();
+    Process get_status();
 
 private:
     std::unique_ptr<OutputDevice> out_;

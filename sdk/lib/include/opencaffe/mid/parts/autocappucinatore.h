@@ -11,11 +11,20 @@ public:
     enum class Type{
         Stepper = 0
     };
-    enum class Process {
-        None = 0,
+    enum class Position {
+        Open = 0,
         Milk,
-        Foam
+        Foam,
+        Moving,
+        Error
     };
+    enum class Process {
+        Stop = 0,
+        MovingUp,
+        MovingDown,
+        Error
+    };
+    
     class InputDevice;
 
     AutoCappucinatore(Type type, std::shared_ptr<OpenCaffeObject> &oco);
@@ -29,7 +38,8 @@ public:
     int milk();
     int clean();
     int none();
-    int get_status();
+    Process get_status();
+    Position get_position();
 
 private:
     int check_fault();

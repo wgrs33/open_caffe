@@ -21,7 +21,6 @@ public:
     int deinit();
 
     int set_temperature(uint8_t temp);
-    int get_status();
 
 private:
     int check_fault();

@@ -14,10 +14,16 @@ public:
         HBridge,
         Stepper
     };
-    enum class Direction {
+    enum class Position {
+        Home = 0,
+        Work,
+        Unknown
+    };
+    enum class Process {
         Stop = 0,
-        Up,
-        Down
+        MovingUp,
+        MovingDown,
+        Error
     };
     class InputDevice;
 
@@ -31,12 +37,12 @@ public:
     int go_work();
     int go_home();
     int stop();
-    int get_status();
+    Process get_status();
+    Position get_position();
 
 private:
     int check_fault();
 
-    Direction dir_;
     std::unique_ptr<MotorDevice> motor_;
     std::unique_ptr<InputDevice> overvoltage_;
     std::unique_ptr<InputDevice> ctrl_error_;

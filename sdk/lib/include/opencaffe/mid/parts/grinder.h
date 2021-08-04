@@ -13,6 +13,11 @@ public:
         DoubleOutput,
         HBridge
     };
+    enum class Process {
+        Stop = 0,
+        Grinding,
+        Error
+    };
     class InputDevice;
     class CntDevice;
 
@@ -25,7 +30,7 @@ public:
 
     int on();
     int off();
-    int get_status();
+    Process get_status();
 
 private:
     int check_fault();
