@@ -54,4 +54,4 @@ typedef Drawer DregDrawer;
 
 } //namespace OpenCaffe
 
-#endif //_OPENCAFFE_MID_PARTSSIMPLE_INPUT_PARTR_H
+#endif //_OPENCAFFE_MID_PARTS_SIMPLE_INPUT_PART_H

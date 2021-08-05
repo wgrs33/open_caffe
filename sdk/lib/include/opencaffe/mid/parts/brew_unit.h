@@ -1,33 +1,21 @@
 #ifndef _OPENCAFFE_MID_PARTS_BREW_UNIT_H
 #define _OPENCAFFE_MID_PARTS_BREW_UNIT_H
 
-#include "opencaffe/base/base.h"
-#include "opencaffe/base/devices/motor.h"
+#include "opencaffe/mid/parts/stepper_part.h"
 
 namespace OpenCaffe {
 
-class BrewUnit : public Base{
+class BrewUnit : public StepperPart {
 public:
-    enum class Type{
-        DoubleOutput = 0,
-        DoubleOutputNoSurv,
-        HBridge,
-        Stepper
-    };
     enum class Position {
         Home = 0,
         Work,
         Unknown
     };
-    enum class Process {
-        Stop = 0,
-        MovingUp,
-        MovingDown,
-        Error
-    };
+
     class InputDevice;
 
-    BrewUnit(Type type, std::shared_ptr<OpenCaffeObject> &oco);
+    BrewUnit(std::shared_ptr<OpenCaffeObject> &oco);
     ~BrewUnit();
     
     int init();
@@ -36,17 +24,7 @@ public:
 
     int go_work();
     int go_home();
-    int stop();
-    Process get_status();
     Position get_position();
-
-private:
-    int check_fault();
-
-    std::unique_ptr<MotorDevice> motor_;
-    std::unique_ptr<InputDevice> overvoltage_;
-    std::unique_ptr<InputDevice> ctrl_error_;
-
 };
 
 } //namespace OpenCaffe
