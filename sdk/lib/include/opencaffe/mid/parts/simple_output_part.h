@@ -33,6 +33,8 @@ private:
     std::unique_ptr<OutputDevice> out_;
 };
 
+typedef SimpleOutputPart CupHeater;
+
 } //namespace OpenCaffe
 
 #endif //_OPENCAFFE_MID_PARTS_SIMPLE_OUTPUT_PART_H

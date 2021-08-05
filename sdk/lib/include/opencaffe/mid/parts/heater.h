@@ -1,11 +1,11 @@
 #ifndef _OPENCAFFE_MID_PARTS_HEATER_H
 #define _OPENCAFFE_MID_PARTS_HEATER_H
 
-#include "opencaffe/mid/devices/simple_output_device.h"
+#include "opencaffe/mid/parts/simple_output_part.h"
 
 namespace OpenCaffe {
 
-class Heater : public SimpleOutputDevice{
+class Heater : public SimpleOutputPart{
 public:
     enum class Type {
         SimpleNtc = 0,
@@ -13,7 +13,8 @@ public:
         SimplePtc,
         DoublePtc
     };
-    Heater(Type htype, SimpleOutputDevice::Type devtype, std::shared_ptr<OpenCaffeObject> &oco);
+    class InputDevice;
+    Heater(Type htype, SimpleOutputPart::Type devtype, std::shared_ptr<OpenCaffeObject> &oco);
     ~Heater();
     
     int init();

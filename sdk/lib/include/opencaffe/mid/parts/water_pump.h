@@ -1,11 +1,11 @@
 #ifndef _OPENCAFFE_MID_PARTS_WATER_PUMP_H
 #define _OPENCAFFE_MID_PARTS_WATER_PUMP_H
 
-#include "opencaffe/mid/devices/simple_output_device.h"
+#include "opencaffe/mid/parts/simple_output_part.h"
 
 namespace OpenCaffe {
 
-class WaterPump : public SimpleOutputDevice{
+class WaterPump : public SimpleOutputPart{
 public:
     class InputDevice;
 
