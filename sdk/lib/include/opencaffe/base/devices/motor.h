@@ -3,7 +3,6 @@
 
 #include "vector"
 #include "opencaffe/base/base.h"
-#include "opencaffe/base/devices/outputdevice.h"
 
 namespace OpenCaffe {
 
@@ -50,7 +49,6 @@ private:
     MotorDir   dir_ = E_MID_MTR_STOP;
     MotorPower power_ = E_MID_MTR_POWER_NONE;
     MotorPhase phase_ = E_MID_MTR_PHASE_0;
-    std::vector<OutputDevice> outputs_;
     std::shared_ptr<OpenCaffeObject> opencaffeobject_;
 };
 
