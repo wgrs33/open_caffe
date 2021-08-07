@@ -24,16 +24,20 @@ public:
     int main();
     int deinit();
 
-    int is_full();
-    int is_present();
-    int is_empty();
+    bool is_full();
+    bool is_present();
+    bool is_empty();
 
 private:
     int check_status();
+    int update_inputs();
     Type type_;
     std::unique_ptr<InputDevice> full_;
     std::unique_ptr<InputDevice> present_;
     std::unique_ptr<InputDevice> empty_;
+    Device::Status empty_status = Device::Status::OK;
+    Device::Status present_status = Device::Status::OK;
+    Device::Status full_status = Device::Status::OK;
 };
 
 class Door : public SimpleInputPart {

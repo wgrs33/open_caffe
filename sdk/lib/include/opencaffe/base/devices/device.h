@@ -17,9 +17,9 @@ public:
     id_(id),
     opencaffeobject_(oco) {}
     virtual ~Device() {}
+    Status get_status() { return status_; }
 
 protected:
-    Status get_status() { return status_; }
     void set_status(Status s) { status_ = s; }
     uint8_t get_id() { return id_; }
     virtual int update() = 0;

@@ -27,10 +27,16 @@ public:
 
     int on();
     int off();
-    Process get_status();
+    Process get_state();
 
 private:
+    int update_outputs();
+    Type type_;
+    Process state_;
     std::unique_ptr<OutputDevice> out_;
+    std::unique_ptr<OutputDevice> out2_;
+    Device::Status out_status;
+    Device::Status out2_status;
 };
 
 typedef SimpleOutputPart CupHeater;
