@@ -2,6 +2,7 @@
 #define _OPENCAFFE_MID_PARTS_SIMPLE_OUTPUT_PART_H
 
 #include "opencaffe/base/base.h"
+#include "opencaffe/base/devices/outputdevice.h"
 
 namespace OpenCaffe {
 
@@ -16,7 +17,6 @@ public:
         On,
         Error
     };
-    class OutputDevice;
 
     SimpleOutputPart(Type type, std::shared_ptr<OpenCaffeObject> &oco);
     ~SimpleOutputPart();

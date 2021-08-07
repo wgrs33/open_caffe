@@ -2,6 +2,7 @@
 #define _OPENCAFFE_MID_PARTS_MULTIVALVE_H
 
 #include "opencaffe/mid/parts/stepper_part.h"
+#include "opencaffe/base/devices/inputdevice.h"
 
 namespace OpenCaffe {
 
@@ -28,6 +29,9 @@ public:
     int rotate_forward();
     int rotate_backward();
     Position get_position();
+private:
+    std::unique_ptr<InputDevice> bottom_sw_;
+    std::unique_ptr<InputDevice> top_sw_;
 };
 
 } //namespace OpenCaffe

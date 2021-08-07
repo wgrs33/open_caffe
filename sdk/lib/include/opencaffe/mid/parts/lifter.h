@@ -2,6 +2,7 @@
 #define _OPENCAFFE_MID_PARTS_LIFTER_H
 
 #include "opencaffe/mid/parts/stepper_part.h"
+#include "opencaffe/base/devices/inputdevice.h"
 
 namespace OpenCaffe {
 
@@ -12,7 +13,6 @@ public:
         Top,
         Unknown
     };
-    class InputDevice;
 
     Lifter(std::shared_ptr<OpenCaffeObject> &oco);
     ~Lifter();
@@ -24,6 +24,9 @@ public:
     int go_up();
     int go_down();
     Position get_position();
+private:
+    std::unique_ptr<InputDevice> bottom_;
+    std::unique_ptr<InputDevice> top_;
 };
 
 } //namespace OpenCaffe

@@ -3,6 +3,7 @@
 
 #include "opencaffe/base/base.h"
 #include "opencaffe/base/devices/motor.h"
+#include "opencaffe/base/devices/inputdevice.h"
 
 namespace OpenCaffe {
 
@@ -14,8 +15,6 @@ public:
         MovingDown,
         Error
     };
-    
-    class InputDevice;
 
     StepperPart(std::shared_ptr<OpenCaffeObject> &oco);
     ~StepperPart();

@@ -3,6 +3,7 @@
 
 #include "opencaffe/base/base.h"
 #include "opencaffe/mid/parts/multivalve.h"
+#include "opencaffe/base/devices/outputdevice.h"
 
 namespace OpenCaffe {
 
@@ -14,7 +15,6 @@ public:
         Steam,
         Drop
     };
-    class OutputDevice;
 
     WaterCtrl(Type type, std::shared_ptr<OpenCaffeObject> &oco);
     ~WaterCtrl();

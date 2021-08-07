@@ -16,7 +16,7 @@ public:
     OutputDevice(uint8_t id, State default_state = State::OFF) :
     id_(id),
     state_(default_state) {}
-    ~OutputDevice();
+    ~OutputDevice() {}
 
     int on();
     int off();

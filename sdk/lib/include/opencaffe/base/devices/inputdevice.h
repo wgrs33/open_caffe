@@ -15,7 +15,7 @@ public:
 
     InputDevice(uint8_t id) :
     id_(id) {}
-    ~InputDevice();
+    ~InputDevice() {}
 
     State get_state();
 private:

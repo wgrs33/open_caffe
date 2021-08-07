@@ -2,6 +2,7 @@
 #define _OPENCAFFE_MID_PARTS_FLOW_METER_H
 
 #include "opencaffe/base/base.h"
+#include "opencaffe/base/devices/counterdevice.h"
 
 namespace OpenCaffe {
 
@@ -10,7 +11,6 @@ public:
     enum class Type{
         Simple = 0
     };
-    class CntDevice;
 
     FlowMeter(Type type, std::shared_ptr<OpenCaffeObject> &oco);
     ~FlowMeter();

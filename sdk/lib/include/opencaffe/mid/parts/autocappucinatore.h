@@ -2,6 +2,7 @@
 #define _OPENCAFFE_MID_PARTS_AUTOCAPPUCINATORE_H
 
 #include "opencaffe/mid/parts/stepper_part.h"
+#include "opencaffe/base/devices/inputdevice.h"
 
 namespace OpenCaffe {
 
@@ -14,8 +15,6 @@ public:
         Moving,
         Error
     };
-    
-    class InputDevice;
 
     AutoCappucinatore(std::shared_ptr<OpenCaffeObject> &oco);
     ~AutoCappucinatore();
@@ -29,6 +28,8 @@ public:
     int clean();
     int none();
     Position get_position();
+private:
+    std::unique_ptr<InputDevice> position_;
 };
 
 } //namespace OpenCaffe

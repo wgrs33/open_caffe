@@ -2,6 +2,7 @@
 #define _OPENCAFFE_MID_PARTS_SIMPLE_INPUT_PART_H
 
 #include "opencaffe/base/base.h"
+#include "opencaffe/base/devices/inputdevice.h"
 
 namespace OpenCaffe {
 
@@ -15,7 +16,6 @@ public:
         Presence_Empty,
         All
     };
-    class InputDevice;
 
     SimpleInputPart(Type type, std::shared_ptr<OpenCaffeObject> &oco);
     ~SimpleInputPart();

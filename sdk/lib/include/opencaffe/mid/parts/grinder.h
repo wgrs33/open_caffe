@@ -3,6 +3,9 @@
 
 #include "opencaffe/base/base.h"
 #include "opencaffe/base/devices/motor.h"
+#include "opencaffe/base/devices/inputdevice.h"
+#include "opencaffe/base/devices/outputdevice.h"
+#include "opencaffe/base/devices/counterdevice.h"
 
 namespace OpenCaffe {
 
@@ -18,8 +21,6 @@ public:
         Grinding,
         Error
     };
-    class InputDevice;
-    class CntDevice;
 
     Grinder(Type type, uint8_t options, std::shared_ptr<OpenCaffeObject> &oco);
     ~Grinder();
@@ -36,6 +37,7 @@ private:
     int check_fault();
     int update_cnt();
     
+    std::unique_ptr<OutputDevice> derect_output_;
     std::unique_ptr<MotorDevice> motor_;
     std::unique_ptr<InputDevice> overvoltage_;
     std::unique_ptr<InputDevice> ctrl_error_;

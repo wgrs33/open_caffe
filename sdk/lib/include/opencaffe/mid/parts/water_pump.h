@@ -2,13 +2,12 @@
 #define _OPENCAFFE_MID_PARTS_WATER_PUMP_H
 
 #include "opencaffe/mid/parts/simple_output_part.h"
+#include "opencaffe/base/devices/inputdevice.h"
 
 namespace OpenCaffe {
 
 class WaterPump : public SimpleOutputPart{
 public:
-    class InputDevice;
-
     WaterPump(Type type, std::shared_ptr<OpenCaffeObject> &oco);
     ~WaterPump();
     
