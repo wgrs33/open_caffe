@@ -7,8 +7,9 @@ namespace OpenCaffe {
 
 class CntDevice {
 public:
-    CntDevice(uint8_t id) :
-    id_(id) {}
+    CntDevice(uint8_t id, std::shared_ptr<OpenCaffeObject> &oco) :
+    id_(id),
+    opencaffeobject_(oco) {}
     ~CntDevice() {}
 
     int get_counter();
@@ -17,6 +18,7 @@ private:
     
     uint8_t id_;
     long counter_;
+    std::shared_ptr<OpenCaffeObject> opencaffeobject_;
 };
 
 } //namespace OpenCaffe

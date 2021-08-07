@@ -13,14 +13,16 @@ public:
         ERROR
     };
 
-    InputDevice(uint8_t id) :
-    id_(id) {}
+    InputDevice(uint8_t id, std::shared_ptr<OpenCaffeObject> &oco) :
+    id_(id),
+    opencaffeobject_(oco) {}
     ~InputDevice() {}
 
     State get_state();
 private:
     uint8_t id_;
     State state_;
+    std::shared_ptr<OpenCaffeObject> opencaffeobject_;
 };
 
 } //namespace OpenCaffe

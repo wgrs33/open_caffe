@@ -13,9 +13,10 @@ public:
         ERROR
     };
 
-    OutputDevice(uint8_t id, State default_state = State::OFF) :
+    OutputDevice(uint8_t id, std::shared_ptr<OpenCaffeObject> &oco, State default_state = State::OFF) :
     id_(id),
-    state_(default_state) {}
+    state_(default_state),
+    opencaffeobject_(oco) {}
     ~OutputDevice() {}
 
     int on();
@@ -24,6 +25,7 @@ public:
 private:
     uint8_t id_;
     State state_;
+    std::shared_ptr<OpenCaffeObject> opencaffeobject_;
 };
 
 } //namespace OpenCaffe

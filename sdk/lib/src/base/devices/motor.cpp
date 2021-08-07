@@ -2,9 +2,10 @@
 
 namespace OpenCaffe {
 
-MotorDevice::MotorDevice(MotorType type, uint8_t id) :
+MotorDevice::MotorDevice(MotorType type, uint8_t id, std::shared_ptr<OpenCaffeObject> &oco) :
 Base("MidMtr_" + std::to_string(id)),
-type_(type)
+type_(type),
+opencaffeobject_(oco)
 {
     set_log_level(LOG_DEBUG);
     id_ = id;

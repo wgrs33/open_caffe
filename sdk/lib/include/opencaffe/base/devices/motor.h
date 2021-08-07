@@ -34,7 +34,7 @@ public:
         E_MID_MTR_PHASE_MAX
     };
 
-    MotorDevice(MotorType type, uint8_t id);
+    MotorDevice(MotorType type, uint8_t id, std::shared_ptr<OpenCaffeObject> &oco);
     ~MotorDevice();
 
     int init();
@@ -50,7 +50,8 @@ private:
     MotorDir   dir_ = E_MID_MTR_STOP;
     MotorPower power_ = E_MID_MTR_POWER_NONE;
     MotorPhase phase_ = E_MID_MTR_PHASE_0;
-    std::vector<OutputDevice> outputs_; 
+    std::vector<OutputDevice> outputs_;
+    std::shared_ptr<OpenCaffeObject> opencaffeobject_;
 };
 
 } //namespace OpenCaffe
