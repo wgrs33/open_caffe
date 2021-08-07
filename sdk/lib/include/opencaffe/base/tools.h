@@ -4,6 +4,7 @@
 #include <cstdint>
 #include "opencaffe/base/common_types.h"
 #include <forward_list>
+#include <type_traits>
 
 namespace OpenCaffe {
 namespace Tools {
@@ -81,6 +82,12 @@ private:
     uint32_t timeout_;
     T_TimerStatus status_;
 };
+
+template <typename E>
+constexpr auto to_value(E e) noexcept
+{
+    return static_cast<std::underlying_type_t<E>>(e);
+}
 
 } //namespace Tools
 } //namespace OpenCaffe
