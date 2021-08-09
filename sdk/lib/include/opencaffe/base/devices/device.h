@@ -13,9 +13,8 @@ public:
         Error
     };
 
-    Device(uint8_t id, std::shared_ptr<OpenCaffeObject> &oco) :
-    id_(id),
-    opencaffeobject_(oco) {}
+    Device(uint8_t id) :
+    id_(id) {}
     virtual ~Device() {}
     Status get_status() { return status_; }
 
@@ -23,7 +22,6 @@ protected:
     void set_status(Status s) { status_ = s; }
     uint8_t get_id() { return id_; }
     virtual int update() = 0;
-    std::shared_ptr<OpenCaffeObject> opencaffeobject_;
 
 private:
     const uint8_t id_;

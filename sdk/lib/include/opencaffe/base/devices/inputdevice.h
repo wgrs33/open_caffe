@@ -2,6 +2,7 @@
 #define SDK_CORE_BASE_INPUT_DEVICE_H
 
 #include "opencaffe/base/devices/device.h"
+#include <functional>
 
 namespace OpenCaffe {
 
@@ -12,14 +13,14 @@ public:
         ON
     };
 
-    InputDevice(uint8_t id, std::shared_ptr<OpenCaffeObject> &oco) :
-    Device(id, oco){}
+    InputDevice(uint8_t id, std::function<int(uint8_t, uint8_t&)> fptr) :
+    Device(id), fptr_(fptr) {}
     ~InputDevice() {}
 
     State get_state() { return state_; }
     int update() {
         uint8_t state;
-        if (opencaffeobject_->get_input(get_id(), state) == 0) {
+        if (fptr_(get_id(), state) == 0) {
             if (get_status() != Status::OK) {
                 set_status(Status::OK);
             }
@@ -32,6 +33,7 @@ public:
     }
 private:
     State state_;
+    std::function<int(uint8_t, uint8_t&)> fptr_;
 };
 
 } //namespace OpenCaffe

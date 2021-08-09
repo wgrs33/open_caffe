@@ -38,6 +38,7 @@ private:
     Device::Status empty_status = Device::Status::OK;
     Device::Status present_status = Device::Status::OK;
     Device::Status full_status = Device::Status::OK;
+    std::shared_ptr<OpenCaffeObject> opencaffeobject_;
 };
 
 class Door : public SimpleInputPart {

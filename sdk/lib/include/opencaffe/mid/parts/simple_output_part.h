@@ -37,6 +37,7 @@ private:
     std::unique_ptr<OutputDevice> out2_;
     Device::Status out_status;
     Device::Status out2_status;
+    std::shared_ptr<OpenCaffeObject> opencaffeobject_;
 };
 
 typedef SimpleOutputPart CupHeater;
