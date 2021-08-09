@@ -18,10 +18,9 @@ public:
 private:
     int check_fault();
 
-    bool state_;
+    bool state_ = false;
     std::unique_ptr<InputDevice> overvoltage_;
     std::unique_ptr<InputDevice> ctrl_error_;
-
 };
 
 } //namespace OpenCaffe
