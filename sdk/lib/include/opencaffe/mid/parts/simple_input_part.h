@@ -3,6 +3,7 @@
 
 #include "opencaffe/base/base.h"
 #include "opencaffe/base/devices/inputdevice.h"
+#include "opencaffe/base/common_types.h"
 
 namespace OpenCaffe {
 
@@ -17,7 +18,7 @@ public:
         All
     };
 
-    SimpleInputPart(Type type, std::shared_ptr<OpenCaffeObject> &oco);
+    SimpleInputPart(Type type, uint8_t id, std::shared_ptr<OpenCaffeObject> &oco);
     ~SimpleInputPart();
     
     int init();
@@ -32,6 +33,7 @@ private:
     int check_status();
     int update_inputs();
     Type type_;
+    uint8_t id_;
     std::unique_ptr<InputDevice> full_;
     std::unique_ptr<InputDevice> present_;
     std::unique_ptr<InputDevice> empty_;
@@ -42,19 +44,20 @@ private:
 };
 
 class Door : public SimpleInputPart {
-    Door(std::shared_ptr<OpenCaffeObject> &oco) : SimpleInputPart(Type::Presence, oco) {}
-};
-
-class Drawer : public SimpleInputPart {
-    Drawer(std::shared_ptr<OpenCaffeObject> &oco) : SimpleInputPart(Type::Presence_Full, oco) {}
+    Door(std::shared_ptr<OpenCaffeObject> &oco) : SimpleInputPart(Type::Presence, T_Part::E_Door, oco) {}
 };
 
 class WaterTank : public SimpleInputPart {
-    WaterTank(std::shared_ptr<OpenCaffeObject> &oco) : SimpleInputPart(Type::Presence_Empty, oco) {}
+    WaterTank(std::shared_ptr<OpenCaffeObject> &oco) : SimpleInputPart(Type::Presence_Empty, T_Part::E_WaterTank, oco) {}
 };
 
-typedef Drawer DripDrawer;
-typedef Drawer DregDrawer;
+template<uint8_t ID>
+class Drawer : public SimpleInputPart {
+    Drawer(std::shared_ptr<OpenCaffeObject> &oco) : SimpleInputPart(Type::Presence_Full, ID, oco) {}
+};
+
+typedef Drawer<T_Part::E_DripDrawer> DripDrawer;
+typedef Drawer<T_Part::E_DregDrawer> DregDrawer;
 
 
 } //namespace OpenCaffe

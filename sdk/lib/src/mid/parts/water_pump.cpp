@@ -2,8 +2,8 @@
 
 namespace OpenCaffe {
 
-WaterPump::WaterPump(Type type, std::shared_ptr<OpenCaffeObject> &oco) :
-SimpleOutputPart(type, oco) {}
+WaterPump::WaterPump(Type type, uint8_t id, std::shared_ptr<OpenCaffeObject> &oco) :
+SimpleOutputPart(type, id, oco) {}
 
 WaterPump::~WaterPump() {}
 

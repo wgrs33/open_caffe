@@ -2,8 +2,9 @@
 
 namespace OpenCaffe {
 
-SimpleInputPart::SimpleInputPart(Type type, std::shared_ptr<OpenCaffeObject> &oco) :
-Base("SimpleInputPart"), 
+SimpleInputPart::SimpleInputPart(Type type, uint8_t id, std::shared_ptr<OpenCaffeObject> &oco) :
+Base("SimpleInputPart"),
+id_(id), 
 opencaffeobject_(oco),
 type_(type) {}
 
@@ -11,31 +12,29 @@ SimpleInputPart::~SimpleInputPart() {}
     
 int SimpleInputPart::init() {
     using namespace std::placeholders;
-    uint8_t id = 0;
-    //TODO: get proper id from oco
     switch (type_) {
         case Type::Empty:
-            empty_   = std::make_unique<InputDevice>(id, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            empty_   = std::make_unique<InputDevice>(id_, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
             break;
         case Type::Full:
-            full_    = std::make_unique<InputDevice>(id, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            full_    = std::make_unique<InputDevice>(id_, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
             break;
         default:
         case Type::Presence:
-            present_ = std::make_unique<InputDevice>(id, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            present_ = std::make_unique<InputDevice>(id_, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
             break;
         case Type::Presence_Empty:
-            present_ = std::make_unique<InputDevice>(id, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-            empty_   = std::make_unique<InputDevice>(id, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            present_ = std::make_unique<InputDevice>(id_, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            empty_   = std::make_unique<InputDevice>(id_, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
             break;
         case Type::Presence_Full:
-            present_ = std::make_unique<InputDevice>(id, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-            full_    = std::make_unique<InputDevice>(id, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            present_ = std::make_unique<InputDevice>(id_, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            full_    = std::make_unique<InputDevice>(id_, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
             break;
         case Type::All:
-            present_ = std::make_unique<InputDevice>(id, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-            empty_   = std::make_unique<InputDevice>(id, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-            full_    = std::make_unique<InputDevice>(id, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            present_ = std::make_unique<InputDevice>(id_, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            empty_   = std::make_unique<InputDevice>(id_, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            full_    = std::make_unique<InputDevice>(id_, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
             break;
     }
     return 0;
@@ -54,7 +53,7 @@ bool SimpleInputPart::is_full() {
         if (full_->get_state() == InputDevice::State::ON)
             return true;
     } else {
-        throw std::runtime_error("This instance doens't use FULL input");
+        throw std::runtime_error("This instance doesn't use FULL input");
     }
     return false;
 }

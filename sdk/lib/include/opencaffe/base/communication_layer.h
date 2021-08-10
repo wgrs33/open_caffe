@@ -38,7 +38,7 @@ public:
     /* Service info */
     T_SystemStatus E_systemStatus;
     /* Command requests APL <-> MID */
-    T_CommandFrame AE_commands[E_TYPE_COMMAND_MAX];
+    T_CommandFrame AE_commands[T_Part::E_DeviceMaxNumber];
 
     // MidAcquisition parameters
     struct MidAcquisitionParameters {

@@ -73,18 +73,24 @@ typedef enum
 
 typedef enum
 {
-    E_TYPE_BREW = 0U,
-    E_TYPE_CAPP,
-    E_TYPE_LIFT,
-    E_TYPE_MLTV,
-    E_TYPE_PUMP,
-    E_TYPE_HEATER,
-    E_TYPE_CUP_HEATER,
-    E_TYPE_GRINDER,
-    E_TYPE_LED,
-    E_TYPE_ELECTROM,
-    E_TYPE_COMMAND_MAX
-}T_TypeCommand;
+    E_Brew = 0U,
+    E_Cappuccinatore,
+    E_Lifter,
+    E_Multivalve,
+    E_Pump,
+    E_Heater,
+    E_SteamHeater,
+    E_CupHeater,
+    E_Grinder,
+    E_GrinderDuo,
+    E_ElectroMagnet,
+    E_LedLight,
+    E_Door,
+    E_DripDrawer,
+    E_DregDrawer,
+    E_WaterTank,
+    E_DeviceMaxNumber
+}T_Part;
 
 typedef enum
 {

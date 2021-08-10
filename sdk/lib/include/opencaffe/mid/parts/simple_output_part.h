@@ -18,7 +18,7 @@ public:
         Error
     };
 
-    SimpleOutputPart(Type type, std::shared_ptr<OpenCaffeObject> &oco);
+    SimpleOutputPart(Type type, uint8_t id, std::shared_ptr<OpenCaffeObject> &oco);
     ~SimpleOutputPart();
     
     virtual int init();
@@ -32,6 +32,7 @@ public:
 private:
     int update_outputs();
     Type type_;
+    uint8_t id_;
     Process state_;
     std::unique_ptr<OutputDevice> out_;
     std::unique_ptr<OutputDevice> out2_;

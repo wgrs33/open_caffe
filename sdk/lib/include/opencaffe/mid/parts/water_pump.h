@@ -8,7 +8,7 @@ namespace OpenCaffe {
 
 class WaterPump : public SimpleOutputPart{
 public:
-    WaterPump(Type type, std::shared_ptr<OpenCaffeObject> &oco);
+    WaterPump(Type type, uint8_t id, std::shared_ptr<OpenCaffeObject> &oco);
     ~WaterPump();
     
     int init();

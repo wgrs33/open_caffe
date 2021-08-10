@@ -2,8 +2,9 @@
 
 namespace OpenCaffe {
 
-SimpleOutputPart::SimpleOutputPart(Type type, std::shared_ptr<OpenCaffeObject> &oco) :
-Base("SimpleOutputPart"), 
+SimpleOutputPart::SimpleOutputPart(Type type, uint8_t id, std::shared_ptr<OpenCaffeObject> &oco) :
+Base("SimpleOutputPart"),
+id_(id),
 opencaffeobject_(oco),
 type_(type) {}
 
@@ -15,10 +16,10 @@ int SimpleOutputPart::init() {
     //TODO get from oco proper id
     switch (type_) {
         case Type::DoubleOut:
-            out2_ = std::make_unique<OutputDevice>(id, std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
+            out2_ = std::make_unique<OutputDevice>(id_, std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
         case Type::Simple:
         default:
-            out_  = std::make_unique<OutputDevice>(id, std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
+            out_  = std::make_unique<OutputDevice>(id_, std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
         break;
     }
 }
