@@ -1,3 +1,5 @@
+add_subdirectory(pid_controller_test)
+
 if(HEADLESS)
     add_subdirectory(headless)
 endif(HEADLESS)
