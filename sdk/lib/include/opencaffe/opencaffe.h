@@ -16,6 +16,7 @@ typedef enum {
     CAPPUCCINATORE_POSITION = 10U,
     MULTIVALVE_POSITION = 11U,
     LIFTER_POSITION = 12U
+
 }T_AnalogPort;
 
 typedef enum {
@@ -37,14 +38,73 @@ typedef enum {
     MILK_DRAWER_PRESENT = 17U,
     CAPPUCCINATORE_MILK_POSITION = 18U,
     CAPPUCCINATORE_FOAM_POSITION = 19U,
+    BREW_UNIT_HOME = 20U,
+    BREW_UNIT_WORK = 21U,
+    MULTIVALTE_LOW = 22U,
+    MULTIVALVE_HIGH = 23U,
+    LIFTER_BOTTOM = 24U,
+    LIFTER_TOP = 25U,
 
-    LIFTER_UP_BUTTON = 20U,
-    LIFTER_DOWN_BUTTON = 21U
+    LIFTER_UP_BUTTON = 26U,
+    LIFTER_DOWN_BUTTON = 27U
+
 }T_DigitalInPort;
 
 typedef enum {
-    
+    LED = 0U,
+    ELECTROMAGNET = 1U,
+    GRINDER = 2U,
+    GRINDER_DUO = 3U,
+    HEATER = 4U,
+    STEAM_HEATER = 5U,
+    CUP_HEATER = 6U,
+    WATER_VALVE = 7U,
+    MAIN_PUMP = 8U,
+    STEAM_PUMP = 9U,
+    // general valves
+    VALVE0 = 10U,
+    VALVE1 = 11U,
+    VALVE2 = 12U,
+    VALVE3 = 13U,
+    // cup lifter
+    LIFTER_PH1 = 14U,
+    LIFTER_PH2 = 15U,
+    LIFTER_I0 = 16U,
+    LIFTER_I1 = 17U,
+    // cappuccinatore
+    CAPPUCCINATORE_PH1 = 18U,
+    CAPPUCCINATORE_PH2 = 19U,
+    CAPPUCCINATORE_I0 = 20U,
+    CAPPUCCINATORE_I1 = 21U,
+    // multivalve
+    MULTIVALVE_PH1 = 22U,
+    MULTIVALVE_PH2 = 23U,
+    MULTIVALVE_I0 = 24U,
+    MULTIVALVE_I1 = 25U,
+    // brew unit
+    BREW_UNIT_1 = 26U,
+    BREW_UNIT_2 = 27U,
+    BREW_UNIT_3 = 28U,
+    BREW_UNIT_4 = 29U,
+    //double output grinders
+    GRINDER_N = 30U
+    GRINDER_DOU_N = 31U
+    //sbs control
+    SBS_PH1 = 32U,
+    SBS_PH2 = 33U,
+    SBS_I0 = 34U,
+    SBS_I1 = 35U
+
 }T_DigitalOutPort;
+
+typedef enum {
+    FLOWMETER_MAIN = 0U,
+    FLOWMETER_STEAM = 1U,
+    GRINDER = 2U,
+    GRINDER_DUO = 3U,
+    PHASE = 4U
+
+}T_CounterPart;
 
 } //namespace OpenCaffe
 
