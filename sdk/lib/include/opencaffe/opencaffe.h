@@ -87,8 +87,8 @@ typedef enum {
     BREW_UNIT_3 = 28U,
     BREW_UNIT_4 = 29U,
     //double output grinders
-    GRINDER_N = 30U
-    GRINDER_DOU_N = 31U
+    GRINDER_N = 30U,
+    GRINDER_DUO_N = 31U,
     //sbs control
     SBS_PH1 = 32U,
     SBS_PH2 = 33U,
@@ -100,11 +100,10 @@ typedef enum {
 typedef enum {
     FLOWMETER_MAIN = 0U,
     FLOWMETER_STEAM = 1U,
-    GRINDER = 2U,
-    GRINDER_DUO = 3U,
+    CGRINDER = 2U,
+    CGRINDER_DUO = 3U,
     PHASE = 4U
-
-}T_CounterPart;
+}T_CounterPort;
 
 } //namespace OpenCaffe
 
