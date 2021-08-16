@@ -3,7 +3,7 @@
 namespace OpenCaffe {
 
 SimpleInputPart::SimpleInputPart(Type type, uint8_t id, std::shared_ptr<OpenCaffeObject> &oco) :
-Base("SimpleInputPart"),
+Base(name_map_part[(T_Part)id]),
 id_(id), 
 opencaffeobject_(oco),
 type_(type) {}
@@ -11,6 +11,7 @@ type_(type) {}
 SimpleInputPart::~SimpleInputPart() {}
     
 int SimpleInputPart::init() {
+    set_log_level(LOG_DEBUG);
     using namespace std::placeholders;
     switch (type_) {
         case Type::Empty:
