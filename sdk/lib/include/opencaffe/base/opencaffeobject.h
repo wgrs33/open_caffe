@@ -9,7 +9,6 @@
 #include <queue>
 #include <vector>
 #include <fstream>
-#include <nlohmann/json.hpp>
 #include <forward_list>
 
 namespace OpenCaffe {
@@ -198,33 +197,6 @@ private:
 
     logger& log(unsigned level) {
         return (*logger_)(level);
-    }
-
-    template<typename Ta, typename Tb>
-    void get_param(nlohmann::json &j, std::string key, Ta &param, Tb def_value) {
-        if (j.find(key) != j.end()) {
-            param = j[key].get<Ta>();
-        } else {
-            param = (Ta)def_value;
-        }
-    }
-
-    template<typename T>
-    void get_param(nlohmann::json &j, std::string key, T &param) {
-        if (j.find(key) != j.end()) {
-            param = j[key].get<T>();
-        } else {
-            throw std::runtime_error("No param " + key + " found!");
-        }
-    }
-
-    template<typename T, typename E>
-    void get_param(nlohmann::json &j, std::string key, T &param, ValueStringMap<E> &mapping) {
-        if (j.find(key) != j.end()) {
-            param = (T)(mapping.from_string(j[key].get<std::string>()));
-        } else {
-            throw std::runtime_error("No param " + key + " found!");
-        }
     }
 };
 

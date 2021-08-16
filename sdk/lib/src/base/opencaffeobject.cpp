@@ -106,20 +106,20 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
         if (json_file.find("acquisition") != json_file.end()) {
             auto& json_acq = json_file["acquisition"];
 
-            get_param(json_acq, "ref_voltage", acquisition_params_.ref_voltage_, 3300UL);
-            get_param(json_acq, "resolution", acquisition_params_.resolution_, 1023);
+            Tools::get_param(json_acq, "ref_voltage", acquisition_params_.ref_voltage_, 3300UL);
+            Tools::get_param(json_acq, "resolution", acquisition_params_.resolution_, 1023);
             if (json_acq.find("analog_switches") != json_acq.end()) {
                 auto array = json_acq["analog_switches"];
                 for (auto& item : array) {
                     AcquisitionParameters::AnalogDoubleSwitch aswitch;
-                    get_param(item, "name", aswitch.chan_id, analogport_value_map);
-                    get_param(item, "low_id", aswitch.low_id, inport_value_map);
-                    get_param(item, "high_id", aswitch.high_id, inport_value_map);
-                    get_param(item, "no_ref_voltage", aswitch.no_ref_voltage_, 3300UL);
-                    get_param(item, "high_ref_voltage", aswitch.high_ref_voltage_, 1820UL);
-                    get_param(item, "low_ref_voltage", aswitch.low_ref_voltage_, 1340UL);
-                    get_param(item, "both_ref_voltage", aswitch.both_ref_voltage_, 1010UL);
-                    get_param(item, "delta", aswitch.delta_, 150U);
+                    Tools::get_param(item, "name", aswitch.chan_id, analogport_value_map);
+                    Tools::get_param(item, "low_id", aswitch.low_id, inport_value_map);
+                    Tools::get_param(item, "high_id", aswitch.high_id, inport_value_map);
+                    Tools::get_param(item, "no_ref_voltage", aswitch.no_ref_voltage_, 3300UL);
+                    Tools::get_param(item, "high_ref_voltage", aswitch.high_ref_voltage_, 1820UL);
+                    Tools::get_param(item, "low_ref_voltage", aswitch.low_ref_voltage_, 1340UL);
+                    Tools::get_param(item, "both_ref_voltage", aswitch.both_ref_voltage_, 1010UL);
+                    Tools::get_param(item, "delta", aswitch.delta_, 150U);
                     acquisition_params_.analog_double_switches_.push_back(aswitch);
                 }
             }
@@ -127,9 +127,9 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
                 auto array = json_acq["digitalin"];
                 for (auto& item : array) {
                     AcquisitionParameters::DigitalIOInput input;
-                    get_param(item, "name", input.chan_id, inport_value_map);
-                    get_param(item, "active_state_high", input.active_state_high_);
-                    get_param(item, "debounce_time_ms", input.debounce_time_ms_);
+                    Tools::get_param(item, "name", input.chan_id, inport_value_map);
+                    Tools::get_param(item, "active_state_high", input.active_state_high_);
+                    Tools::get_param(item, "debounce_time_ms", input.debounce_time_ms_);
                     acquisition_params_.digital_inputs_.push_back(input);
                 }
             }
@@ -137,9 +137,9 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
                 auto array = json_acq["digitalout"];
                 for (auto& item : array) {
                     AcquisitionParameters::DigitalIOOutput output;
-                    get_param(item, "name", output.chan_id, outport_value_map);
-                    get_param(item, "active_state_high", output.active_state_high_);
-                    get_param(item, "default_state", output.default_state_);
+                    Tools::get_param(item, "name", output.chan_id, outport_value_map);
+                    Tools::get_param(item, "active_state_high", output.active_state_high_);
+                    Tools::get_param(item, "default_state", output.default_state_);
                     acquisition_params_.digital_outputs_.push_back(output);
                 }
             }
@@ -147,8 +147,8 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
                 auto array = json_acq["counters"];
                 for (auto& item : array) {
                     AcquisitionParameters::Counter counter;
-                    get_param(item, "name", counter.chan_id, counterport_value_map);
-                    get_param(item, "ratio", counter.ratio_);
+                    Tools::get_param(item, "name", counter.chan_id, counterport_value_map);
+                    Tools::get_param(item, "ratio", counter.ratio_);
                     acquisition_params_.counters_.push_back(counter);
                 }
             }
@@ -156,20 +156,20 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
                 auto array = json_acq["analog_channels"];
                 for (auto& item : array) {
                     AcquisitionParameters::Analog analog;
-                    get_param(item, "name", analog.chan_id, analogport_value_map);
-                    get_param(item, "conversion", analog.conversion, conversion_value_map);
+                    Tools::get_param(item, "name", analog.chan_id, analogport_value_map);
+                    Tools::get_param(item, "conversion", analog.conversion, conversion_value_map);
                     switch (analog.conversion) {
                         case CURRENT:
-                            get_param(item, "resistance", analog.parameter.resistance);
+                            Tools::get_param(item, "resistance", analog.parameter.resistance);
                             break;
                         case RESISTANCE:
-                            get_param(item, "current", analog.parameter.current);
+                            Tools::get_param(item, "current", analog.parameter.current);
                             break;
                         case VOLTAGE:
                             break;
                         case MAPPING:
                             std::string map_path;
-                            get_param(item, "mapping", map_path);
+                            Tools::get_param(item, "mapping", map_path);
                             read_conv_table(map_path, analog.table);
                             break;
                     }

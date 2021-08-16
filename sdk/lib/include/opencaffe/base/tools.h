@@ -5,6 +5,7 @@
 #include "opencaffe/base/common_types.h"
 #include <forward_list>
 #include <type_traits>
+#include <nlohmann/json.hpp>
 
 namespace OpenCaffe {
 namespace Tools {
@@ -87,6 +88,33 @@ template <typename E>
 constexpr auto to_value(E e) noexcept
 {
     return static_cast<std::underlying_type_t<E>>(e);
+}
+
+template<typename Ta, typename Tb>
+void get_param(nlohmann::json &j, std::string key, Ta &param, Tb def_value) {
+    if (j.find(key) != j.end()) {
+        param = j[key].get<Ta>();
+    } else {
+        param = (Ta)def_value;
+    }
+}
+
+template<typename T>
+void get_param(nlohmann::json &j, std::string key, T &param) {
+    if (j.find(key) != j.end()) {
+        param = j[key].get<T>();
+    } else {
+        throw std::runtime_error("No param " + key + " found!");
+    }
+}
+
+template<typename T, typename E>
+void get_param(nlohmann::json &j, std::string key, T &param, ValueStringMap<E> &mapping) {
+    if (j.find(key) != j.end()) {
+        param = (T)(mapping.from_string(j[key].get<std::string>()));
+    } else {
+        throw std::runtime_error("No param " + key + " found!");
+    }
 }
 
 } //namespace Tools
