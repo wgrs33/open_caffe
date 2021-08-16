@@ -116,6 +116,10 @@ typedef enum {
     MAPPING = 3U
 }T_ConversionType;
 
+typedef enum {
+    AnalogSwitchID = 250U
+}T_ConstantDefines;
+
 } //namespace OpenCaffe
 
 #endif //_OPENCAFFE_H

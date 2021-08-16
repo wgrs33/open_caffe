@@ -182,6 +182,9 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
             size_t analog_channel_size = Tools::get_param_highest_id(acquisition_params_.analog_channels_);
             size_t analog_switches_size = Tools::get_param_highest_id(acquisition_params_.analog_double_switches_);
             analogs_.resize((analog_switches_size > analog_channel_size) ? analog_switches_size : analog_channel_size);
+            for (auto &aswitch : acquisition_params_.analog_double_switches_) {
+                analogs_.register_value(aswitch.chan_id, T_ConstantDefines::AnalogSwitchID);
+            }
         }
     } else {
         throw std::runtime_error("No config file " + cfg_path + " was found!");

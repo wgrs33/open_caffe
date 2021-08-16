@@ -32,6 +32,7 @@ public:
         if (channel < analogs_.size()) {
             // check if the channel is registered as standard analog channel
             // do what is needed here
+            value = analogs_[channel];
             return 0;
         } else {
             return 1;
@@ -54,7 +55,8 @@ public:
     /* Service info */
     T_SystemStatus E_systemStatus;
 
-    // MidAcquisition parameters
+private:
+    // Acquisition parameters
     struct AcquisitionParameters {
         struct AnalogDoubleSwitch : public BaseParam {
             uint8_t  low_id; // switch id for low resistance
@@ -96,14 +98,15 @@ public:
         std::vector<Counter> counters_;
     } acquisition_params_;
 
-private:
     template<typename T>
     class RegisteredValue {
     public:
-        RegisteredValue() {}
-        RegisteredValue(int size) {
-            registration_.resize(size);
-            values_.resize(size);
+        RegisteredValue(std::string name = std::string("")) : 
+        size_(0), name_(name) {}
+        RegisteredValue(int size, std::string name = std::string("")) :
+        size_(size), name_(name) {
+            registration_.resize(size_);
+            values_.resize(size_);
         }
 
         ~RegisteredValue() {}
@@ -123,11 +126,11 @@ private:
                 if (registration_[i] == 0) {
                     registration_[i] = (id + 1);
                 } else {
-                    throw std::runtime_error("The value (id: " + std::to_string(i) + ") has been registered by other part(ID: " 
+                    throw std::runtime_error("[" + name_ + "] The value (id: " + std::to_string(i) + ") has been registered by other part(ID: " 
                                             + std::to_string(registration_[i])+ ")!");
                 }
             } else {
-                throw std::runtime_error("Index (id: " + std::to_string(i) + ") out of bound!");
+                throw std::runtime_error("[" + name_ + "] Index (id: " + std::to_string(i) + ") out of bound!");
             }
         }
 
@@ -136,10 +139,10 @@ private:
                 if (registration_[i] > 0) {
                     return values_[i];
                 } else {
-                    throw std::runtime_error("The value (id: " + std::to_string(i) + ") hasn't been registered!");
+                    throw std::runtime_error("[" + name_ + "] The value (id: " + std::to_string(i) + ") hasn't been registered!");
                 }
             } else {
-                throw std::runtime_error("Index (id: " + std::to_string(i) + ") out of bound!");
+                throw std::runtime_error("[" + name_ + "] Index (id: " + std::to_string(i) + ") out of bound!");
             }
         }
 
@@ -148,10 +151,10 @@ private:
                 if (registration_[i] > 0) {
                     return values_[i];
                 } else {
-                    throw std::runtime_error("The value (id: " + std::to_string(i) + ") hasn't been registered!");
+                    throw std::runtime_error("[" + name_ + "] The value (id: " + std::to_string(i) + ") hasn't been registered!");
                 }
             } else {
-                throw std::runtime_error("Index (id: " + std::to_string(i) + ") out of bound!");
+                throw std::runtime_error("[" + name_ + "] Index (id: " + std::to_string(i) + ") out of bound!");
             }
         }
 
@@ -159,13 +162,14 @@ private:
         std::vector<uint8_t> registration_ {0};
         std::vector<T> values_;
         size_t size_;
+        std::string name_;
     };
 
     std::queue<DataPacket> packet_buffer_;
-    RegisteredValue<uint8_t> inputs_;
-    RegisteredValue<uint8_t> outputs_;
-    RegisteredValue<uint32_t> analogs_;
-    RegisteredValue<uint32_t> counters_;
+    RegisteredValue<uint8_t> inputs_{"Inputs"};
+    RegisteredValue<uint8_t> outputs_{"Outputs"};
+    RegisteredValue<uint32_t> analogs_{"Analogs"};
+    RegisteredValue<uint32_t> counters_{"Counters"};
     std::unique_ptr<OpenCaffe::logger> logger_;
 
     int decode(DataPacket &data);
