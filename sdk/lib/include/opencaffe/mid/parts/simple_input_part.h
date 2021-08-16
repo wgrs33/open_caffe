@@ -43,21 +43,11 @@ private:
     std::shared_ptr<OpenCaffeObject> opencaffeobject_;
 };
 
-class Door : public SimpleInputPart {
-    Door(std::shared_ptr<OpenCaffeObject> &oco) : SimpleInputPart(Type::Presence, T_Part::E_Door, oco) {}
-};
+typedef SimpleInputPart Drawer;
+typedef SimpleInputPart Door;
+typedef SimpleInputPart BeanContainer;
+typedef SimpleInputPart WaterTank;
 
-class WaterTank : public SimpleInputPart {
-    WaterTank(std::shared_ptr<OpenCaffeObject> &oco) : SimpleInputPart(Type::Presence_Empty, T_Part::E_WaterTank, oco) {}
-};
-
-template<uint8_t ID>
-class Drawer : public SimpleInputPart {
-    Drawer(std::shared_ptr<OpenCaffeObject> &oco) : SimpleInputPart(Type::Presence_Full, ID, oco) {}
-};
-
-typedef Drawer<T_Part::E_DripDrawer> DripDrawer;
-typedef Drawer<T_Part::E_DregDrawer> DregDrawer;
 
 
 } //namespace OpenCaffe
