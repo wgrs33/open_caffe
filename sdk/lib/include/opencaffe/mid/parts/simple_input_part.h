@@ -18,7 +18,7 @@ public:
         All
     };
 
-    SimpleInputPart(Type type, uint8_t id, std::shared_ptr<OpenCaffeObject> &oco);
+    SimpleInputPart(Type type, T_Part id, std::shared_ptr<OpenCaffeObject> &oco);
     ~SimpleInputPart();
     
     int init();
@@ -33,7 +33,7 @@ private:
     int check_status();
     int update_inputs();
     Type type_;
-    uint8_t id_;
+    T_Part id_;
     std::unique_ptr<InputDevice> full_;
     std::unique_ptr<InputDevice> present_;
     std::unique_ptr<InputDevice> empty_;

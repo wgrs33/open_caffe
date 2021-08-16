@@ -3,8 +3,8 @@
 
 namespace OpenCaffe {
 
-SimpleOutputPart::SimpleOutputPart(Type type, uint8_t id, std::shared_ptr<OpenCaffeObject> &oco) :
-Base(name_map_part[(T_Part)id]),
+SimpleOutputPart::SimpleOutputPart(Type type, T_Part id, std::shared_ptr<OpenCaffeObject> &oco) :
+Base(name_map_part[id]),
 id_(id),
 opencaffeobject_(oco),
 type_(type) {}
@@ -13,9 +13,9 @@ SimpleOutputPart::~SimpleOutputPart() {}
 
 int SimpleOutputPart::init() {
     set_log_level(LOG_DEBUG);
-    std::vector<T_DigitalOutPort> vec = output_map_parts[(T_Part)id_];
+    std::vector<T_DigitalOutPort> vec = output_map_parts[id_];
     if (vec.size() == 0)
-        throw std::logic_error("Part id: " + std::to_string((T_Part)id_) + " can't be set to SimpleOutputPart object");
+        throw std::logic_error("Part id: " + std::to_string(id_) + " can't be set to SimpleOutputPart object");
     using namespace std::placeholders;
     switch (type_) {
         case Type::DoubleOut:
