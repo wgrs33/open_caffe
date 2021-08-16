@@ -15,7 +15,9 @@ typedef enum {
     MILK_CONTAINER_POSITION = 9U,
     CAPPUCCINATORE_POSITION = 10U,
     MULTIVALVE_POSITION = 11U,
-    LIFTER_POSITION = 12U
+    LIFTER_POSITION = 12U,
+
+    ANALOG_MAX = 13U
 
 }T_AnalogPort;
 
@@ -46,7 +48,9 @@ typedef enum {
     LIFTER_TOP = 25U,
 
     LIFTER_UP_BUTTON = 26U,
-    LIFTER_DOWN_BUTTON = 27U
+    LIFTER_DOWN_BUTTON = 27U,
+
+    DIGITAL_IN_MAX = 28U
 
 }T_DigitalInPort;
 
@@ -104,6 +108,13 @@ typedef enum {
     CGRINDER_DUO = 3U,
     PHASE = 4U
 }T_CounterPort;
+
+typedef enum {
+    CURRENT = 0U,
+    RESISTANCE = 1U,
+    VOLTAGE = 2U,
+    MAPPING = 3U
+}T_ConversionType;
 
 } //namespace OpenCaffe
 

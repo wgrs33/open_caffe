@@ -2,17 +2,17 @@
   "acquisition" : {
     "ref_voltage" : 3300,
     "resolution" : 1023,
-    "brew_ohm_resolution" : 1,
-    "temp_table" : "/home/pwagner/qtcreator-workspace/open_caffe/sdk/config_files/temperature_sensors/ntc.cfg",
-    "steam_used" : false,
     "analog_channels" : [
       {
         "name" : "TEMP_HEATER",
-        "convertion" : "temp_ntc"
+        "conversion" : "MAPPING",
+        "mapping" : "/home/pwagner/qtcreator-workspace/open_caffe/sdk/config_files/temperature_sensors/ntc.cfg"
       },
       {
         "name" : "BREW_UNIT_CURRENT",
-        "convertion" : "current_1"
+        "conversion" : "CURRENT",
+        "resistance" : 1,
+        "offset" : 0
       }
     ],
     "analog_switches" : [

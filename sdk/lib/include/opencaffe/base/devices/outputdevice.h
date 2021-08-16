@@ -13,7 +13,7 @@ public:
         ON
     };
 
-    OutputDevice(uint8_t id, std::function<int(uint8_t, uint8_t)> fptr, State default_state = State::OFF) :
+    OutputDevice(uint8_t id, std::function<int(uint8_t, bool)> fptr, State default_state = State::OFF) :
     Device(id), fptr_(fptr), write_state_(default_state) {}
     ~OutputDevice() {}
 
@@ -43,9 +43,9 @@ public:
         }
     }
 private:
-    int value (State s) {
-        if (s == State::ON) return 1;
-        return 0;
+    bool value (State s) {
+        if (s == State::ON) return true;
+        return false;
     }
     State write_state_;
     std::function<int(uint8_t, uint8_t)> fptr_;

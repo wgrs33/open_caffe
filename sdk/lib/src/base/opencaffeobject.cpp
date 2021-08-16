@@ -1,7 +1,6 @@
-#include "opencaffe/base/communication_layer.h"
+#include "opencaffe/base/opencaffeobject.h"
 #include "opencaffe/base/tools.h"
 #include "opencaffe/opencaffe.h"
-#include <map>
 
 namespace OpenCaffe {
 
@@ -92,6 +91,12 @@ ValueStringMap<T_CounterPort> counterport_value_map("T_CounterPort string mappin
     {PHASE, "PHASE"}
 });
 
+ValueStringMap<T_ConversionType> conversion_value_map("T_ConversionType string mapping", {
+    {CURRENT, "CURRENT"},
+    {RESISTANCE, "RESISTANCE"},
+    {VOLTAGE, "VOLTAGE"},
+    {MAPPING, "MAPPING"}
+});
 
 void OpenCaffeObject::read_cfg(const std::string cfg_path) {
     std::ifstream cfg_file(cfg_path);
@@ -103,13 +108,10 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
 
             get_param(json_acq, "ref_voltage", acquisition_params_.ref_voltage_, 3300UL);
             get_param(json_acq, "resolution", acquisition_params_.resolution_, 1023);
-            get_param(json_acq, "brew_ohm_resolution", acquisition_params_.brew_ohm_resolution_, 1U);
-            get_param(json_acq, "temp_table", acquisition_params_.temp_table_, std::string());
-            get_param(json_acq, "steam_used", acquisition_params_.steam_used_, false);
             if (json_acq.find("analog_switches") != json_acq.end()) {
                 auto array = json_acq["analog_switches"];
                 for (auto& item : array) {
-                    MidAcquisitionParameters::AnalogDoubleSwitch aswitch;
+                    AcquisitionParameters::AnalogDoubleSwitch aswitch;
                     get_param(item, "name", aswitch.chan_id, analogport_value_map);
                     get_param(item, "low_id", aswitch.low_id, inport_value_map);
                     get_param(item, "high_id", aswitch.high_id, inport_value_map);
@@ -118,44 +120,60 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
                     get_param(item, "low_ref_voltage", aswitch.low_ref_voltage_, 1340UL);
                     get_param(item, "both_ref_voltage", aswitch.both_ref_voltage_, 1010UL);
                     get_param(item, "delta", aswitch.delta_, 150U);
-                    acquisition_params_.analog_double_switches_.push_front(aswitch);
+                    acquisition_params_.analog_double_switches_.push_back(aswitch);
                 }
             }
             if (json_acq.find("digitalin") != json_acq.end()) {
                 auto array = json_acq["digitalin"];
                 for (auto& item : array) {
-                    MidAcquisitionParameters::DigitalIOInput input;
+                    AcquisitionParameters::DigitalIOInput input;
                     get_param(item, "name", input.chan_id, inport_value_map);
                     get_param(item, "active_state_high", input.active_state_high_);
                     get_param(item, "debounce_time_ms", input.debounce_time_ms_);
-                    acquisition_params_.digital_inputs_.push_front(input);
+                    acquisition_params_.digital_inputs_.push_back(input);
                 }
             }
             if (json_acq.find("digitalout") != json_acq.end()) {
                 auto array = json_acq["digitalout"];
                 for (auto& item : array) {
-                    MidAcquisitionParameters::DigitalIOOutput output;
+                    AcquisitionParameters::DigitalIOOutput output;
                     get_param(item, "name", output.chan_id, outport_value_map);
                     get_param(item, "active_state_high", output.active_state_high_);
                     get_param(item, "default_state", output.default_state_);
-                    acquisition_params_.digital_outputs_.push_front(output);
+                    acquisition_params_.digital_outputs_.push_back(output);
                 }
             }
             if (json_acq.find("counters") != json_acq.end()) {
                 auto array = json_acq["counters"];
                 for (auto& item : array) {
-                    MidAcquisitionParameters::Counter counter;
+                    AcquisitionParameters::Counter counter;
                     get_param(item, "name", counter.chan_id, counterport_value_map);
                     get_param(item, "ratio", counter.ratio_);
-                    acquisition_params_.counters_.push_front(counter);
+                    acquisition_params_.counters_.push_back(counter);
                 }
             }
             if (json_acq.find("analog_channels") != json_acq.end()) {
                 auto array = json_acq["analog_channels"];
                 for (auto& item : array) {
-                    MidAcquisitionParameters::Analog analog;
+                    AcquisitionParameters::Analog analog;
                     get_param(item, "name", analog.chan_id, analogport_value_map);
-                    acquisition_params_.analog_channels_.push_front(analog);
+                    get_param(item, "conversion", analog.conversion, conversion_value_map);
+                    switch (analog.conversion) {
+                        case CURRENT:
+                            get_param(item, "resistance", analog.parameter.resistance);
+                            break;
+                        case RESISTANCE:
+                            get_param(item, "current", analog.parameter.current);
+                            break;
+                        case VOLTAGE:
+                            break;
+                        case MAPPING:
+                            std::string map_path;
+                            get_param(item, "mapping", map_path);
+                            read_conv_table(map_path, analog.table);
+                            break;
+                    }
+                    acquisition_params_.analog_channels_.push_back(analog);
                 }
             }
             inputs_.resize(Tools::get_param_highest_id(acquisition_params_.digital_inputs_));
@@ -168,9 +186,14 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
     } else {
         throw std::runtime_error("No config file " + cfg_path + " was found!");
     }
+    log(LOG_DEBUG) << "analog_channels: " << acquisition_params_.analog_channels_.size() << std::endl;
+    log(LOG_DEBUG) << "analog_switches: " << acquisition_params_.analog_double_switches_.size() << std::endl;
+    log(LOG_DEBUG) << "digital_inputs_: " << acquisition_params_.digital_inputs_.size() << std::endl;
+    log(LOG_DEBUG) << "digital_outputs: " << acquisition_params_.digital_outputs_.size() << std::endl;
+    log(LOG_DEBUG) << "counters: " << acquisition_params_.counters_.size() << std::endl;
 }
 
-int OpenCaffeObject::get_input(uint8_t channel, uint8_t &state) {
+int OpenCaffeObject::get_input(uint8_t channel, bool &state) {
     if (channel < inputs_.size()) {
         state = inputs_[channel];
     } else {
@@ -179,7 +202,7 @@ int OpenCaffeObject::get_input(uint8_t channel, uint8_t &state) {
     return 0;
 }
 
-int OpenCaffeObject::get_output(uint8_t channel, uint8_t &state) {
+int OpenCaffeObject::get_output(uint8_t channel, bool &state) {
     if (channel < outputs_.size()) {
         state = outputs_[channel];
     } else {
@@ -188,27 +211,9 @@ int OpenCaffeObject::get_output(uint8_t channel, uint8_t &state) {
     return 0;
 }
 
-int OpenCaffeObject::set_output(uint8_t channel, uint8_t state) {
+int OpenCaffeObject::set_output(uint8_t channel, bool state) {
     if (channel < outputs_.size()) {
         outputs_[channel] = state;
-    } else {
-        return 1;
-    }
-    return 0;
-}
-
-int OpenCaffeObject::get_analog(uint8_t channel, uint32_t &value) {
-    if (channel < analogs_.size()) {
-        value = analogs_[channel];
-    } else {
-        return 1;
-    }
-    return 0;
-}
-
-int OpenCaffeObject::get_counter(uint8_t channel, uint32_t &value) {
-    if (channel < counters_.size()) {
-        value = counters_[channel];
     } else {
         return 1;
     }
@@ -229,6 +234,68 @@ int OpenCaffeObject::decode(DataPacket &data) {
 
 int OpenCaffeObject::encode(DataPacket &data) {
     data = DataPacket();
+    return 0;
+}
+
+int OpenCaffeObject::update_inputs() {
+    int err = 0;
+    bool state = false;
+    
+    for (auto& input : acquisition_params_.digital_inputs_) {
+        if(get_input(input.chan_id, state) == 0) {
+            if(state == input.active_state_high_) {
+                inputs_[input.chan_id] = E_SWITCH_STATE_CLOSED;
+            } else {
+                inputs_[input.chan_id] = E_SWITCH_STATE_OPENED;
+            }
+        } else {
+            inputs_[input.chan_id] = E_SWITCH_STATE_OOR;
+            err = 1;
+            log(LOG_ERR) << __PRETTY_FUNCTION__ << " code : " << err << " channel: " << input.chan_id << std::endl;
+        }
+    }
+    if (update_analog_switches() != 0) err |= 2;
+
+    return err;
+}
+
+int OpenCaffeObject::update_analog_switches() {
+    uint32_t channel_val = 0;
+
+    for (auto& aswitch : acquisition_params_.analog_double_switches_) {
+       if (get_analog(aswitch.chan_id, channel_val) == 0) {
+            uint32_t voltage = (acquisition_params_.ref_voltage_ * channel_val) / 
+                                acquisition_params_.resolution_;
+            if (voltage > (aswitch.no_ref_voltage_ - aswitch.delta_))
+            {
+                inputs_[aswitch.high_id] = E_SWITCH_STATE_OPENED;
+                inputs_[aswitch.low_id]  = E_SWITCH_STATE_OPENED;
+            }
+            else if (voltage > (aswitch.high_ref_voltage_ - aswitch.delta_))
+            {
+                inputs_[aswitch.high_id] = E_SWITCH_STATE_OPENED;
+                inputs_[aswitch.low_id]  = E_SWITCH_STATE_CLOSED;
+            }
+            else if (voltage > (aswitch.low_ref_voltage_ - aswitch.delta_))
+            {
+                inputs_[aswitch.high_id] = E_SWITCH_STATE_CLOSED;
+                inputs_[aswitch.low_id]  = E_SWITCH_STATE_OPENED;
+            }
+            else if (voltage > (aswitch.no_ref_voltage_ - aswitch.delta_))
+            {
+                inputs_[aswitch.high_id] = E_SWITCH_STATE_CLOSED;
+                inputs_[aswitch.low_id]  = E_SWITCH_STATE_CLOSED;
+            }
+            else
+            {
+                inputs_[aswitch.high_id] = E_SWITCH_STATE_OOR;
+                inputs_[aswitch.low_id]  = E_SWITCH_STATE_OOR;
+            }
+       } else {
+           inputs_[aswitch.high_id] = E_SWITCH_STATE_OOR;
+           inputs_[aswitch.low_id]  = E_SWITCH_STATE_OOR;
+       }
+    }
     return 0;
 }
 
