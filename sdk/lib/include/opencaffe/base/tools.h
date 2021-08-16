@@ -38,7 +38,7 @@ template <class Container>
 size_t get_param_highest_id(Container &acont) {
     uint8_t highest_id = 0;
     for (auto& item : acont) {
-        BaseParam &param = static_cast<BaseParam&>(item);
+        Common::BaseParam &param = static_cast<Common::BaseParam&>(item);
         if (param.chan_id > highest_id) highest_id = param.chan_id;
     }
     return highest_id + 1;
@@ -109,7 +109,7 @@ void get_param(nlohmann::json &j, std::string key, T &param) {
 }
 
 template<typename T, typename E>
-void get_param(nlohmann::json &j, std::string key, T &param, ValueStringMap<E> &mapping) {
+void get_param(nlohmann::json &j, std::string key, T &param, Common::ValueStringMap<E> &mapping) {
     if (j.find(key) != j.end()) {
         param = (T)(mapping.from_string(j[key].get<std::string>()));
     } else {

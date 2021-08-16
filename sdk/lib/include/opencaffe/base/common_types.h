@@ -24,6 +24,7 @@
 #define FALSE   0
 
 namespace OpenCaffe {
+namespace Common {
 
 typedef enum
 {
@@ -130,6 +131,8 @@ private:
     const std::vector<std::pair<const Value, const std::string>> values_strings_;
 };
 
-}
+} //namespace Common
+
+} //namespace OpenCaffe
 
 #endif /* _OPENCAFFE_OPENCAFFE_COMMON_BASE_TYPES_H_ */

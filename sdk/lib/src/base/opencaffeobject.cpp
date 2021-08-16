@@ -4,7 +4,7 @@
 
 namespace OpenCaffe {
 
-ValueStringMap<T_AnalogPort> analogport_value_map("T_AnalogPort string mapping", {
+Common::ValueStringMap<T_AnalogPort> analogport_value_map("T_AnalogPort string mapping", {
     {TEMP_HEATER, "TEMP_HEATER"},
     {TEMP_STEAM_HEATER, "TEMP_STEAM_HEATER"},
     {BREW_UNIT_CURRENT, "BREW_UNIT_CURRENT"},
@@ -17,7 +17,7 @@ ValueStringMap<T_AnalogPort> analogport_value_map("T_AnalogPort string mapping",
     {LIFTER_POSITION, "LIFTER_POSITION"}
 });
 
-ValueStringMap<T_DigitalInPort> inport_value_map("T_DigitalInPort string mapping", {
+Common::ValueStringMap<T_DigitalInPort> inport_value_map("T_DigitalInPort string mapping", {
     {BREW_UNIT_PRESENT, "BREW_UNIT_PRESENT"},
     {WATERTANK_PRESENT, "WATERTANK_PRESENT"},
     {WATERTANK_EMPTY, "WATERTANK_EMPTY"},
@@ -44,7 +44,7 @@ ValueStringMap<T_DigitalInPort> inport_value_map("T_DigitalInPort string mapping
     {LIFTER_DOWN_BUTTON, "LIFTER_DOWN_BUTTON"}
 });
 
-ValueStringMap<T_DigitalOutPort> outport_value_map("T_DigitalOutPort string mapping", {
+Common::ValueStringMap<T_DigitalOutPort> outport_value_map("T_DigitalOutPort string mapping", {
     {LED, "LED"},
     {ELECTROMAGNET, "ELECTROMAGNET"},
     {GRINDER, "GRINDER"},
@@ -83,7 +83,7 @@ ValueStringMap<T_DigitalOutPort> outport_value_map("T_DigitalOutPort string mapp
     {SBS_I1, "SBS_I1"}
 });
 
-ValueStringMap<T_CounterPort> counterport_value_map("T_CounterPort string mapping", {
+Common::ValueStringMap<T_CounterPort> counterport_value_map("T_CounterPort string mapping", {
     {FLOWMETER_MAIN, "FLOWMETER_MAIN"},
     {FLOWMETER_STEAM, "FLOWMETER_STEAM"},
     {CGRINDER, "CGRINDER"},
@@ -91,7 +91,7 @@ ValueStringMap<T_CounterPort> counterport_value_map("T_CounterPort string mappin
     {PHASE, "PHASE"}
 });
 
-ValueStringMap<T_ConversionType> conversion_value_map("T_ConversionType string mapping", {
+Common::ValueStringMap<T_ConversionType> conversion_value_map("T_ConversionType string mapping", {
     {CURRENT, "CURRENT"},
     {RESISTANCE, "RESISTANCE"},
     {VOLTAGE, "VOLTAGE"},
@@ -247,12 +247,12 @@ int OpenCaffeObject::update_inputs() {
     for (auto& input : acquisition_params_.digital_inputs_) {
         if(get_input(input.chan_id, state) == 0) {
             if(state == input.active_state_high_) {
-                inputs_[input.chan_id] = E_SWITCH_STATE_CLOSED;
+                inputs_[input.chan_id] = Common::T_SwitchState::E_SWITCH_STATE_CLOSED;
             } else {
-                inputs_[input.chan_id] = E_SWITCH_STATE_OPENED;
+                inputs_[input.chan_id] = Common::T_SwitchState::E_SWITCH_STATE_OPENED;
             }
         } else {
-            inputs_[input.chan_id] = E_SWITCH_STATE_OOR;
+            inputs_[input.chan_id] = Common::T_SwitchState::E_SWITCH_STATE_OOR;
             err = 1;
             log(LOG_ERR) << __PRETTY_FUNCTION__ << " code : " << err << " channel: " << input.chan_id << std::endl;
         }
@@ -271,32 +271,32 @@ int OpenCaffeObject::update_analog_switches() {
                                 acquisition_params_.resolution_;
             if (voltage > (aswitch.no_ref_voltage_ - aswitch.delta_))
             {
-                inputs_[aswitch.high_id] = E_SWITCH_STATE_OPENED;
-                inputs_[aswitch.low_id]  = E_SWITCH_STATE_OPENED;
+                inputs_[aswitch.high_id] = Common::T_SwitchState::E_SWITCH_STATE_OPENED;
+                inputs_[aswitch.low_id]  = Common::T_SwitchState::E_SWITCH_STATE_OPENED;
             }
             else if (voltage > (aswitch.high_ref_voltage_ - aswitch.delta_))
             {
-                inputs_[aswitch.high_id] = E_SWITCH_STATE_OPENED;
-                inputs_[aswitch.low_id]  = E_SWITCH_STATE_CLOSED;
+                inputs_[aswitch.high_id] = Common::T_SwitchState::E_SWITCH_STATE_OPENED;
+                inputs_[aswitch.low_id]  = Common::T_SwitchState::E_SWITCH_STATE_CLOSED;
             }
             else if (voltage > (aswitch.low_ref_voltage_ - aswitch.delta_))
             {
-                inputs_[aswitch.high_id] = E_SWITCH_STATE_CLOSED;
-                inputs_[aswitch.low_id]  = E_SWITCH_STATE_OPENED;
+                inputs_[aswitch.high_id] = Common::T_SwitchState::E_SWITCH_STATE_CLOSED;
+                inputs_[aswitch.low_id]  = Common::T_SwitchState::E_SWITCH_STATE_OPENED;
             }
             else if (voltage > (aswitch.no_ref_voltage_ - aswitch.delta_))
             {
-                inputs_[aswitch.high_id] = E_SWITCH_STATE_CLOSED;
-                inputs_[aswitch.low_id]  = E_SWITCH_STATE_CLOSED;
+                inputs_[aswitch.high_id] = Common::T_SwitchState::E_SWITCH_STATE_CLOSED;
+                inputs_[aswitch.low_id]  = Common::T_SwitchState::E_SWITCH_STATE_CLOSED;
             }
             else
             {
-                inputs_[aswitch.high_id] = E_SWITCH_STATE_OOR;
-                inputs_[aswitch.low_id]  = E_SWITCH_STATE_OOR;
+                inputs_[aswitch.high_id] = Common::T_SwitchState::E_SWITCH_STATE_OOR;
+                inputs_[aswitch.low_id]  = Common::T_SwitchState::E_SWITCH_STATE_OOR;
             }
        } else {
-           inputs_[aswitch.high_id] = E_SWITCH_STATE_OOR;
-           inputs_[aswitch.low_id]  = E_SWITCH_STATE_OOR;
+           inputs_[aswitch.high_id] = Common::T_SwitchState::E_SWITCH_STATE_OOR;
+           inputs_[aswitch.low_id]  = Common::T_SwitchState::E_SWITCH_STATE_OOR;
        }
     }
     return 0;

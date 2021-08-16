@@ -52,12 +52,12 @@ public:
     int transfer_packet(DataPacket &data);
 
     /* Service info */
-    T_SystemStatus E_systemStatus;
+    Common::T_SystemStatus E_systemStatus;
 
 private:
     // Acquisition parameters
     struct AcquisitionParameters {
-        struct AnalogDoubleSwitch : public BaseParam {
+        struct AnalogDoubleSwitch : public Common::BaseParam {
             uint8_t  low_id; // switch id for low resistance
             uint8_t  high_id; // switch id for high resistance
             uint32_t no_ref_voltage_; //no switch reference voltage
@@ -66,18 +66,18 @@ private:
             uint32_t both_ref_voltage_; //both switches reference voltage
             uint32_t delta_; //voltage delta for switches
         };
-        struct DigitalIOInput : public BaseParam {
+        struct DigitalIOInput : public Common::BaseParam {
             bool active_state_high_; // is active state is high
             uint32_t debounce_time_ms_; // debouce time to consider signal as stable
         };
-        struct DigitalIOOutput : public BaseParam {
+        struct DigitalIOOutput : public Common::BaseParam {
             bool active_state_high_; // is active state is high
             bool default_state_; //default io state
         };
-        struct Counter : public BaseParam {
+        struct Counter : public Common::BaseParam {
             uint8_t ratio_;
         };
-        struct Analog : public BaseParam {
+        struct Analog : public Common::BaseParam {
             uint8_t conversion;
             union {
                 uint32_t resistance;
