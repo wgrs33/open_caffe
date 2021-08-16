@@ -20,26 +20,32 @@ int SimpleInputPart::init() {
     switch (type_) {
         case Type::Empty:
             empty_   = std::make_unique<InputDevice>(vec[1], std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            opencaffeobject_->connect_input_to_device(id_, {(uint8_t)vec[1]});
             break;
         case Type::Full:
             full_    = std::make_unique<InputDevice>(vec[2], std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            opencaffeobject_->connect_input_to_device(id_, {(uint8_t)vec[2]});
             break;
         default:
         case Type::Presence:
             present_ = std::make_unique<InputDevice>(vec[0], std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            opencaffeobject_->connect_input_to_device(id_, {(uint8_t)vec[0]});
             break;
         case Type::Presence_Empty:
             present_ = std::make_unique<InputDevice>(vec[0], std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
             empty_   = std::make_unique<InputDevice>(vec[1], std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            opencaffeobject_->connect_input_to_device(id_, {(uint8_t)vec[1], (uint8_t)vec[0]});
             break;
         case Type::Presence_Full:
             present_ = std::make_unique<InputDevice>(vec[0], std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
             full_    = std::make_unique<InputDevice>(vec[2], std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            opencaffeobject_->connect_input_to_device(id_, {(uint8_t)vec[0], (uint8_t)vec[2]});
             break;
         case Type::All:
             present_ = std::make_unique<InputDevice>(vec[0], std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
             empty_   = std::make_unique<InputDevice>(vec[1], std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
             full_    = std::make_unique<InputDevice>(vec[2], std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+            opencaffeobject_->connect_input_to_device(id_, {(uint8_t)vec[0], (uint8_t)vec[1], (uint8_t)vec[2]});
             break;
     }
     return 0;
