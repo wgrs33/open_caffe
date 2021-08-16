@@ -1,4 +1,5 @@
 #include "opencaffe/mid/parts/simple_output_part.h"
+#include "opencaffe/base/common_types.h"
 
 namespace OpenCaffe {
 
@@ -11,15 +12,18 @@ type_(type) {}
 SimpleOutputPart::~SimpleOutputPart() {}
 
 int SimpleOutputPart::init() {
+    std::vector<T_DigitalOutPort> vec = output_map_parts[(Common::T_Part)id_];
+    if (vec.size() == 0)
+        throw std::logic_error("Part id: " + std::to_string((Common::T_Part)id_) + " can't be set to SimpleOutputPart object");
     using namespace std::placeholders;
-    uint8_t id = 0;
-    //TODO get from oco proper id
     switch (type_) {
         case Type::DoubleOut:
-            out2_ = std::make_unique<OutputDevice>(id_, std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
+            out2_ = std::make_unique<OutputDevice>((uint8_t)vec[1], std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
+            opencaffeobject_->connect_output_to_device(id_, {(uint8_t)vec[1]});
         case Type::Simple:
         default:
-            out_  = std::make_unique<OutputDevice>(id_, std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
+            out_  = std::make_unique<OutputDevice>((uint8_t)vec[0], std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
+            opencaffeobject_->connect_output_to_device(id_, {(uint8_t)vec[0]});
         break;
     }
 }

@@ -22,6 +22,11 @@ public:
     }
     ~OpenCaffeObject() {}
 
+    void connect_input_to_device(uint8_t id, std::forward_list<uint8_t> list);
+    void connect_output_to_device(uint8_t id, std::forward_list<uint8_t> list);
+    void connect_analog_to_device(uint8_t id, std::forward_list<uint8_t> list);
+    void connect_counter_to_device(uint8_t id, std::forward_list<uint8_t> list);
+
     int get_input(uint8_t channel, bool &state);
     int get_output(uint8_t channel, bool &state);
     int set_output(uint8_t channel, bool state);

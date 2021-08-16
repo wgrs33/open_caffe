@@ -46,6 +46,7 @@ typedef enum
     E_Lifter,
     E_Multivalve,
     E_Pump,
+    E_SteamPump,
     E_Heater,
     E_SteamHeater,
     E_CupHeater,

@@ -1,6 +1,10 @@
 #ifndef _OPENCAFFE_H
 #define _OPENCAFFE_H
 
+#include <map>
+#include <vector>
+#include "opencaffe/base/common_types.h"
+
 namespace OpenCaffe {
 
 typedef enum {
@@ -97,7 +101,11 @@ typedef enum {
     SBS_PH1 = 32U,
     SBS_PH2 = 33U,
     SBS_I0 = 34U,
-    SBS_I1 = 35U
+    SBS_I1 = 35U,
+
+    MAIN_PUMP_N = 36U,
+    STEAM_PUMP_N = 37U
+
 
 }T_DigitalOutPort;
 
@@ -119,6 +127,11 @@ typedef enum {
 typedef enum {
     AnalogSwitchID = 250U
 }T_ConstantDefines;
+
+extern std::map<Common::T_Part, std::vector<T_DigitalOutPort>> output_map_parts;
+extern std::map<Common::T_Part, std::vector<T_DigitalInPort>> input_map_parts;
+extern std::map<Common::T_Part, std::vector<T_CounterPort>> counter_map_parts;
+extern std::map<Common::T_Part, std::vector<T_AnalogPort>> analog_map_parts;
 
 } //namespace OpenCaffe
 

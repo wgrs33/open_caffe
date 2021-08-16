@@ -4,6 +4,11 @@
 
 namespace OpenCaffe {
 
+std::map<Common::T_Part, std::vector<T_DigitalOutPort>> output_map_parts{
+    {Common::T_Part::E_Pump, {MAIN_PUMP, MAIN_PUMP_N}},
+    {Common::T_Part::E_SteamPump, {STEAM_PUMP, STEAM_PUMP_N}}
+};
+
 Common::ValueStringMap<T_AnalogPort> analogport_value_map("T_AnalogPort string mapping", {
     {TEMP_HEATER, "TEMP_HEATER"},
     {TEMP_STEAM_HEATER, "TEMP_STEAM_HEATER"},
@@ -301,6 +306,31 @@ int OpenCaffeObject::update_analog_switches() {
     }
     return 0;
 }
+
+void OpenCaffeObject::connect_input_to_device(uint8_t id, std::forward_list<uint8_t> list) {
+    for (auto item : list) {
+        inputs_.register_value(item, id);
+    }
+}
+
+void OpenCaffeObject::connect_output_to_device(uint8_t id, std::forward_list<uint8_t> list) {
+    for (auto item : list) {
+        outputs_.register_value(item, id);
+    }
+}
+
+void OpenCaffeObject::connect_analog_to_device(uint8_t id, std::forward_list<uint8_t> list) {
+    for (auto item : list) {
+        analogs_.register_value(item, id);
+    }
+}
+
+void OpenCaffeObject::connect_counter_to_device(uint8_t id, std::forward_list<uint8_t> list) {
+    for (auto item : list) {
+        counters_.register_value(item, id);
+    }
+}
+
 
 
 } //namespace OpenCaffe
