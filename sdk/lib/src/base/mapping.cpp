@@ -49,4 +49,28 @@ std::map<T_Part, std::vector<T_CounterPort>> counter_map_parts {
     {T_Part::E_PhaseChecker, { PHASE }}
 };
 
+std::map<T_Part, std::string> name_map_part {
+    {T_Part::E_Brew, "Brew"},
+    {T_Part::E_Cappuccinatore, "Cappuccinatore"},
+    {T_Part::E_Lifter, "Lifter"},
+    {T_Part::E_WaterControl, "WaterControl"},
+    {T_Part::E_Pump, "Pump"},
+    {T_Part::E_SteamPump, "SteamPump"},
+    {T_Part::E_Heater, "Heater"},
+    {T_Part::E_SteamHeater, "SteamHeater"},
+    {T_Part::E_CupHeater, "CupHeater"},
+    {T_Part::E_Flowmeter, "Flowmeter"},
+    {T_Part::E_SteamFlowmeter, "SteamFlowmeter"},
+    {T_Part::E_Grinder, "Grinder"},
+    {T_Part::E_GrinderDuo, "GrinderDuo"},
+    {T_Part::E_ElectroMagnet, "ElectroMagnet"},
+    {T_Part::E_LedLight, "LedLight"},
+    {T_Part::E_Door, "Door"},
+    {T_Part::E_DripDrawer, "DripDrawer"},
+    {T_Part::E_DregDrawer, "DregDrawer"},
+    {T_Part::E_WaterTank, "WaterTank"},
+    {T_Part::E_BeanContainer, "BeanContainer"},
+    {T_Part::E_PhaseChecker, "PhaseChecker"}
+};
+
 } //namespace OpenCaffe

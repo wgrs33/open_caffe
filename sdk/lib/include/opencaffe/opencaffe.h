@@ -146,6 +146,7 @@ extern std::map<T_Part, std::vector<T_DigitalOutPort>> output_map_parts;
 extern std::map<T_Part, std::vector<T_DigitalInPort>> input_map_parts;
 extern std::map<T_Part, std::vector<T_CounterPort>> counter_map_parts;
 extern std::map<T_Part, std::vector<T_AnalogPort>> analog_map_parts;
+extern std::map<T_Part, std::string> name_map_part;
 
 } //namespace OpenCaffe
 
