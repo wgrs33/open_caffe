@@ -19,12 +19,12 @@ int SimpleOutputPart::init() {
     using namespace std::placeholders;
     switch (type_) {
         case Type::DoubleOut:
-            out2_ = std::make_unique<OutputDevice>((uint8_t)vec[1], std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
-            opencaffeobject_->connect_output_to_device(id_, {(uint8_t)vec[1]});
+            out2_ = std::make_unique<OutputDevice>((uint8_t)vec.at(1), std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
+            opencaffeobject_->connect_output_to_device(id_, {(uint8_t)vec.at(1)});
         case Type::Simple:
         default:
-            out_  = std::make_unique<OutputDevice>((uint8_t)vec[0], std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
-            opencaffeobject_->connect_output_to_device(id_, {(uint8_t)vec[0]});
+            out_  = std::make_unique<OutputDevice>((uint8_t)vec.at(0), std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
+            opencaffeobject_->connect_output_to_device(id_, {(uint8_t)vec.at(0)});
         break;
     }
 }
