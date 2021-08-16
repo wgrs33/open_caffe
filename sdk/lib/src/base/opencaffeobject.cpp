@@ -167,11 +167,11 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
                             break;
                         case VOLTAGE:
                             break;
-                        case MAPPING:
+                        case MAPPING: {
                             std::string map_path;
                             Tools::get_param(item, "mapping", map_path);
                             read_conv_table(map_path, analog.table);
-                            break;
+                        } break;
                     }
                     acquisition_params_.analog_channels_.push_back(analog);
                 }

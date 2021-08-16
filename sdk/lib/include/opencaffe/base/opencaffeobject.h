@@ -29,13 +29,48 @@ public:
     template<typename T>
     int get_analog(uint8_t channel, T &value) {
         if (channel < analogs_.size()) {
-            // check if the channel is registered as standard analog channel
-            // do what is needed here
-            value = analogs_[channel];
-            return 0;
-        } else {
+            for (auto &analog : acquisition_params_.analog_channels_) {
+                if (analog.chan_id == channel) {
+                    if (analogs_.get_register_id(channel) == T_ConstantDefines::AnalogSwitchID) {
+                        throw std::runtime_error("Channel ID: " + std::to_string(channel) + " is used by an AnalogSwitch!");
+                    }
+                    switch (analog.conversion) {
+                        case CURRENT:
+                            value = (T)(((acquisition_params_.ref_voltage_ * analogs_[channel]) / 
+                                        (acquisition_params_.resolution_ * analog.parameter.resistance)) + 
+                                        analog.offset);
+                        break;
+                        case RESISTANCE:
+                            value = (T)(((acquisition_params_.ref_voltage_ * analogs_[channel]) / 
+                                        (acquisition_params_.resolution_ * analog.parameter.current)) + 
+                                        analog.offset);
+                        break;
+                        case VOLTAGE:
+                            value = (T)(((acquisition_params_.ref_voltage_ * analogs_[channel]) / 
+                                        acquisition_params_.resolution_) + analog.offset);
+                        break;
+                        case MAPPING: {
+                            uint32_t voltage = (uint32_t)((acquisition_params_.ref_voltage_ * analogs_[channel]) / 
+                                   acquisition_params_.resolution_);
+    
+                            for (auto& row : analog.table) {
+                                if (voltage < row.first) {
+                                    value = (T)row.second;
+                                    return 0;
+                                }
+                            }
+                        } break;
+                        default:
+                            std::runtime_error("Wrong convertion type for ID: " + std::to_string(channel));
+                            break;
+                    }
+                    break;
+                }
+            }
             return 1;
         }
+        throw std::runtime_error("No analog channel found by ID: " + std::to_string(channel));
+        return 1;
     }
 
     template<typename T>
@@ -131,6 +166,10 @@ private:
             } else {
                 throw std::runtime_error("[" + name_ + "] Index (id: " + std::to_string(i) + ") out of bound!");
             }
+        }
+
+        uint8_t get_register_id(int i) {
+            return registration_[i];
         }
 
         T &operator[](const int i) {
