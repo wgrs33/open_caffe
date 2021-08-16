@@ -2,136 +2,150 @@
 #define _OPENCAFFE_H
 
 #include <map>
-#include <vector>
 #include "opencaffe/base/common_types.h"
 
 namespace OpenCaffe {
 
+typedef enum
+{
+    E_Brew = 0U,
+    E_Cappuccinatore,
+    E_Lifter,
+    E_WaterControl,
+    E_Pump,
+    E_SteamPump,
+    E_Heater,
+    E_SteamHeater,
+    E_CupHeater,
+    E_Flowmeter,
+    E_SteamFlowmeter,
+    E_Grinder,
+    E_GrinderDuo,
+    E_ElectroMagnet,
+    E_LedLight,
+    E_Door,
+    E_DripDrawer,
+    E_DregDrawer,
+    E_WaterTank,
+    E_BeanContainer,
+    E_PhaseChecker,
+    E_DeviceMaxNumber
+}T_Part;
+
 typedef enum {
     TEMP_HEATER = 0U,
-    TEMP_STEAM_HEATER = 1U,
-    BREW_UNIT_CURRENT = 2U,
-    GRINDER_CURRENT = 3U,
-    GRINDER_DUO_CURRENT = 4U,
-    //UNUSED 3 channels 5, 6, 7
+    TEMP_STEAM_HEATER,
+    BREW_UNIT_CURRENT,
+    GRINDER_CURRENT,
+    GRINDER_DUO_CURRENT,
+    TEMP_CUP_HEATER,
+    //UNUSED 2 channels 6, 7
 
     BREW_UNIT_POSITION = 8U,
-    MILK_CONTAINER_POSITION = 9U,
-    CAPPUCCINATORE_POSITION = 10U,
-    MULTIVALVE_POSITION = 11U,
-    LIFTER_POSITION = 12U,
-
-    ANALOG_MAX = 13U
+    MILK_CONTAINER_POSITION,
+    CAPPUCCINATORE_POSITION,
+    MULTIVALVE_POSITION,
+    LIFTER_POSITION,
 
 }T_AnalogPort;
 
 typedef enum {
     BREW_UNIT_PRESENT = 0U,
-    WATERTANK_PRESENT = 1U,
-    WATERTANK_EMPTY = 2U,
-    DREG_DRAWER_PRESENT = 3U,
-    DREG_DRAWER_FULL = 4U,
-    DRIP_DRAWER_PRESENT = 5U,
-    DRIP_DRAWER_FULL = 6U,
-    DOOR_CLOSED = 7U,
-    BEAN_CONTAINER_CLOSED = 8U,
-    GRINDER_OVERVOLTAGE = 9U,
-    GRINDER_DUO_OVERVOLTAGE = 10U,
-    BREW_UNIT_OVERVOLTAGE = 11U,
+    WATERTANK_PRESENT,
+    WATERTANK_EMPTY,
+    DREG_DRAWER_PRESENT,
+    DREG_DRAWER_FULL,
+    DRIP_DRAWER_PRESENT,
+    DRIP_DRAWER_FULL,
+    DOOR_CLOSED,
+    BEAN_CONTAINER_CLOSED,
+    GRINDER_OVERVOLTAGE,
+    GRINDER_DUO_OVERVOLTAGE,
+    BREW_UNIT_OVERVOLTAGE,
     // UNUSED 4 channels 12, 13, 14, 15
 
     MILK_CONTAINER_PRESENT = 16U,
-    MILK_DRAWER_PRESENT = 17U,
-    CAPPUCCINATORE_MILK_POSITION = 18U,
-    CAPPUCCINATORE_FOAM_POSITION = 19U,
-    BREW_UNIT_HOME = 20U,
-    BREW_UNIT_WORK = 21U,
-    MULTIVALTE_LOW = 22U,
-    MULTIVALVE_HIGH = 23U,
-    LIFTER_BOTTOM = 24U,
-    LIFTER_TOP = 25U,
-
-    LIFTER_UP_BUTTON = 26U,
-    LIFTER_DOWN_BUTTON = 27U,
-
-    DIGITAL_IN_MAX = 28U
-
+    MILK_DRAWER_PRESENT,
+    CAPPUCCINATORE_MILK_POSITION,
+    CAPPUCCINATORE_FOAM_POSITION,
+    BREW_UNIT_HOME,
+    BREW_UNIT_WORK,
+    MULTIVALVE_LOW,
+    MULTIVALVE_HIGH,
+    LIFTER_BOTTOM,
+    LIFTER_TOP,
+    LIFTER_DOWN_BUTTON,
+    LIFTER_UP_BUTTON
 }T_DigitalInPort;
 
 typedef enum {
     LED = 0U,
-    ELECTROMAGNET = 1U,
-    GRINDER = 2U,
-    GRINDER_DUO = 3U,
-    HEATER = 4U,
-    STEAM_HEATER = 5U,
-    CUP_HEATER = 6U,
-    WATER_VALVE = 7U,
-    MAIN_PUMP = 8U,
-    STEAM_PUMP = 9U,
+    ELECTROMAGNET,
+    GRINDER,
+    GRINDER_DUO,
+    HEATER,
+    STEAM_HEATER,
+    CUP_HEATER,
+    MAIN_PUMP,
+    STEAM_PUMP,
     // general valves
-    VALVE0 = 10U,
-    VALVE1 = 11U,
-    VALVE2 = 12U,
-    VALVE3 = 13U,
+    VALVE0,
+    VALVE1,
+    VALVE2,
+    VALVE3,
     // cup lifter
-    LIFTER_PH1 = 14U,
-    LIFTER_PH2 = 15U,
-    LIFTER_I0 = 16U,
-    LIFTER_I1 = 17U,
+    LIFTER_PH1,
+    LIFTER_PH2,
+    LIFTER_I0,
+    LIFTER_I1,
     // cappuccinatore
-    CAPPUCCINATORE_PH1 = 18U,
-    CAPPUCCINATORE_PH2 = 19U,
-    CAPPUCCINATORE_I0 = 20U,
-    CAPPUCCINATORE_I1 = 21U,
+    CAPPUCCINATORE_PH1,
+    CAPPUCCINATORE_PH2,
+    CAPPUCCINATORE_I0,
+    CAPPUCCINATORE_I1,
     // multivalve
-    MULTIVALVE_PH1 = 22U,
-    MULTIVALVE_PH2 = 23U,
-    MULTIVALVE_I0 = 24U,
-    MULTIVALVE_I1 = 25U,
+    MULTIVALVE_PH1,
+    MULTIVALVE_PH2,
+    MULTIVALVE_I0,
+    MULTIVALVE_I1,
     // brew unit
-    BREW_UNIT_1 = 26U,
-    BREW_UNIT_2 = 27U,
-    BREW_UNIT_3 = 28U,
-    BREW_UNIT_4 = 29U,
+    BREW_UNIT_1,
+    BREW_UNIT_2,
+    BREW_UNIT_3,
+    BREW_UNIT_4,
     //double output grinders
-    GRINDER_N = 30U,
-    GRINDER_DUO_N = 31U,
-    //sbs control
-    SBS_PH1 = 32U,
-    SBS_PH2 = 33U,
-    SBS_I0 = 34U,
-    SBS_I1 = 35U,
-
-    MAIN_PUMP_N = 36U,
-    STEAM_PUMP_N = 37U
-
-
+    GRINDER_N,
+    GRINDER_DUO_N,
+    MAIN_PUMP_N,
+    STEAM_PUMP_N,
+    HEATER_N,
+    STEAM_HEATER_N,
+    CUP_HEATER_N
 }T_DigitalOutPort;
 
 typedef enum {
     FLOWMETER_MAIN = 0U,
-    FLOWMETER_STEAM = 1U,
-    CGRINDER = 2U,
-    CGRINDER_DUO = 3U,
-    PHASE = 4U
+    FLOWMETER_STEAM,
+    CGRINDER,
+    CGRINDER_DUO,
+    PHASE
 }T_CounterPort;
 
 typedef enum {
     CURRENT = 0U,
-    RESISTANCE = 1U,
-    VOLTAGE = 2U,
-    MAPPING = 3U
+    RESISTANCE,
+    VOLTAGE,
+    MAPPING
 }T_ConversionType;
 
 typedef enum {
     AnalogSwitchID = 250U
 }T_ConstantDefines;
 
-extern std::map<Common::T_Part, std::vector<T_DigitalOutPort>> output_map_parts;
-extern std::map<Common::T_Part, std::vector<T_DigitalInPort>> input_map_parts;
-extern std::map<Common::T_Part, std::vector<T_CounterPort>> counter_map_parts;
-extern std::map<Common::T_Part, std::vector<T_AnalogPort>> analog_map_parts;
+extern std::map<T_Part, std::vector<T_DigitalOutPort>> output_map_parts;
+extern std::map<T_Part, std::vector<T_DigitalInPort>> input_map_parts;
+extern std::map<T_Part, std::vector<T_CounterPort>> counter_map_parts;
+extern std::map<T_Part, std::vector<T_AnalogPort>> analog_map_parts;
 
 } //namespace OpenCaffe
 

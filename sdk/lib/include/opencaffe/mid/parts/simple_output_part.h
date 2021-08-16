@@ -42,6 +42,7 @@ private:
 };
 
 typedef SimpleOutputPart CupHeater;
+typedef SimpleOutputPart WaterPump;
 
 } //namespace OpenCaffe
 

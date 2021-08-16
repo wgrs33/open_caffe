@@ -41,28 +41,6 @@ typedef enum
 
 typedef enum
 {
-    E_Brew = 0U,
-    E_Cappuccinatore,
-    E_Lifter,
-    E_Multivalve,
-    E_Pump,
-    E_SteamPump,
-    E_Heater,
-    E_SteamHeater,
-    E_CupHeater,
-    E_Grinder,
-    E_GrinderDuo,
-    E_ElectroMagnet,
-    E_LedLight,
-    E_Door,
-    E_DripDrawer,
-    E_DregDrawer,
-    E_WaterTank,
-    E_DeviceMaxNumber
-}T_Part;
-
-typedef enum
-{
     E_STATE_UNCHANGED = 0U,
     E_STATE_CHANGED,
     E_STATE_UNKNOWN

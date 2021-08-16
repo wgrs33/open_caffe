@@ -4,11 +4,6 @@
 
 namespace OpenCaffe {
 
-std::map<Common::T_Part, std::vector<T_DigitalOutPort>> output_map_parts{
-    {Common::T_Part::E_Pump, {MAIN_PUMP, MAIN_PUMP_N}},
-    {Common::T_Part::E_SteamPump, {STEAM_PUMP, STEAM_PUMP_N}}
-};
-
 Common::ValueStringMap<T_AnalogPort> analogport_value_map("T_AnalogPort string mapping", {
     {TEMP_HEATER, "TEMP_HEATER"},
     {TEMP_STEAM_HEATER, "TEMP_STEAM_HEATER"},
@@ -41,7 +36,7 @@ Common::ValueStringMap<T_DigitalInPort> inport_value_map("T_DigitalInPort string
     {CAPPUCCINATORE_FOAM_POSITION, "CAPPUCCINATORE_FOAM_POSITION"},
     {BREW_UNIT_HOME, "BREW_UNIT_HOME"},
     {BREW_UNIT_WORK, "BREW_UNIT_WORK"},
-    {MULTIVALTE_LOW, "MULTIVALTE_LOW"},
+    {MULTIVALVE_LOW, "MULTIVALTE_LOW"},
     {MULTIVALVE_HIGH, "MULTIVALVE_HIGH"},
     {LIFTER_BOTTOM, "LIFTER_BOTTOM"},
     {LIFTER_TOP, "LIFTER_TOP"},
@@ -57,7 +52,6 @@ Common::ValueStringMap<T_DigitalOutPort> outport_value_map("T_DigitalOutPort str
     {HEATER, "HEATER"},
     {STEAM_HEATER, "STEAM_HEATER"},
     {CUP_HEATER, "CUP_HEATER"},
-    {WATER_VALVE, "WATER_VALVE"},
     {MAIN_PUMP, "MAIN_PUMP"},
     {STEAM_PUMP, "STEAM_PUMP"},
     {VALVE0, "VALVE0"},
@@ -82,10 +76,11 @@ Common::ValueStringMap<T_DigitalOutPort> outport_value_map("T_DigitalOutPort str
     {BREW_UNIT_4, "BREW_UNIT_4"},
     {GRINDER_N, "GRINDER_N"},
     {GRINDER_DUO_N, "GRINDER_DUO_N"},
-    {SBS_PH1, "SBS_PH1"},
-    {SBS_PH2, "SBS_PH2"},
-    {SBS_I0, "SBS_I0"},
-    {SBS_I1, "SBS_I1"}
+    {MAIN_PUMP_N, "MAIN_PUMP_N"},
+    {STEAM_PUMP_N, "STEAM_PUMP_N"},
+    {HEATER_N, "HEATER_N"},
+    {STEAM_HEATER_N, "STEAM_HEATER_N"},
+    {CUP_HEATER_N, "CUP_HEATER_N"}
 });
 
 Common::ValueStringMap<T_CounterPort> counterport_value_map("T_CounterPort string mapping", {
