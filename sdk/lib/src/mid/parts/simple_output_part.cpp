@@ -15,19 +15,25 @@ int SimpleOutputPart::init() {
     set_log_level(LOG_DEBUG);
     std::vector<T_DigitalOutPort> vec = output_map_parts[id_];
     if (vec.size() == 0)
-        throw std::logic_error("Part id: " + std::to_string(id_) + " can't be set to SimpleOutputPart object");
+        throw std::logic_error("[SimpleOutputPart] Part id: " + std::to_string(id_) + " can't be set to SimpleOutputPart object");
     using namespace std::placeholders;
-    switch (type_) {
-        case Type::DoubleOut:
-            out2_ = std::make_unique<OutputDevice>((uint8_t)vec.at(1), std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
-            opencaffeobject_->connect_output_to_device(id_, {(uint8_t)vec.at(1)});
-        case Type::Simple:
-        default:
-            out_  = std::make_unique<OutputDevice>((uint8_t)vec.at(0), std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
-            opencaffeobject_->connect_output_to_device(id_, {(uint8_t)vec.at(0)});
-        break;
+    try {
+        switch (type_) {
+            case Type::DoubleOut:
+                out2_ = std::make_unique<OutputDevice>((uint8_t)vec.at(1), std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
+                opencaffeobject_->connect_output_to_device(id_, {(uint8_t)vec.at(1)});
+            case Type::Simple:
+            default:
+                out_  = std::make_unique<OutputDevice>((uint8_t)vec.at(0), std::bind(&OpenCaffeObject::set_output, opencaffeobject_, _1, _2));
+                opencaffeobject_->connect_output_to_device(id_, {(uint8_t)vec.at(0)});
+            break;
+        }
+    } catch (const std::exception& e) {
+        throw std::logic_error("[SimpleOutputPart] Part id: " + std::to_string(id_) + ": " + e.what());
     }
+    return 0;
 }
+
 int SimpleOutputPart::main() {
     return update_outputs();
 }
