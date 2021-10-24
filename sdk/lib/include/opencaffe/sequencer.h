@@ -9,7 +9,7 @@ namespace OpenCaffe {
 
 class Sequencer : public Base{
 public:
-    Sequencer(std::string &config);
+    Sequencer(const std::string &config, const std::string &devices);
     ~Sequencer();
     int init();
     int main();
@@ -17,6 +17,7 @@ public:
     void set_test(int value);
     int get_test();
 private:
+    void parse_devices(const std::string& devfile_path);
     struct ExecutableObject;
     int test_;
     std::forward_list<ExecutableObject> object_list_;

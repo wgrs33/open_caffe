@@ -2,6 +2,7 @@
 #include "opencaffe/opencaffe.h"
 #include "opencaffe/base/tools.h"
 #include "opencaffe/mid/parts/simple_output_part.h"
+#include "opencaffe/mid/parts/simple_input_part.h"
 
 namespace OpenCaffe {
 
@@ -25,18 +26,24 @@ struct Sequencer::ExecutableObject {
     uint32_t time_spare_ = 0U;
 };
 
-Sequencer::Sequencer(std::string &config) :
+Sequencer::Sequencer(const std::string &config, const std::string &devices) :
 Base("Sequencer"),
 test_(0){
     set_log_level(LOG_DEBUG);
     // log(LOG_DEBUG) << "test_: " << test_ << std::endl;
     opencaffeobject_ = std::make_shared<OpenCaffeObject>(config);
-    OBJECT_LINE(log(LOG_DEBUG), this) << "test_: " << test_ << std::endl;
-    object_list_.push_front(ExecutableObject(std::move(
-        std::make_unique<WaterPump>(SimpleOutputPart::Type::Simple, T_Part::E_Pump, opencaffeobject_))));
+    parse_devices(devices);
+    OBJECT_LINE(log(LOG_DEBUG), this) << "Sequencer ctr done" << std::endl;
 }
 
 Sequencer::~Sequencer() {}
+
+void Sequencer::parse_devices(const std::string& devfile_path) {
+    object_list_.push_front(ExecutableObject(std::move(
+        std::make_unique<WaterPump>(SimpleOutputPart::Type::Simple, T_Part::E_Pump, opencaffeobject_))));
+    object_list_.push_front(ExecutableObject(std::move(
+        std::make_unique<WaterTank>(SimpleInputPart::Type::Presence_Empty, T_Part::E_WaterTank, opencaffeobject_))));
+}
 
 int Sequencer::init() {
     int res = 0;
