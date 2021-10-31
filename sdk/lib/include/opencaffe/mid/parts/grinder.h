@@ -9,22 +9,14 @@
 
 namespace OpenCaffe {
 
-class Grinder : public Base{
+class Grinder : public Base {
 public:
-    enum class Type{
-        Simple = 0,
-        DoubleOutput,
-        HBridge
-    };
-    enum class Process {
-        Stop = 0,
-        Grinding,
-        Error
-    };
+    enum class Type { Simple = 0, DoubleOutput, HBridge };
+    enum class Process { Stop = 0, Grinding, Error };
 
     Grinder(Type type, uint8_t options, std::shared_ptr<OpenCaffeObject> &oco);
     ~Grinder();
-    
+
     int init();
     int main();
     int deinit();
@@ -36,7 +28,7 @@ public:
 private:
     int check_fault();
     int update_cnt();
-    
+
     std::unique_ptr<OutputDevice> derect_output_;
     std::unique_ptr<MotorDevice> motor_;
     std::unique_ptr<InputDevice> overvoltage_;
@@ -44,6 +36,6 @@ private:
     std::unique_ptr<CntDevice> spin_;
 };
 
-} //namespace OpenCaffe
+} // namespace OpenCaffe
 
 #endif //_OPENCAFFE_MID_PARTS_GRINDER_H

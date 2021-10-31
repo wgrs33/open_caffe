@@ -6,8 +6,7 @@
 
 namespace OpenCaffe {
 
-typedef enum
-{
+typedef enum {
     E_Brew = 0U,
     E_Cappuccinatore,
     E_Lifter,
@@ -30,7 +29,7 @@ typedef enum
     E_BeanContainer,
     E_PhaseChecker,
     E_DeviceMaxNumber
-}T_Part;
+} T_Part;
 
 typedef enum {
     TEMP_HEATER = 0U,
@@ -39,7 +38,7 @@ typedef enum {
     GRINDER_CURRENT,
     GRINDER_DUO_CURRENT,
     TEMP_CUP_HEATER,
-    //UNUSED 2 channels 6, 7
+    // UNUSED 2 channels 6, 7
 
     BREW_UNIT_POSITION = 8U,
     MILK_CONTAINER_POSITION,
@@ -47,7 +46,7 @@ typedef enum {
     MULTIVALVE_POSITION,
     LIFTER_POSITION,
 
-}T_AnalogPort;
+} T_AnalogPort;
 
 typedef enum {
     BREW_UNIT_PRESENT = 0U,
@@ -76,7 +75,7 @@ typedef enum {
     LIFTER_TOP,
     LIFTER_DOWN_BUTTON,
     LIFTER_UP_BUTTON
-}T_DigitalInPort;
+} T_DigitalInPort;
 
 typedef enum {
     LED = 0U,
@@ -113,7 +112,7 @@ typedef enum {
     BREW_UNIT_2,
     BREW_UNIT_3,
     BREW_UNIT_4,
-    //double output grinders
+    // double output grinders
     GRINDER_N,
     GRINDER_DUO_N,
     MAIN_PUMP_N,
@@ -121,26 +120,13 @@ typedef enum {
     HEATER_N,
     STEAM_HEATER_N,
     CUP_HEATER_N
-}T_DigitalOutPort;
+} T_DigitalOutPort;
 
-typedef enum {
-    FLOWMETER_MAIN = 0U,
-    FLOWMETER_STEAM,
-    CGRINDER,
-    CGRINDER_DUO,
-    PHASE
-}T_CounterPort;
+typedef enum { FLOWMETER_MAIN = 0U, FLOWMETER_STEAM, CGRINDER, CGRINDER_DUO, PHASE } T_CounterPort;
 
-typedef enum {
-    CURRENT = 0U,
-    RESISTANCE,
-    VOLTAGE,
-    MAPPING
-}T_ConversionType;
+typedef enum { CURRENT = 0U, RESISTANCE, VOLTAGE, MAPPING } T_ConversionType;
 
-typedef enum {
-    AnalogSwitchID = 250U
-}T_ConstantDefines;
+typedef enum { AnalogSwitchID = 250U } T_ConstantDefines;
 
 extern std::map<T_Part, std::vector<T_DigitalOutPort>> output_map_parts;
 extern std::map<T_Part, std::vector<T_DigitalInPort>> input_map_parts;
@@ -148,6 +134,6 @@ extern std::map<T_Part, std::vector<T_CounterPort>> counter_map_parts;
 extern std::map<T_Part, std::vector<T_AnalogPort>> analog_map_parts;
 extern std::map<T_Part, std::string> name_map_part;
 
-} //namespace OpenCaffe
+} // namespace OpenCaffe
 
 #endif //_OPENCAFFE_H

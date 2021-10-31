@@ -7,18 +7,13 @@
 
 namespace OpenCaffe {
 
-class StepperPart : public Base{
+class StepperPart : public Base {
 public:
-    enum class Process {
-        Stop = 0,
-        MovingUp,
-        MovingDown,
-        Error
-    };
+    enum class Process { Stop = 0, MovingUp, MovingDown, Error };
 
     StepperPart(std::shared_ptr<OpenCaffeObject> &oco);
     ~StepperPart();
-    
+
     int init();
     int main();
     int deinit();
@@ -37,6 +32,6 @@ private:
     std::unique_ptr<InputDevice> ctrl_error_;
 };
 
-} //namespace OpenCaffe
+} // namespace OpenCaffe
 
 #endif //_OPENCAFFE_MID_PARTS_STEPPER_PART_H

@@ -3,13 +3,12 @@
 #include <iomanip>
 
 int main(void) {
+    OpenCaffe::PidController<int> pid(1, 5, 0);
+    pid.setOutputLimits(0, 100);
+    pid.setOutputRampRate(5);
 
-    OpenCaffe::PidController<int> pid(1,5,0);
-    pid.setOutputLimits(0,100);
-	pid.setOutputRampRate(5);
-
-    int setpoint=90;
-    int sensor=0;
+    int setpoint = 90;
+    int sensor   = 0;
     int real_sensor;
     // int analogRead = 129;
 
@@ -23,10 +22,10 @@ int main(void) {
     }
 
     for (int i = 0; i < 120; ++i) {
-        sensor = (int)(sensor * 0.95 + analogRead[i] *.05);
+        sensor = (int)(sensor * 0.95 + analogRead[i] * .05);
         // setpoint = analogRead;
 
-        //Run through the PID calculations, and get the desired output values
+        // Run through the PID calculations, and get the desired output values
         int out = pid.getOutput(sensor, setpoint);
         // sensor = sensor + out;
 

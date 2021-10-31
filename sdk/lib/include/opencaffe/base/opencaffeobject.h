@@ -18,7 +18,7 @@ public:
     OpenCaffeObject(std::string cfg_path) {
         logger_ = std::make_unique<OpenCaffe::logger>(std::cout, "OpenCaffeObject");
         logger_->set_log_level(LOG_DEBUG);
-        read_cfg(cfg_path); 
+        read_cfg(cfg_path);
     }
     ~OpenCaffeObject() {}
 
@@ -37,37 +37,39 @@ public:
             for (auto &analog : acquisition_params_.analog_channels_) {
                 if (analog.chan_id == channel) {
                     if (analogs_.get_register_id(channel) == T_ConstantDefines::AnalogSwitchID) {
-                        throw std::runtime_error("Channel ID: " + std::to_string(channel) + " is used by an AnalogSwitch!");
+                        throw std::runtime_error("Channel ID: " + std::to_string(channel) +
+                                                 " is used by an AnalogSwitch!");
                     }
                     switch (analog.conversion) {
-                        case CURRENT:
-                            value = (T)(((acquisition_params_.ref_voltage_ * analogs_[channel]) / 
-                                        (acquisition_params_.resolution_ * analog.parameter.resistance)) + 
-                                        analog.offset);
+                    case CURRENT:
+                        value = (T)(((acquisition_params_.ref_voltage_ * analogs_[channel]) /
+                                     (acquisition_params_.resolution_ * analog.parameter.resistance)) +
+                                    analog.offset);
                         break;
-                        case RESISTANCE:
-                            value = (T)(((acquisition_params_.ref_voltage_ * analogs_[channel]) / 
-                                        (acquisition_params_.resolution_ * analog.parameter.current)) + 
-                                        analog.offset);
+                    case RESISTANCE:
+                        value = (T)(((acquisition_params_.ref_voltage_ * analogs_[channel]) /
+                                     (acquisition_params_.resolution_ * analog.parameter.current)) +
+                                    analog.offset);
                         break;
-                        case VOLTAGE:
-                            value = (T)(((acquisition_params_.ref_voltage_ * analogs_[channel]) / 
-                                        acquisition_params_.resolution_) + analog.offset);
+                    case VOLTAGE:
+                        value = (T)(
+                            ((acquisition_params_.ref_voltage_ * analogs_[channel]) / acquisition_params_.resolution_) +
+                            analog.offset);
                         break;
-                        case MAPPING: {
-                            uint32_t voltage = (uint32_t)((acquisition_params_.ref_voltage_ * analogs_[channel]) / 
-                                   acquisition_params_.resolution_);
-    
-                            for (auto& row : analog.table) {
-                                if (voltage < row.first) {
-                                    value = (T)row.second;
-                                    return 0;
-                                }
+                    case MAPPING: {
+                        uint32_t voltage = (uint32_t)((acquisition_params_.ref_voltage_ * analogs_[channel]) /
+                                                      acquisition_params_.resolution_);
+
+                        for (auto &row : analog.table) {
+                            if (voltage < row.first) {
+                                value = (T)row.second;
+                                return 0;
                             }
-                        } break;
-                        default:
-                            std::runtime_error("Wrong convertion type for ID: " + std::to_string(channel));
-                            break;
+                        }
+                    } break;
+                    default:
+                        std::runtime_error("Wrong convertion type for ID: " + std::to_string(channel));
+                        break;
                     }
                     break;
                 }
@@ -98,21 +100,21 @@ private:
     // Acquisition parameters
     struct AcquisitionParameters {
         struct AnalogDoubleSwitch : public Common::BaseParam {
-            uint8_t  low_id; // switch id for low resistance
-            uint8_t  high_id; // switch id for high resistance
-            uint32_t no_ref_voltage_; //no switch reference voltage
-            uint32_t high_ref_voltage_; //2k7 switch reference voltage
-            uint32_t low_ref_voltage_; //1k5 switch reference voltage
-            uint32_t both_ref_voltage_; //both switches reference voltage
-            uint32_t delta_; //voltage delta for switches
+            uint8_t low_id;             // switch id for low resistance
+            uint8_t high_id;            // switch id for high resistance
+            uint32_t no_ref_voltage_;   // no switch reference voltage
+            uint32_t high_ref_voltage_; // 2k7 switch reference voltage
+            uint32_t low_ref_voltage_;  // 1k5 switch reference voltage
+            uint32_t both_ref_voltage_; // both switches reference voltage
+            uint32_t delta_;            // voltage delta for switches
         };
         struct DigitalIOInput : public Common::BaseParam {
-            bool active_state_high_; // is active state is high
+            bool active_state_high_;    // is active state is high
             uint32_t debounce_time_ms_; // debouce time to consider signal as stable
         };
         struct DigitalIOOutput : public Common::BaseParam {
             bool active_state_high_; // is active state is high
-            bool default_state_; //default io state
+            bool default_state_;     // default io state
         };
         struct Counter : public Common::BaseParam {
             uint8_t ratio_;
@@ -124,26 +126,24 @@ private:
                 uint32_t current;
             } parameter;
             int32_t offset;
-            std::forward_list<std::pair<uint32_t, int16_t>> table; 
+            std::forward_list<std::pair<uint32_t, int16_t>> table;
         };
 
-        uint32_t ref_voltage_; //ADC reference voltage
-        uint32_t resolution_; //ADC bit resolution
+        uint32_t ref_voltage_; // ADC reference voltage
+        uint32_t resolution_;  // ADC bit resolution
 
         std::vector<Analog> analog_channels_;
-        std::vector<AnalogDoubleSwitch> analog_double_switches_; //analog double switches vector table
-        std::vector<DigitalIOInput> digital_inputs_; //digital inputs configuration
-        std::vector<DigitalIOOutput> digital_outputs_; //digital outputs configuration
+        std::vector<AnalogDoubleSwitch> analog_double_switches_; // analog double switches vector table
+        std::vector<DigitalIOInput> digital_inputs_;             // digital inputs configuration
+        std::vector<DigitalIOOutput> digital_outputs_;           // digital outputs configuration
         std::vector<Counter> counters_;
     } acquisition_params_;
 
     template<typename T>
     class RegisteredValue {
     public:
-        RegisteredValue(std::string name = std::string("")) : 
-        size_(0), name_(name) {}
-        RegisteredValue(int size, std::string name = std::string("")) :
-        size_(size), name_(name) {
+        RegisteredValue(std::string name = std::string("")) : size_(0), name_(name) {}
+        RegisteredValue(int size, std::string name = std::string("")) : size_(size), name_(name) {
             registration_.resize(size_);
             values_.resize(size_);
         }
@@ -165,8 +165,9 @@ private:
                 if (registration_[i] == 0) {
                     registration_[i] = (id + 1);
                 } else {
-                    throw std::runtime_error("[" + name_ + "] The value (id: " + std::to_string(i) + ") has been registered by other part(ID: " 
-                                            + std::to_string(registration_[i])+ ")!");
+                    throw std::runtime_error(
+                        "[" + name_ + "] The value (id: " + std::to_string(i) +
+                        ") has been registered by other part(ID: " + std::to_string(registration_[i]) + ")!");
                 }
             } else {
                 throw std::runtime_error("[" + name_ + "] Index (id: " + std::to_string(i) + ") out of bound!");
@@ -182,7 +183,8 @@ private:
                 if (registration_[i] > 0) {
                     return values_[i];
                 } else {
-                    throw std::runtime_error("[" + name_ + "] The value (id: " + std::to_string(i) + ") hasn't been registered!");
+                    throw std::runtime_error("[" + name_ + "] The value (id: " + std::to_string(i) +
+                                             ") hasn't been registered!");
                 }
             } else {
                 throw std::runtime_error("[" + name_ + "] Index (id: " + std::to_string(i) + ") out of bound!");
@@ -194,7 +196,8 @@ private:
                 if (registration_[i] > 0) {
                     return values_[i];
                 } else {
-                    throw std::runtime_error("[" + name_ + "] The value (id: " + std::to_string(i) + ") hasn't been registered!");
+                    throw std::runtime_error("[" + name_ + "] The value (id: " + std::to_string(i) +
+                                             ") hasn't been registered!");
                 }
             } else {
                 throw std::runtime_error("[" + name_ + "] Index (id: " + std::to_string(i) + ") out of bound!");
@@ -202,7 +205,7 @@ private:
         }
 
     private:
-        std::vector<uint8_t> registration_ {0};
+        std::vector<uint8_t> registration_{0};
         std::vector<T> values_;
         size_t size_;
         std::string name_;
@@ -239,11 +242,11 @@ private:
     int update_inputs(void);
     int update_analog_switches(void);
 
-    logger& log(unsigned level) {
+    logger &log(unsigned level) {
         return (*logger_)(level);
     }
 };
 
-} //namespace OpenCaffe
+} // namespace OpenCaffe
 
 #endif //_OPENCAFFE_OBJECT_H

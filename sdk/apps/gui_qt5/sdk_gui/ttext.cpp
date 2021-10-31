@@ -2,11 +2,7 @@
 #include <chrono>
 #include <iostream>
 
-ttext::ttext(QObject *parent):
-    QObject(parent),
-    serial_stop(false)
-{
-
+ttext::ttext(QObject *parent) : QObject(parent), serial_stop(false) {
     text_ = "";
 
     ptr_serial = new QSerialPort();
@@ -23,23 +19,24 @@ ttext::ttext(QObject *parent):
 
     test_loop = std::thread([&]() {
         using namespace std::chrono;
-        auto ts = system_clock::now();
+        auto ts     = system_clock::now();
         bool active = false;
-        while(!serial_stop) {
+        while (!serial_stop) {
             auto time_passed = duration_cast<milliseconds>(system_clock::now() - ts).count();
             if (time_passed > 999) {
-                ts = system_clock::now();
+                ts     = system_clock::now();
                 active = !active;
-                if (active) this->setText(">--|||||||||--<");
-                else        this->setText("<--[-------]-->");
+                if (active)
+                    this->setText(">--|||||||||--<");
+                else
+                    this->setText("<--[-------]-->");
             }
             std::this_thread::sleep_for(milliseconds(100));
         }
     });
 }
 
-ttext::~ttext()
-{
+ttext::~ttext() {
     ptr_serial->close();
     delete ptr_serial;
     serial_stop = true;

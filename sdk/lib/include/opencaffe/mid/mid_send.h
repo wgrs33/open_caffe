@@ -14,7 +14,6 @@ public:
     int deinit();
 };
 
-} //namespace OpenCaffe
-
+} // namespace OpenCaffe
 
 #endif //_OPENCAFFE_MID_SEND_H

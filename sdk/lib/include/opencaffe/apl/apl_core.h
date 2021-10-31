@@ -12,11 +12,11 @@ public:
     int init();
     int main();
     int deinit();
+
 private:
     int test_;
 };
 
-} //namespace OpenCaffe
-
+} // namespace OpenCaffe
 
 #endif //_OPENCAFFE_APL_CORE_H

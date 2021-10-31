@@ -7,20 +7,13 @@
 
 namespace OpenCaffe {
 
-class SimpleInputPart : public Base{
+class SimpleInputPart : public Base {
 public:
-    enum class Type{
-        Presence = 0,
-        Empty,
-        Full,
-        Presence_Full,
-        Presence_Empty,
-        All
-    };
+    enum class Type { Presence = 0, Empty, Full, Presence_Full, Presence_Empty, All };
 
     SimpleInputPart(Type type, T_Part id, std::shared_ptr<OpenCaffeObject> &oco);
     ~SimpleInputPart();
-    
+
     int init();
     int main();
     int deinit();
@@ -37,9 +30,9 @@ private:
     std::unique_ptr<InputDevice> full_;
     std::unique_ptr<InputDevice> present_;
     std::unique_ptr<InputDevice> empty_;
-    Device::Status empty_status = Device::Status::OK;
+    Device::Status empty_status   = Device::Status::OK;
     Device::Status present_status = Device::Status::OK;
-    Device::Status full_status = Device::Status::OK;
+    Device::Status full_status    = Device::Status::OK;
     std::shared_ptr<OpenCaffeObject> opencaffeobject_;
 };
 
@@ -48,8 +41,6 @@ typedef SimpleInputPart Door;
 typedef SimpleInputPart BeanContainer;
 typedef SimpleInputPart WaterTank;
 
-
-
-} //namespace OpenCaffe
+} // namespace OpenCaffe
 
 #endif //_OPENCAFFE_MID_PARTS_SIMPLE_INPUT_PART_H

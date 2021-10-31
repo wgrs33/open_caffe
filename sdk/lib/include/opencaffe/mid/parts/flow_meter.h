@@ -6,15 +6,13 @@
 
 namespace OpenCaffe {
 
-class FlowMeter : public Base{
+class FlowMeter : public Base {
 public:
-    enum class Type{
-        Simple = 0
-    };
+    enum class Type { Simple = 0 };
 
     FlowMeter(Type type, std::shared_ptr<OpenCaffeObject> &oco);
     ~FlowMeter();
-    
+
     int init();
     int main();
     int deinit();
@@ -26,6 +24,6 @@ private:
     std::unique_ptr<CntDevice> flow_;
 };
 
-} //namespace OpenCaffe
+} // namespace OpenCaffe
 
 #endif //_OPENCAFFE_MID_PARTS_FLOW_METER_H

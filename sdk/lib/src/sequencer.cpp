@@ -15,20 +15,18 @@ struct Sequencer::ExecutableObject {
         return obj_ptr_->init();
     }
     int main() {
-       return obj_ptr_->main();
+        return obj_ptr_->main();
     }
     int deinit() {
         return obj_ptr_->deinit();
     }
     std::unique_ptr<Base> obj_ptr_;
     bool no_20_spare_time_ = false;
-    bool no_spare_time_ = false;
-    uint32_t time_spare_ = 0U;
+    bool no_spare_time_    = false;
+    uint32_t time_spare_   = 0U;
 };
 
-Sequencer::Sequencer(const std::string &config, const std::string &devices) :
-Base("Sequencer"),
-test_(0){
+Sequencer::Sequencer(const std::string &config, const std::string &devices) : Base("Sequencer"), test_(0) {
     set_log_level(LOG_DEBUG);
     // log(LOG_DEBUG) << "test_: " << test_ << std::endl;
     opencaffeobject_ = std::make_shared<OpenCaffeObject>(config);
@@ -38,9 +36,9 @@ test_(0){
 
 Sequencer::~Sequencer() {}
 
-void Sequencer::parse_devices(const std::string& devfile_path) {
-    object_list_.push_front(ExecutableObject(std::move(
-        std::make_unique<WaterPump>(SimpleOutputPart::Type::Simple, T_Part::E_Pump, opencaffeobject_))));
+void Sequencer::parse_devices(const std::string &devfile_path) {
+    object_list_.push_front(ExecutableObject(
+        std::move(std::make_unique<WaterPump>(SimpleOutputPart::Type::Simple, T_Part::E_Pump, opencaffeobject_))));
     object_list_.push_front(ExecutableObject(std::move(
         std::make_unique<WaterTank>(SimpleInputPart::Type::Presence_Empty, T_Part::E_WaterTank, opencaffeobject_))));
 }
@@ -49,14 +47,15 @@ int Sequencer::init() {
     int res = 0;
     for (auto it = object_list_.begin(); it != object_list_.end(); ++it) {
         res = it->init();
-        if (res != 0) break;
+        if (res != 0)
+            break;
     }
     return res;
 }
 
 int Sequencer::main() {
     int res = 0;
-    int c = 0;
+    int c   = 0;
     Tools::Timer tim;
     tim.start(20);
     do {
@@ -68,7 +67,7 @@ int Sequencer::main() {
             ++c;
             tim.start(20);
         }
-    } while(res == 0 && c < 10);
+    } while (res == 0 && c < 10);
     return res;
 }
 
@@ -76,7 +75,8 @@ int Sequencer::deinit() {
     int res = 0;
     for (auto it = object_list_.begin(); it != object_list_.end(); ++it) {
         res = it->deinit();
-        if (res != 0) break;
+        if (res != 0)
+            break;
     }
     DEBUG_LINE(log(LOG_DEBUG)) << "Finished" << std::endl;
     return res;
@@ -91,4 +91,4 @@ int Sequencer::get_test() {
     return test_;
 }
 
-} //namespace OpenCaffe
+} // namespace OpenCaffe

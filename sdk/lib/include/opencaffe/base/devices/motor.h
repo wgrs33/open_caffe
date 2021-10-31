@@ -8,16 +8,8 @@ namespace OpenCaffe {
 
 class MotorDevice : public Base {
 public:
-    enum class MotorType {
-        STEPPER_MOTOR,
-        HBRIDGE_MOTOR
-    };
-    enum MotorDir {
-        E_MID_MTR_STOP = 0,
-        E_MID_MTR_FORWARD,
-        E_MID_MTR_BACKWARD,
-        E_MID_MTR_DIR_MAX
-    };
+    enum class MotorType { STEPPER_MOTOR, HBRIDGE_MOTOR };
+    enum MotorDir { E_MID_MTR_STOP = 0, E_MID_MTR_FORWARD, E_MID_MTR_BACKWARD, E_MID_MTR_DIR_MAX };
     enum MotorPower {
         E_MID_MTR_POWER_NONE = 0,
         E_MID_MTR_POWER_33,
@@ -40,18 +32,19 @@ public:
     int main();
     int deinit();
     int move(const MotorDir dir, const MotorPower power);
+
 private:
     int execute_move_();
     int set_phase_();
 
     const MotorType type_;
     uint8_t id_;
-    MotorDir   dir_ = E_MID_MTR_STOP;
+    MotorDir dir_     = E_MID_MTR_STOP;
     MotorPower power_ = E_MID_MTR_POWER_NONE;
     MotorPhase phase_ = E_MID_MTR_PHASE_0;
     std::shared_ptr<OpenCaffeObject> opencaffeobject_;
 };
 
-} //namespace OpenCaffe
+} // namespace OpenCaffe
 
-#endif //SDK_CORE_BASE_DEVICES_MOTOR_H
+#endif // SDK_CORE_BASE_DEVICES_MOTOR_H

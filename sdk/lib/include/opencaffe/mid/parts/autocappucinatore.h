@@ -6,19 +6,13 @@
 
 namespace OpenCaffe {
 
-class AutoCappucinatore : public StepperPart{
+class AutoCappucinatore : public StepperPart {
 public:
-    enum class Position {
-        Open = 0,
-        Milk,
-        Foam,
-        Moving,
-        Error
-    };
+    enum class Position { Open = 0, Milk, Foam, Moving, Error };
 
     AutoCappucinatore(std::shared_ptr<OpenCaffeObject> &oco);
     ~AutoCappucinatore();
-    
+
     int init();
     int main();
     int deinit();
@@ -28,10 +22,11 @@ public:
     int clean();
     int none();
     Position get_position();
+
 private:
     std::unique_ptr<InputDevice> position_;
 };
 
-} //namespace OpenCaffe
+} // namespace OpenCaffe
 
 #endif //_OPENCAFFE_MID_PARTS_AUTOCAPPUCINATORE_H

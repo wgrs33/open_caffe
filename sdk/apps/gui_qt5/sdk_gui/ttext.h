@@ -7,8 +7,7 @@
 #include <QSerialPort>
 #include <thread>
 
-class ttext : public QObject
-{
+class ttext : public QObject {
     Q_OBJECT
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
 

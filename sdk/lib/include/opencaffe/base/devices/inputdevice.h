@@ -8,16 +8,14 @@ namespace OpenCaffe {
 
 class InputDevice : public Device {
 public:
-    enum class State {
-        OFF = 0,
-        ON
-    };
+    enum class State { OFF = 0, ON };
 
-    InputDevice(uint8_t id, std::function<int(uint8_t, bool&)> fptr) :
-    Device(id), fptr_(fptr) {}
+    InputDevice(uint8_t id, std::function<int(uint8_t, bool &)> fptr) : Device(id), fptr_(fptr) {}
     ~InputDevice() {}
 
-    State get_state() { return state_; }
+    State get_state() {
+        return state_;
+    }
     int update() {
         bool state;
         if (fptr_(get_id(), state) == 0) {
@@ -31,11 +29,12 @@ public:
             return 1;
         }
     }
+
 private:
     State state_;
-    std::function<int(uint8_t, bool&)> fptr_;
+    std::function<int(uint8_t, bool &)> fptr_;
 };
 
-} //namespace OpenCaffe
+} // namespace OpenCaffe
 
-#endif //SDK_CORE_BASE_INPUT_DEVICE_H
+#endif // SDK_CORE_BASE_INPUT_DEVICE_H

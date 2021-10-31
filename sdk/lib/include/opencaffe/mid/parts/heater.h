@@ -6,18 +6,13 @@
 
 namespace OpenCaffe {
 
-class Heater : public SimpleOutputPart{
+class Heater : public SimpleOutputPart {
 public:
-    enum class Type {
-        SimpleNtc = 0,
-        DoubleNtc,
-        SimplePtc,
-        DoublePtc
-    };
-    
+    enum class Type { SimpleNtc = 0, DoubleNtc, SimplePtc, DoublePtc };
+
     Heater(Type htype, SimpleOutputPart::Type devtype, std::shared_ptr<OpenCaffeObject> &oco);
     ~Heater();
-    
+
     int init();
     int main();
     int deinit();
@@ -32,6 +27,6 @@ private:
     std::unique_ptr<InputDevice> ctrl_error_;
 };
 
-} //namespace OpenCaffe
+} // namespace OpenCaffe
 
 #endif //_OPENCAFFE_MID_PARTS_HEATER_H

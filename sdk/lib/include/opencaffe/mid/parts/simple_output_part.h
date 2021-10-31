@@ -6,21 +6,14 @@
 
 namespace OpenCaffe {
 
-class SimpleOutputPart : public Base{
+class SimpleOutputPart : public Base {
 public:
-    enum class Type{
-        Simple = 0,
-        DoubleOut
-    };
-    enum class Process {
-        Off = 0,
-        On,
-        Error
-    };
+    enum class Type { Simple = 0, DoubleOut };
+    enum class Process { Off = 0, On, Error };
 
     SimpleOutputPart(Type type, T_Part id, std::shared_ptr<OpenCaffeObject> &oco);
     ~SimpleOutputPart();
-    
+
     virtual int init();
     virtual int main();
     virtual int deinit();
@@ -44,6 +37,6 @@ private:
 typedef SimpleOutputPart CupHeater;
 typedef SimpleOutputPart WaterPump;
 
-} //namespace OpenCaffe
+} // namespace OpenCaffe
 
 #endif //_OPENCAFFE_MID_PARTS_SIMPLE_OUTPUT_PART_H

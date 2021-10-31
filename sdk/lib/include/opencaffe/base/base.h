@@ -14,9 +14,9 @@ namespace OpenCaffe {
 
 class Base {
 public:
-    enum Type {COUT, CERR, CLOG};
+    enum Type { COUT, CERR, CLOG };
     Base(Type output = Type::COUT) {
-        switch(output) {
+        switch (output) {
         case Type::COUT:
             logger_ = std::make_unique<OpenCaffe::logger>(std::cout, "");
             break;
@@ -29,7 +29,7 @@ public:
         }
     }
     Base(std::string name, Type output = Type::COUT) {
-        switch(output) {
+        switch (output) {
         case Type::COUT:
             logger_ = std::make_unique<OpenCaffe::logger>(std::cout, name);
             break;
@@ -42,22 +42,24 @@ public:
         }
     }
     virtual ~Base() {}
-    virtual int init() = 0;
-    virtual int main() = 0;
+    virtual int init()   = 0;
+    virtual int main()   = 0;
     virtual int deinit() = 0;
 
-    logger& log(unsigned level) {
+    logger &log(unsigned level) {
         return (*logger_)(level);
     }
     void set_log_level(unsigned level) {
         logger_->set_log_level(level);
     }
+
 private:
     std::unique_ptr<OpenCaffe::logger> logger_;
+
 protected:
     std::shared_ptr<OpenCaffe::OpenCaffeObject> opencaffeobject_;
 };
 
-} //namespace OpenCaffe
+} // namespace OpenCaffe
 
 #endif //_OPENCAFFE_OPENCAFFE_BASE_H

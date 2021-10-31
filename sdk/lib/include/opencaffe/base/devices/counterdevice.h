@@ -8,8 +8,7 @@ namespace OpenCaffe {
 
 class CntDevice : public Device {
 public:
-    CntDevice(uint8_t id, std::function<int(uint8_t, uint32_t&)> fptr) :
-    Device(id), _fptr(fptr) {}
+    CntDevice(uint8_t id, std::function<int(uint8_t, uint32_t &)> fptr) : Device(id), _fptr(fptr) {}
     ~CntDevice() {}
 
     int update() {
@@ -25,14 +24,21 @@ public:
             return 1;
         }
     }
-    void reset() { counter_ = 0; }
-    void set(ulong c) { counter_ = c; }
-    ulong get() { return counter_; }
+    void reset() {
+        counter_ = 0;
+    }
+    void set(ulong c) {
+        counter_ = c;
+    }
+    ulong get() {
+        return counter_;
+    }
+
 private:
     ulong counter_ = 0;
-    std::function<int(uint8_t, uint32_t&)> fptr_;
+    std::function<int(uint8_t, uint32_t &)> fptr_;
 };
 
-} //namespace OpenCaffe
+} // namespace OpenCaffe
 
-#endif //SDK_CORE_BASE_COUNTER_DEVICE_H
+#endif // SDK_CORE_BASE_COUNTER_DEVICE_H
