@@ -1,0 +1,28 @@
+#!/bin/bash
+# 
+
+# Check clang-format spelling
+
+exts='\.h|\.hpp|\.cpp|\.c'
+badFormatFiles=()
+allFiles=($(git diff --name-only --cached | grep -E $exts))
+for FILE in "${allFiles[@]}"
+do
+	var=$(git diff -U0 --no-color --staged HEAD $FILE | clang-format-diff-5.0 -p1 | wc -l)
+	if [[ $var -ne 0 ]]
+	then
+		badFormatFiles+=( $FILE )
+	fi	
+done
+
+if [ ${#badFormatFiles[@]} -ne 0 ]
+then
+	echo "These files must be formatted by clang-format:"
+	for f in "${badFormatFiles[@]}"
+	do
+		echo "$f"
+	done
+	exit 1
+fi
+exit 0
+
