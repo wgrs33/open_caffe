@@ -10,8 +10,8 @@ class BrewUnit : public StepperPart {
 public:
     enum class Position { Home = 0, Work, Unknown };
 
-    BrewUnit(std::shared_ptr<OpenCaffeObject> &oco);
-    ~BrewUnit();
+    BrewUnit(T_Part id, std::shared_ptr<OpenCaffeObject> &oco);
+    ~BrewUnit() {}
 
     int init();
     int main();
@@ -22,8 +22,11 @@ public:
     Position get_position();
 
 private:
+    T_Part id_;
     std::unique_ptr<InputDevice> home_;
     std::unique_ptr<InputDevice> work_;
+    std::unique_ptr<InputDevice> present_;
+    std::shared_ptr<OpenCaffeObject> opencaffeobject_;
 };
 
 } // namespace OpenCaffe
