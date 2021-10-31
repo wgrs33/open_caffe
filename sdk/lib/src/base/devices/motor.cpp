@@ -32,7 +32,7 @@ int MotorDevice::move(const MotorDir dir, const MotorPower power) {
     if (dir < E_MID_MTR_DIR_MAX && power < E_MID_MTR_POWER_MAX) {
         dir_   = dir;
         power_ = power;
-        phase_ = E_MID_MTR_PHASE_0;
+        phase_ = MotorPhase::E_MID_MTR_PHASE_0;
     } else {
         res = -1;
     }
@@ -62,16 +62,16 @@ int MotorDevice::set_phase_() {
 
     switch (dir_) {
     case E_MID_MTR_STOP:
-        phase_ = E_MID_MTR_PHASE_0;
+        phase_ = MotorPhase::E_MID_MTR_PHASE_0;
         break;
     case E_MID_MTR_FORWARD:
-        // res = Tools::IncrementMax((uint8_t)phase_, E_MID_MTR_PHASE_3);
+        phase_ = increment_(phase_);
         break;
     case E_MID_MTR_BACKWARD:
-        // res = Tools::DicrementMax((uint8_t)phase_, E_MID_MTR_PHASE_3);
+        phase_ = decrement_(phase_);
         break;
     default:
-        phase_ = E_MID_MTR_PHASE_0;
+        phase_ = MotorPhase::E_MID_MTR_PHASE_0;
         res    = -1;
         break;
     }
