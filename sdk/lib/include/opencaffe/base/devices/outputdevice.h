@@ -8,7 +8,7 @@ namespace OpenCaffe {
 
 class OutputDevice : public Device {
 public:
-    enum class State { OFF = 0, ON };
+    enum class State : uint8_t { OFF = 0, ON = 1 };
 
     OutputDevice(uint8_t id, std::function<int(uint8_t, bool)> fptr, State default_state = State::OFF) :
         Device(id),

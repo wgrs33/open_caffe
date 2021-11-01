@@ -72,6 +72,9 @@ int SimpleInputPart::main() {
 }
 
 int SimpleInputPart::deinit() {
+    empty_.reset();
+    present_.reset();
+    full_.reset();
     return 0;
 }
 

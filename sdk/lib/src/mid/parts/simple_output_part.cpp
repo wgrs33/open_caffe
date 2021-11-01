@@ -41,7 +41,11 @@ int SimpleOutputPart::main() {
     return update_outputs();
 }
 
-int SimpleOutputPart::deinit() {}
+int SimpleOutputPart::deinit() {
+    out_.reset();
+    out2_.reset();
+    return 0;
+}
 
 int SimpleOutputPart::on() {
     out_->on();
