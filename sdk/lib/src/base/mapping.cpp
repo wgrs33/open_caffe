@@ -18,7 +18,7 @@ std::map<T_Part, std::vector<T_DigitalOutPort>> output_map_parts{
     {T_Part::E_LedLight, {LED}}};
 
 std::map<T_Part, std::vector<T_DigitalInPort>> input_map_parts{
-    {T_Part::E_Brew, {BREW_UNIT_PRESENT, BREW_UNIT_HOME, BREW_UNIT_WORK}},
+    {T_Part::E_Brew, {BREW_UNIT_PRESENT, BREW_UNIT_HOME, BREW_UNIT_WORK, BREW_UNIT_OVERVOLTAGE}},
     {T_Part::E_Cappuccinatore,
      {MILK_CONTAINER_PRESENT, MILK_DRAWER_PRESENT, CAPPUCCINATORE_MILK_POSITION, CAPPUCCINATORE_FOAM_POSITION}},
     {T_Part::E_Lifter, {LIFTER_BOTTOM, LIFTER_TOP, LIFTER_DOWN_BUTTON, LIFTER_UP_BUTTON}},

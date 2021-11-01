@@ -8,8 +8,8 @@ namespace OpenCaffe {
 
 class SimpleOutputPart : public Base {
 public:
-    enum class Type { Simple = 0, DoubleOut };
-    enum class Process { Off = 0, On, Error };
+    enum class Type : uint8_t { Simple = 0, DoubleOut = 1 };
+    enum class Process : uint8_t { Off = 0, On = 1, Error = 2 };
 
     SimpleOutputPart(Type type, T_Part id, std::shared_ptr<OpenCaffeObject> &oco);
     ~SimpleOutputPart();
