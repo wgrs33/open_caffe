@@ -1,7 +1,7 @@
 #ifndef _OPENCAFFE_MID_PARTS_LIFTER_H
 #define _OPENCAFFE_MID_PARTS_LIFTER_H
 
-#include "opencaffe/mid/parts/stepper_part.h"
+#include "opencaffe/base/devices/stepper_part.h"
 #include "opencaffe/base/devices/inputdevice.h"
 
 namespace OpenCaffe {

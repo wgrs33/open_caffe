@@ -8,7 +8,7 @@ namespace OpenCaffe {
 
 class CntDevice : public Device {
 public:
-    CntDevice(uint8_t id, std::function<int(uint8_t, uint32_t &)> fptr) : Device(id), _fptr(fptr) {}
+    CntDevice(uint8_t id, std::function<int(uint8_t, uint32_t &)> fptr) : Device(id), fptr_(fptr) {}
     ~CntDevice() {}
 
     int update() {

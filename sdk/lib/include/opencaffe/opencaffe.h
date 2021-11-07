@@ -38,14 +38,11 @@ typedef enum {
     GRINDER_CURRENT,
     GRINDER_DUO_CURRENT,
     TEMP_CUP_HEATER,
-    // UNUSED 2 channels 6, 7
-
-    BREW_UNIT_POSITION = 8U,
+    BREW_UNIT_POSITION,
     MILK_CONTAINER_POSITION,
     CAPPUCCINATORE_POSITION,
     MULTIVALVE_POSITION,
-    LIFTER_POSITION,
-
+    LIFTER_POSITION
 } T_AnalogPort;
 
 typedef enum {
@@ -75,6 +72,7 @@ typedef enum {
     LIFTER_TOP,
     LIFTER_DOWN_BUTTON,
     LIFTER_UP_BUTTON
+    // UNUSED 4 channels 28, 29, 30, 31
 } T_DigitalInPort;
 
 typedef enum {
@@ -112,14 +110,17 @@ typedef enum {
     BREW_UNIT_2,
     BREW_UNIT_3,
     BREW_UNIT_4,
+    // UNUSED 3 channels 29, 30, 31
+
     // double output grinders
-    GRINDER_N,
+    GRINDER_N = 32,
     GRINDER_DUO_N,
     MAIN_PUMP_N,
     STEAM_PUMP_N,
     HEATER_N,
     STEAM_HEATER_N,
     CUP_HEATER_N
+    // UNUSED 1 channel 39
 } T_DigitalOutPort;
 
 typedef enum { FLOWMETER_MAIN = 0U, FLOWMETER_STEAM, CGRINDER, CGRINDER_DUO, PHASE } T_CounterPort;

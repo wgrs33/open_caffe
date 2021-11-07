@@ -2,15 +2,14 @@
 #include "opencaffe/opencaffe.h"
 #include "opencaffe/base/tools.h"
 #include "opencaffe/device_mapping.h"
-#include "opencaffe/mid/parts/simple_input_part.h"
-#include "opencaffe/mid/parts/brew_unit.h"
+#include "opencaffe/mid/parts.h"
 
 namespace OpenCaffe {
 
 struct Sequencer::ExecutableObject {
     ExecutableObject() = delete;
-    ExecutableObject(std::unique_ptr<Base> obj) {
-        obj_ptr_ = std::move(obj);
+    ExecutableObject(std::shared_ptr<Base> obj) {
+        obj_ptr_ = obj;
     }
     int init() {
         return obj_ptr_->init();
@@ -21,7 +20,7 @@ struct Sequencer::ExecutableObject {
     int deinit() {
         return obj_ptr_->deinit();
     }
-    std::unique_ptr<Base> obj_ptr_;
+    std::shared_ptr<Base> obj_ptr_;
     bool no_20_spare_time_ = false;
     bool no_spare_time_    = false;
     uint32_t time_spare_   = 0U;
@@ -54,13 +53,13 @@ void Sequencer::parse_devices(const std::string &devfile_path) {
                 part_type = devname_map_part[part_name];
                 switch (part_type) {
                 case T_Part::E_WaterTank:
-                    object_list_.push_front(ExecutableObject(std::move(std::make_unique<WaterTank>(
-                        SimpleInputPart::Type::Presence_Empty, T_Part::E_WaterTank, opencaffeobject_))));
+                    object_list_.push_front(ExecutableObject(std::make_shared<WaterTank>(
+                        SimpleInputPart::Type::Presence_Empty, T_Part::E_WaterTank, opencaffeobject_)));
                     break;
 
                 case T_Part::E_Brew:
                     object_list_.push_front(
-                        ExecutableObject(std::move(std::make_unique<BrewUnit>(T_Part::E_Brew, opencaffeobject_))));
+                        ExecutableObject(std::make_shared<BrewUnit>(T_Part::E_Brew, opencaffeobject_)));
                     break;
 
                 default:
