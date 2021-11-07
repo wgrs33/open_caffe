@@ -50,7 +50,8 @@ int main(int argc, char **argv) {
     }
 
     std::unique_ptr<OpenCaffe::Sequencer> seq = std::make_unique<OpenCaffe::Sequencer>(config_path, device_path);
-    res                                       = seq->init();
+
+    res = seq->init();
     if (res == 0) {
         res = seq->main();
         if (res == 0) {

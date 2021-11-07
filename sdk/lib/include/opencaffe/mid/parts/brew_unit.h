@@ -11,7 +11,7 @@ class BrewUnit : public StepperPart {
 public:
     enum class Position : uint8_t { Home = 1, Work = 2, Unknown = 0, Error = 3 };
 
-    BrewUnit(T_Part id, std::shared_ptr<OpenCaffeObject> &oco, uint32_t max_current = 0);
+    BrewUnit(T_Part id, std::shared_ptr<OpenCaffeObject> &oco, uint32_t max_current = 0, bool errctrl = false);
     ~BrewUnit() {}
 
     int init();

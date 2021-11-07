@@ -167,7 +167,8 @@ private:
                 } else {
                     throw std::runtime_error(
                         "[" + name_ + "] The value (id: " + std::to_string(i) +
-                        ") has been registered by other part(ID: " + std::to_string(registration_[i]) + ")!");
+                        ") has been registered by other part(ID: " + std::to_string(registration_[i] - 1) + " - " +
+                        name_map_part[(T_Part)(registration_[i] - 1)] + ")!");
                 }
             } else {
                 throw std::runtime_error("[" + name_ + "] Index (id: " + std::to_string(i) + ") out of bound!");

@@ -15,8 +15,8 @@ int SimpleOutputPart::init() {
     set_log_level(LOG_DEBUG);
     std::vector<T_DigitalOutPort> vec = output_map_parts[id_];
     if (vec.size() == 0)
-        throw std::logic_error("[SimpleOutputPart] Part id: " + std::to_string(id_) +
-                               " can't be set to SimpleOutputPart object");
+        throw std::logic_error("[SimpleOutputPart] Part id: " + std::to_string(id_) + "(" + name_map_part[id_] +
+                               ") can't be set to SimpleOutputPart object");
     using namespace std::placeholders;
     try {
         switch (type_) {
@@ -32,7 +32,8 @@ int SimpleOutputPart::init() {
             break;
         }
     } catch (const std::exception &e) {
-        throw std::logic_error("[SimpleOutputPart] Part id: " + std::to_string(id_) + ": " + e.what());
+        throw std::logic_error("[SimpleOutputPart] Part id: " + std::to_string(id_) + "(" + name_map_part[id_] +
+                               "): " + e.what());
     }
     return 0;
 }

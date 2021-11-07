@@ -1,8 +1,9 @@
 #include "opencaffe/sequencer.h"
 #include "opencaffe/opencaffe.h"
 #include "opencaffe/base/tools.h"
-#include "opencaffe/mid/parts/simple_output_part.h"
+#include "opencaffe/device_mapping.h"
 #include "opencaffe/mid/parts/simple_input_part.h"
+#include "opencaffe/mid/parts/brew_unit.h"
 
 namespace OpenCaffe {
 
@@ -37,10 +38,42 @@ Sequencer::Sequencer(const std::string &config, const std::string &devices) : Ba
 Sequencer::~Sequencer() {}
 
 void Sequencer::parse_devices(const std::string &devfile_path) {
-    object_list_.push_front(ExecutableObject(
-        std::move(std::make_unique<WaterPump>(SimpleOutputPart::Type::Simple, T_Part::E_Pump, opencaffeobject_))));
-    object_list_.push_front(ExecutableObject(std::move(
-        std::make_unique<WaterTank>(SimpleInputPart::Type::Presence_Empty, T_Part::E_WaterTank, opencaffeobject_))));
+    std::ifstream cfg_file(devfile_path);
+    uint32_t cnt = 0;
+    if (cfg_file.is_open()) {
+        nlohmann::json json_file;
+        cfg_file >> json_file;
+        if (json_file.find("ctrl_dev") != json_file.end()) {
+            auto &parts = json_file["ctrl_dev"];
+            std::string part_name;
+            T_Part part_type;
+            for (auto &part : parts) {
+                Tools::get_param(part, "name", part_name);
+                if (devname_map_part.find(part_name) == devname_map_part.end())
+                    throw std::runtime_error("No device '" + part_name + "' was found!");
+                part_type = devname_map_part[part_name];
+                switch (part_type) {
+                case T_Part::E_WaterTank:
+                    object_list_.push_front(ExecutableObject(std::move(std::make_unique<WaterTank>(
+                        SimpleInputPart::Type::Presence_Empty, T_Part::E_WaterTank, opencaffeobject_))));
+                    break;
+
+                case T_Part::E_Brew:
+                    object_list_.push_front(
+                        ExecutableObject(std::move(std::make_unique<BrewUnit>(T_Part::E_Brew, opencaffeobject_))));
+                    break;
+
+                default:
+                    throw std::runtime_error("Wrong device!");
+                    break;
+                }
+                ++cnt;
+            }
+        }
+    } else {
+        throw std::runtime_error("No config file " + devfile_path + " was found!");
+    }
+    log(LOG_DEBUG) << "Number of devices: " << cnt << std::endl;
 }
 
 int Sequencer::init() {

@@ -14,8 +14,8 @@ int SimpleInputPart::init() {
     set_log_level(LOG_DEBUG);
     std::vector<T_DigitalInPort> vec = input_map_parts[id_];
     if (vec.size() == 0)
-        throw std::logic_error("[SimpleInputPart] Part id: " + std::to_string(id_) +
-                               " can't be set to SimpleInputPart object");
+        throw std::logic_error("[SimpleInputPart] Part id: " + std::to_string(id_) + "(" + name_map_part[id_] +
+                               ") can't be set to SimpleInputPart object");
     // TODO: check if mapping has sufficient number of ports!!!
     using namespace std::placeholders;
     try {
@@ -62,7 +62,8 @@ int SimpleInputPart::init() {
             break;
         }
     } catch (const std::exception &e) {
-        throw std::logic_error("[SimpleInputPart] Part id: " + std::to_string(id_) + ": " + e.what());
+        throw std::logic_error("[SimpleInputPart] Part id: " + std::to_string(id_) + "(" + name_map_part[id_] +
+                               "): " + e.what());
     }
     return 0;
 }

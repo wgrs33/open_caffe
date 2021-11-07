@@ -1,0 +1,12 @@
+{
+    "ctrl_dev" : [
+    {
+        "name" : "brew_unit",
+        "model" : "simple"
+    },
+    {
+        "name" : "water_tank",
+        "model" : "simple"
+    }
+    ]
+}

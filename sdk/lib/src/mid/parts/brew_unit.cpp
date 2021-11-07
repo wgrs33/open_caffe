@@ -3,9 +3,10 @@
 
 namespace OpenCaffe {
 
-BrewUnit::BrewUnit(T_Part id, std::shared_ptr<OpenCaffeObject> &oco, uint32_t max_current) :
+BrewUnit::BrewUnit(T_Part id, std::shared_ptr<OpenCaffeObject> &oco, uint32_t max_current, bool errctrl) :
     StepperPart(id, oco),
     id_(id),
+    errorctrl_(errctrl),
     opencaffeobject_(oco) {
     if (max_current > 0) {
         current_     = true;

@@ -6,7 +6,7 @@
       {
         "name" : "TEMP_HEATER",
         "conversion" : "MAPPING",
-        "mapping" : "/home/pwagner/qtcreator-workspace/open_caffe/sdk/config_files/temperature_sensors/ntc.cfg"
+        "mapping" : "../sdk/config_files/temperature_sensors/ntc.cfg"
       },
       {
         "name" : "BREW_UNIT_CURRENT",
