@@ -85,6 +85,14 @@ int Sequencer::init() {
     return res;
 }
 
+DataPacket get_new_packet() {
+    static uint16_t reftime = 0;
+    DataPacket p;
+
+    ++reftime;
+    return p;
+}
+
 int Sequencer::main() {
     int res = 0;
     int c   = 0;
@@ -93,6 +101,8 @@ int Sequencer::main() {
     do {
         tim.update();
         if (tim.is_time_elapsed()) {
+            DataPacket packet = get_new_packet();
+            opencaffeobject_->receive_packet(packet);
             for (auto it = object_list_.begin(); it != object_list_.end(); ++it) {
                 res = it->main();
             }
