@@ -1,3 +1,5 @@
-add_subdirectory(lib)
-add_subdirectory(apps)
+include(cmake/OpenCaffeSDKModules.cmake)
+
+add_subdirectory(modules)
+# add_subdirectory(apps)
       
