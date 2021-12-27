@@ -1,5 +1,5 @@
 #include "opencaffe/mid/parts/brew_unit.h"
-#include "opencaffe/opencaffe.h"
+#include "opencaffe/sdk/opencaffe.h"
 
 namespace OpenCaffe {
 

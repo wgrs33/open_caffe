@@ -1,7 +1,7 @@
 #ifndef _OPENCAFFE_MID_SEND_H
 #define _OPENCAFFE_MID_SEND_H
 
-#include "opencaffe/base/base.h"
+#include "opencaffe/sdk/base/base.h"
 
 namespace OpenCaffe {
 

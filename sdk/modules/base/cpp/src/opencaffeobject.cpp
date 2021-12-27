@@ -1,6 +1,5 @@
-#include "opencaffe/base/opencaffeobject.h"
-#include "opencaffe/base/tools.h"
-#include "opencaffe/opencaffe.h"
+#include "opencaffe/sdk/base/opencaffeobject.h"
+#include "opencaffe/sdk/base/tools.h"
 
 namespace OpenCaffe {
 

@@ -7,8 +7,8 @@
 #include <memory>
 #include <stdarg.h>
 
-#include "opencaffe/base/logger.h"
-#include "opencaffe/base/opencaffeobject.h"
+#include "opencaffe/sdk/base/logger.h"
+#include "opencaffe/sdk/base/opencaffeobject.h"
 
 namespace OpenCaffe {
 

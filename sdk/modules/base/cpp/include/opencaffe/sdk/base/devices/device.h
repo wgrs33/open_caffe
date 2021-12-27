@@ -1,7 +1,7 @@
 #ifndef SDK_CORE_BASE_DEVICE_H
 #define SDK_CORE_BASE_DEVICE_H
 
-#include "opencaffe/base/base.h"
+#include "opencaffe/sdk/base/base.h"
 
 namespace OpenCaffe {
 

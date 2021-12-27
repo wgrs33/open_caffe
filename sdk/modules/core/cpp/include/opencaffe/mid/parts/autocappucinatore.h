@@ -1,8 +1,8 @@
 #ifndef _OPENCAFFE_MID_PARTS_AUTOCAPPUCINATORE_H
 #define _OPENCAFFE_MID_PARTS_AUTOCAPPUCINATORE_H
 
-#include "opencaffe/base/devices/stepper_part.h"
-#include "opencaffe/base/devices/inputdevice.h"
+#include "opencaffe/sdk/base/devices/stepper_part.h"
+#include "opencaffe/sdk/base/devices/inputdevice.h"
 
 namespace OpenCaffe {
 

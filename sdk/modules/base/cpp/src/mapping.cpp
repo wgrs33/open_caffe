@@ -1,4 +1,4 @@
-#include "opencaffe/opencaffe.h"
+#include "opencaffe/sdk/opencaffe.h"
 
 namespace OpenCaffe {
 

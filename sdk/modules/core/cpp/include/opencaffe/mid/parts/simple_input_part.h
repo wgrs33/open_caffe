@@ -1,9 +1,9 @@
 #ifndef _OPENCAFFE_MID_PARTS_SIMPLE_INPUT_PART_H
 #define _OPENCAFFE_MID_PARTS_SIMPLE_INPUT_PART_H
 
-#include "opencaffe/base/base.h"
-#include "opencaffe/base/devices/inputdevice.h"
-#include "opencaffe/base/common_types.h"
+#include "opencaffe/sdk/base/base.h"
+#include "opencaffe/sdk/base/devices/inputdevice.h"
+#include "opencaffe/sdk/base/common_types.h"
 
 namespace OpenCaffe {
 

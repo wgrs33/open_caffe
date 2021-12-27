@@ -2,7 +2,7 @@
 #define _OPENCAFFE_MID_PARTS_HEATER_H
 
 #include "opencaffe/mid/parts/simple_output_part.h"
-#include "opencaffe/base/devices/inputdevice.h"
+#include "opencaffe/sdk/base/devices/inputdevice.h"
 
 namespace OpenCaffe {
 

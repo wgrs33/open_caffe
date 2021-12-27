@@ -2,7 +2,7 @@
 #define _OPENCAFFE_BASE_TOOLS_H
 
 #include <cstdint>
-#include "opencaffe/base/common_types.h"
+#include "opencaffe/sdk/base/common_types.h"
 #include <forward_list>
 #include <type_traits>
 

@@ -2,7 +2,7 @@
 #define _OPENCAFFE_H
 
 #include <map>
-#include "opencaffe/base/common_types.h"
+#include "opencaffe/sdk/base/common_types.h"
 
 namespace OpenCaffe {
 

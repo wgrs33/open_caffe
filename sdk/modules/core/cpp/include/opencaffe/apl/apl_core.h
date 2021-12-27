@@ -1,7 +1,7 @@
 #ifndef _OPENCAFFE_APL_CORE_H
 #define _OPENCAFFE_APL_CORE_H
 
-#include "opencaffe/base/base.h"
+#include "opencaffe/sdk/base/base.h"
 
 namespace OpenCaffe {
 

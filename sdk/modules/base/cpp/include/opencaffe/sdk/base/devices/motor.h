@@ -2,7 +2,7 @@
 #define SDK_CORE_BASE_DEVICES_MOTOR_H
 
 #include "vector"
-#include "opencaffe/base/base.h"
+#include "opencaffe/sdk/base/base.h"
 
 namespace OpenCaffe {
 

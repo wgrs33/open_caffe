@@ -1,5 +1,5 @@
 #include "opencaffe/mid/parts/simple_output_part.h"
-#include "opencaffe/base/common_types.h"
+#include "opencaffe/sdk/base/common_types.h"
 
 namespace OpenCaffe {
 

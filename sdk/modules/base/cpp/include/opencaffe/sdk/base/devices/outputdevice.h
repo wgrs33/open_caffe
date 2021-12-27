@@ -1,7 +1,7 @@
 #ifndef SDK_CORE_BASE_OUTPUT_DEVICE_H
 #define SDK_CORE_BASE_OUTPUT_DEVICE_H
 
-#include "opencaffe/base/devices/device.h"
+#include "opencaffe/sdk/base/devices/device.h"
 #include <functional>
 
 namespace OpenCaffe {

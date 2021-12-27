@@ -1,8 +1,8 @@
 #ifndef _OPENCAFFE_MID_PARTS_SIMPLE_OUTPUT_PART_H
 #define _OPENCAFFE_MID_PARTS_SIMPLE_OUTPUT_PART_H
 
-#include "opencaffe/base/base.h"
-#include "opencaffe/base/devices/outputdevice.h"
+#include "opencaffe/sdk/base/base.h"
+#include "opencaffe/sdk/base/devices/outputdevice.h"
 
 namespace OpenCaffe {
 

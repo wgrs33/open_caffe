@@ -1,6 +1,7 @@
 set(app opencaffe_headless_core_sample)
 
 set(common_libraries
+    OpenCaffeSDK::base
     OpenCaffeSDK::core
 )
 

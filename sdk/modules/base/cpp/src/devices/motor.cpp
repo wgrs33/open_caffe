@@ -1,4 +1,4 @@
-#include "opencaffe/base/devices/motor.h"
+#include "opencaffe/sdk/base/devices/motor.h"
 
 namespace OpenCaffe {
 

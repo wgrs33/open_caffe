@@ -1,9 +1,9 @@
 #ifndef _OPENCAFFE_MID_PARTS_WATER_CTRL_H
 #define _OPENCAFFE_MID_PARTS_WATER_CTRL_H
 
-#include "opencaffe/base/base.h"
+#include "opencaffe/sdk/base/base.h"
 #include "opencaffe/mid/parts/multivalve.h"
-#include "opencaffe/base/devices/outputdevice.h"
+#include "opencaffe/sdk/base/devices/outputdevice.h"
 
 namespace OpenCaffe {
 

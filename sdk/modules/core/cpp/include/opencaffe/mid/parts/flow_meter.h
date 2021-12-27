@@ -1,8 +1,8 @@
 #ifndef _OPENCAFFE_MID_PARTS_FLOW_METER_H
 #define _OPENCAFFE_MID_PARTS_FLOW_METER_H
 
-#include "opencaffe/base/base.h"
-#include "opencaffe/base/devices/counterdevice.h"
+#include "opencaffe/sdk/base/base.h"
+#include "opencaffe/sdk/base/devices/counterdevice.h"
 
 namespace OpenCaffe {
 

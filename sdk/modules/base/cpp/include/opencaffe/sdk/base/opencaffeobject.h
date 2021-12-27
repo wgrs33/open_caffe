@@ -1,10 +1,10 @@
 #ifndef _OPENCAFFE_OBJECT_H
 #define _OPENCAFFE_OBJECT_H
 
-#include "opencaffe/base/common_types.h"
-#include "opencaffe/base/communication_layer.h"
-#include "opencaffe/base/logger.h"
-#include "opencaffe/opencaffe.h"
+#include "opencaffe/sdk/base/common_types.h"
+#include "opencaffe/sdk/base/communication_layer.h"
+#include "opencaffe/sdk/base/logger.h"
+#include "opencaffe/sdk/opencaffe.h"
 #include <vector>
 #include <queue>
 #include <vector>

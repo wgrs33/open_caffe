@@ -1,7 +1,7 @@
 #ifndef _DEVICE_MAPPING_H
 #define _DEVICE_MAPPING_H
 
-#include "opencaffe/opencaffe.h"
+#include "opencaffe/sdk/opencaffe.h"
 
 namespace OpenCaffe {
 

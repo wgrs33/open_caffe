@@ -1,7 +1,7 @@
 #ifndef _OPENCAFFE_SEQUENCER_H
 #define _OPENCAFFE_SEQUENCER_H
 
-#include "opencaffe/base/base.h"
+#include "opencaffe/sdk/base/base.h"
 #include "forward_list"
 #include <memory>
 
