@@ -11,6 +11,10 @@
 #include <fstream>
 #include <forward_list>
 
+#include <boost/filesystem.hpp>
+
+namespace bfl = boost::filesystem;
+
 namespace OpenCaffe {
 
 class OpenCaffeObject {

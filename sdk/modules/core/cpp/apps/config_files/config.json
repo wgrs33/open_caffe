@@ -6,7 +6,7 @@
       {
         "name" : "TEMP_HEATER",
         "conversion" : "MAPPING",
-        "mapping" : "../sdk/config_files/temperature_sensors/ntc.cfg"
+        "mapping" : "temperature_sensors/ntc.cfg"
       },
       {
         "name" : "BREW_UNIT_CURRENT",
