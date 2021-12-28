@@ -2,7 +2,7 @@
 #define _OPENCAFFE_MID_PARTS_GRINDER_H
 
 #include "opencaffe/sdk/base/base.h"
-#include "opencaffe/sdk/base/devices/motor.h"
+#include "opencaffe/sdk/base/devices/motordevice.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
 #include "opencaffe/sdk/base/devices/outputdevice.h"
 #include "opencaffe/sdk/base/devices/counterdevice.h"

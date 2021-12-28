@@ -1,7 +1,7 @@
 #ifndef _OPENCAFFE_MID_PARTS_BREW_UNIT_H
 #define _OPENCAFFE_MID_PARTS_BREW_UNIT_H
 
-#include "opencaffe/sdk/base/devices/stepper_part.h"
+#include "opencaffe/mid/parts/stepper_part.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
 #include "opencaffe/sdk/base/devices/analogdevice.h"
 

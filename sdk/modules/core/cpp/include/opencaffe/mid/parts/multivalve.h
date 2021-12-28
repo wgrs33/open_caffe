@@ -1,7 +1,7 @@
 #ifndef _OPENCAFFE_MID_PARTS_MULTIVALVE_H
 #define _OPENCAFFE_MID_PARTS_MULTIVALVE_H
 
-#include "opencaffe/sdk/base/devices/stepper_part.h"
+#include "opencaffe/mid/parts/stepper_part.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
 
 namespace OpenCaffe {

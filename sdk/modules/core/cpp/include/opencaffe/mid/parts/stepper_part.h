@@ -2,7 +2,7 @@
 #define _OPENCAFFE_BASE_DEVICES_STEPPER_PART_H
 
 #include "opencaffe/sdk/base/base.h"
-#include "opencaffe/sdk/base/devices/motor.h"
+#include "opencaffe/sdk/base/devices/motordevice.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
 
 namespace OpenCaffe {
@@ -18,34 +18,40 @@ public:
     int init() {
         set_log_level(LOG_DEBUG);
         try {
-            motor_ = std::make_unique<MotorDevice>(MotorDevice::MotorType::STEPPER_MOTOR, id_, opencaffeobject_);
+            motor_ = std::make_unique<MotorDevice>(MotorDevice::MotorType::STEPPER_MOTOR, id_);
         } catch (const std::exception &e) {
             throw std::logic_error("[StepperPart] Part id: " + std::to_string(id_) + ": " + e.what());
         }
-        return motor_->init();
+        return 0;
     }
     int main() {
-        return motor_->main();
+        return motor_->update();
     }
     int deinit() {
-        return motor_->deinit();
+        return 0;
     }
 
     Process get_status() {
-        if (status_map_.find(motor_->get_status()) != status_map_.end())
-            return status_map_[motor_->get_status()];
+        if (status_map_.find(motor_->get_direction()) != status_map_.end())
+            return status_map_[motor_->get_direction()];
         return Process::Error;
     }
 
 protected:
     int move_forward() {
-        return motor_->move(MotorDevice::MotorDir::E_MID_MTR_FORWARD, MotorDevice::MotorPower::E_MID_MTR_POWER_33);
+        motor_->set_power(MotorDevice::MotorPower::P33);
+        motor_->set_direction(MotorDevice::MotorDir::Forward);
+        return 0;
     }
     int move_backward() {
-        return motor_->move(MotorDevice::MotorDir::E_MID_MTR_BACKWARD, MotorDevice::MotorPower::E_MID_MTR_POWER_33);
+        motor_->set_power(MotorDevice::MotorPower::P33);
+        motor_->set_direction(MotorDevice::MotorDir::Backward);
+        return 0;
     }
     int stop() {
-        return motor_->move(MotorDevice::MotorDir::E_MID_MTR_STOP, MotorDevice::MotorPower::E_MID_MTR_POWER_NONE);
+        motor_->set_power(MotorDevice::MotorPower::None);
+        motor_->set_direction(MotorDevice::MotorDir::Stop);
+        return 0;
     }
 
 private:
@@ -57,10 +63,9 @@ private:
     std::unique_ptr<MotorDevice> motor_;
     std::shared_ptr<OpenCaffeObject> opencaffeobject_;
 
-    std::map<MotorDevice::MotorDir, Process> status_map_ = {
-        {MotorDevice::MotorDir::E_MID_MTR_STOP, Process::Stop},
-        {MotorDevice::MotorDir::E_MID_MTR_FORWARD, Process::MovingUp},
-        {MotorDevice::MotorDir::E_MID_MTR_BACKWARD, Process::MovingDown}};
+    std::map<MotorDevice::MotorDir, Process> status_map_ = {{MotorDevice::MotorDir::Stop, Process::Stop},
+                                                            {MotorDevice::MotorDir::Forward, Process::MovingUp},
+                                                            {MotorDevice::MotorDir::Backward, Process::MovingDown}};
 };
 
 } // namespace OpenCaffe
