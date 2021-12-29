@@ -1,7 +1,7 @@
 #ifndef _OPENCAFFE_MID_PARTS_GRINDER_H
 #define _OPENCAFFE_MID_PARTS_GRINDER_H
 
-#include "opencaffe/sdk/base/base.h"
+#include "opencaffe/sdk/base/callobject.h"
 #include "opencaffe/sdk/base/devices/motordevice.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
 #include "opencaffe/sdk/base/devices/outputdevice.h"
@@ -9,7 +9,7 @@
 
 namespace OpenCaffe {
 
-class Grinder : public Base {
+class Grinder : public CallObject {
 public:
     enum class Type { Simple = 0, DoubleOutput, HBridge };
     enum class Process { Stop = 0, Grinding, Error };

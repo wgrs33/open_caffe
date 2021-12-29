@@ -1,11 +1,11 @@
 #ifndef _OPENCAFFE_MID_CORE_H
 #define _OPENCAFFE_MID_CORE_H
 
-#include "opencaffe/sdk/base/base.h"
+#include "opencaffe/sdk/base/callobject.h"
 
 namespace OpenCaffe {
 
-class MidCore : public Base {
+class MidCore : public CallObject {
 public:
     MidCore(std::shared_ptr<OpenCaffeObject> &oco);
     ~MidCore();

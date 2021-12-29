@@ -4,7 +4,7 @@
 namespace OpenCaffe {
 
 SimpleOutputPart::SimpleOutputPart(Type type, T_Part id, std::shared_ptr<OpenCaffeObject> &oco) :
-    Base(name_map_part[id]), id_(id), opencaffeobject_(oco), type_(type) {}
+    CallObject(name_map_part[id]), id_(id), opencaffeobject_(oco), type_(type) {}
 
 SimpleOutputPart::~SimpleOutputPart() {}
 

@@ -1,13 +1,13 @@
 #ifndef _OPENCAFFE_SEQUENCER_H
 #define _OPENCAFFE_SEQUENCER_H
 
-#include "opencaffe/sdk/base/base.h"
+#include "opencaffe/sdk/base/callobject.h"
 #include "forward_list"
 #include <memory>
 
 namespace OpenCaffe {
 
-class Sequencer : public Base {
+class Sequencer : public CallObject {
 public:
     Sequencer(const std::string &config, const std::string &devices);
     ~Sequencer();

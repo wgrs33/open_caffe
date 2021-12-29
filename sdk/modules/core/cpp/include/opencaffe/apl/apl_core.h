@@ -1,11 +1,11 @@
 #ifndef _OPENCAFFE_APL_CORE_H
 #define _OPENCAFFE_APL_CORE_H
 
-#include "opencaffe/sdk/base/base.h"
+#include "opencaffe/sdk/base/callobject.h"
 
 namespace OpenCaffe {
 
-class AplCore : public Base {
+class AplCore : public CallObject {
 public:
     AplCore(std::shared_ptr<OpenCaffeObject> &oco);
     ~AplCore();

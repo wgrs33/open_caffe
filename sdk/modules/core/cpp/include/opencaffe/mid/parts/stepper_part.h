@@ -1,18 +1,18 @@
 #ifndef _OPENCAFFE_BASE_DEVICES_STEPPER_PART_H
 #define _OPENCAFFE_BASE_DEVICES_STEPPER_PART_H
 
-#include "opencaffe/sdk/base/base.h"
+#include "opencaffe/sdk/base/callobject.h"
 #include "opencaffe/sdk/base/devices/motordevice.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
 
 namespace OpenCaffe {
 
-class StepperPart : public Base {
+class StepperPart : public CallObject {
 public:
     enum class Process { Stop = 0, MovingUp, MovingDown, Error };
 
     StepperPart(T_Part id, std::shared_ptr<OpenCaffeObject> &oco) :
-        Base(name_map_part[id]), id_(id), opencaffeobject_(oco) {}
+        CallObject(name_map_part[id]), id_(id), opencaffeobject_(oco) {}
     ~StepperPart() {}
 
     int init() {

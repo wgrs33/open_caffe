@@ -8,7 +8,7 @@ namespace OpenCaffe {
 
 struct Sequencer::ExecutableObject {
     ExecutableObject() = delete;
-    ExecutableObject(std::shared_ptr<Base> obj) {
+    ExecutableObject(std::shared_ptr<CallObject> obj) {
         obj_ptr_ = obj;
     }
     int init() {
@@ -20,13 +20,13 @@ struct Sequencer::ExecutableObject {
     int deinit() {
         return obj_ptr_->deinit();
     }
-    std::shared_ptr<Base> obj_ptr_;
+    std::shared_ptr<CallObject> obj_ptr_;
     bool no_20_spare_time_ = false;
     bool no_spare_time_    = false;
     uint32_t time_spare_   = 0U;
 };
 
-Sequencer::Sequencer(const std::string &config, const std::string &devices) : Base("Sequencer"), test_(0) {
+Sequencer::Sequencer(const std::string &config, const std::string &devices) : CallObject("Sequencer"), test_(0) {
     set_log_level(LOG_DEBUG);
     // log(LOG_DEBUG) << "test_: " << test_ << std::endl;
     opencaffeobject_ = std::make_shared<OpenCaffeObject>(config);

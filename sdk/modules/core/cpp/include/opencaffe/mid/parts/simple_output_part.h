@@ -1,12 +1,12 @@
 #ifndef _OPENCAFFE_MID_PARTS_SIMPLE_OUTPUT_PART_H
 #define _OPENCAFFE_MID_PARTS_SIMPLE_OUTPUT_PART_H
 
-#include "opencaffe/sdk/base/base.h"
+#include "opencaffe/sdk/base/callobject.h"
 #include "opencaffe/sdk/base/devices/outputdevice.h"
 
 namespace OpenCaffe {
 
-class SimpleOutputPart : public Base {
+class SimpleOutputPart : public CallObject {
 public:
     enum class Type : uint8_t { Simple = 0, DoubleOut = 1 };
     enum class Process : uint8_t { Off = 0, On = 1, Error = 2 };

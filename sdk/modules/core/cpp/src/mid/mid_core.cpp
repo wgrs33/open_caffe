@@ -2,7 +2,7 @@
 
 namespace OpenCaffe {
 
-MidCore::MidCore(std::shared_ptr<OpenCaffeObject> &oco) : Base("MidCore"), test_(0) {
+MidCore::MidCore(std::shared_ptr<OpenCaffeObject> &oco) : CallObject("MidCore"), test_(0) {
     set_log_level(LOG_DEBUG);
     opencaffeobject_ = oco;
     OBJECT_LINE(log(LOG_DEBUG), this) << "test_: " << test_ << std::endl;

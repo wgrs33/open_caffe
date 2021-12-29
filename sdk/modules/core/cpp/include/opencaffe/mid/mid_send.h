@@ -1,11 +1,11 @@
 #ifndef _OPENCAFFE_MID_SEND_H
 #define _OPENCAFFE_MID_SEND_H
 
-#include "opencaffe/sdk/base/base.h"
+#include "opencaffe/sdk/base/callobject.h"
 
 namespace OpenCaffe {
 
-class MidSend : public Base {
+class MidSend : public CallObject {
 public:
     MidSend(std::shared_ptr<OpenCaffeObject> &oco);
     ~MidSend();
