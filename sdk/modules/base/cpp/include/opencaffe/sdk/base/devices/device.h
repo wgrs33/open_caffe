@@ -1,5 +1,5 @@
-#ifndef SDK_CORE_BASE_DEVICE_H
-#define SDK_CORE_BASE_DEVICE_H
+#ifndef OPENCAFFE_SDK_BASE_DEVICE_H
+#define OPENCAFFE_SDK_BASE_DEVICE_H
 
 #include "opencaffe/sdk/base/base.h"
 
@@ -9,19 +9,17 @@ class Device {
 public:
     enum class Status { OK = 0, NotUpdated, Error };
 
-    Device(uint8_t id) : id_(id) {}
-    virtual ~Device() {}
-    Status get_status() {
-        return status_;
-    }
+    Device(uint8_t id);
+
+    virtual ~Device() = default;
+
+    Status get_status();
 
 protected:
-    void set_status(Status s) {
-        status_ = s;
-    }
-    uint8_t get_id() {
-        return id_;
-    }
+    void set_status(Status s);
+
+    uint8_t get_id();
+
     virtual int update() = 0;
 
 private:
@@ -31,4 +29,4 @@ private:
 
 } // namespace OpenCaffe
 
-#endif // SDK_CORE_BASE_DEVICE_H
+#endif // OPENCAFFE_SDK_BASE_DEVICE_H
