@@ -10,25 +10,13 @@ class InputDevice : public Device {
 public:
     enum class State : uint8_t { OFF = 0, ON = 1 };
 
-    InputDevice(uint8_t id, std::function<int(uint8_t, bool &)> fptr) : Device(id), fptr_(fptr) {}
-    ~InputDevice() {}
+    InputDevice(uint8_t id, std::function<int(uint8_t, bool &)> fptr);
 
-    State get_state() {
-        return state_;
-    }
-    int update() {
-        bool state;
-        if (fptr_(get_id(), state) == 0) {
-            if (get_status() != Status::OK) {
-                set_status(Status::OK);
-            }
-            state_ = State(state);
-            return 0;
-        } else {
-            set_status(Status::Error);
-            return 1;
-        }
-    }
+    ~InputDevice() = default;
+
+    State get_state();
+
+    int update();
 
 private:
     State state_;
