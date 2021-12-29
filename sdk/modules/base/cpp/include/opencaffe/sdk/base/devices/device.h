@@ -1,5 +1,5 @@
-#ifndef OPENCAFFE_SDK_BASE_DEVICE_H
-#define OPENCAFFE_SDK_BASE_DEVICE_H
+#ifndef OPENCAFFE_SDK_BASE_DEVICES_DEVICE_H
+#define OPENCAFFE_SDK_BASE_DEVICES_DEVICE_H
 
 #include "opencaffe/sdk/base/base.h"
 
@@ -29,4 +29,4 @@ private:
 
 } // namespace OpenCaffe
 
-#endif // OPENCAFFE_SDK_BASE_DEVICE_H
+#endif // OPENCAFFE_SDK_BASE_DEVICES_DEVICE_H

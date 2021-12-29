@@ -1,5 +1,5 @@
-#ifndef OPENCAFFE_SDK_BASE_ANALOG_DEVICE_H
-#define OPENCAFFE_SDK_BASE_ANALOG_DEVICE_H
+#ifndef OPENCAFFE_SDK_BASE_DEVICES_ANALOG_DEVICE_H
+#define OPENCAFFE_SDK_BASE_DEVICES_ANALOG_DEVICE_H
 
 #include "opencaffe/sdk/base/devices/device.h"
 #include <functional>
@@ -24,4 +24,4 @@ private:
 
 #include "details/analogdevice_impl.h"
 
-#endif // OPENCAFFE_SDK_BASE_ANALOG_DEVICE_H
+#endif // OPENCAFFE_SDK_BASE_DEVICES_ANALOG_DEVICE_H

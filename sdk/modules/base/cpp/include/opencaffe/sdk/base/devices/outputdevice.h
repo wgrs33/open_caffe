@@ -1,5 +1,5 @@
-#ifndef SDK_CORE_BASE_OUTPUT_DEVICE_H
-#define SDK_CORE_BASE_OUTPUT_DEVICE_H
+#ifndef OPENCAFFE_SDK_BASE_DEVICES_OUTPUT_DEVICE_H
+#define OPENCAFFE_SDK_BASE_DEVICES_OUTPUT_DEVICE_H
 
 #include "opencaffe/sdk/base/devices/device.h"
 #include <functional>
@@ -10,48 +10,25 @@ class OutputDevice : public Device {
 public:
     enum class State : uint8_t { OFF = 0, ON = 1 };
 
-    OutputDevice(uint8_t id, std::function<int(uint8_t, bool)> fptr, State default_state = State::OFF) :
-        Device(id), fptr_(fptr), write_state_(default_state) {}
-    ~OutputDevice() {}
+    OutputDevice(uint8_t id, std::function<int(uint8_t, bool)> fptr, State default_state = State::OFF);
 
-    int on() {
-        if (get_status() == Status::OK) {
-            write_state_ = State::ON;
-            return 0;
-        } else {
-            (void)off();
-            return 1;
-        }
-    }
-    int off() {
-        write_state_ = State::OFF;
-        return 0;
-    }
-    State get_state() {
-        return write_state_;
-    }
-    int update() {
-        if (fptr_(get_id(), value(write_state_)) == 0) {
-            if (get_status() != Status::OK) {
-                set_status(Status::OK);
-            }
-            return 0;
-        } else {
-            set_status(Status::Error);
-            return 1;
-        }
-    }
+    ~OutputDevice() = default;
+
+    int on();
+
+    int off();
+
+    State get_state();
+
+    int update();
 
 private:
-    bool value(State s) {
-        if (s == State::ON)
-            return true;
-        return false;
-    }
+    bool value(State s);
+
     State write_state_;
     std::function<int(uint8_t, uint8_t)> fptr_;
 };
 
 } // namespace OpenCaffe
 
-#endif // SDK_CORE_BASE_OUTPUT_DEVICE_H
+#endif // OPENCAFFE_SDK_BASE_DEVICES_OUTPUT_DEVICE_H
