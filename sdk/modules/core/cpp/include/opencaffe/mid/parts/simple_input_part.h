@@ -3,7 +3,7 @@
 
 #include "opencaffe/sdk/base/base.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
-#include "opencaffe/sdk/base/common_types.h"
+#include "opencaffe/sdk/base/utils/common_types.h"
 
 namespace OpenCaffe {
 

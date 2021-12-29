@@ -1,7 +1,7 @@
 #include "opencaffe/sequencer.h"
 #include "opencaffe/sdk/opencaffe.h"
 #include "opencaffe/sdk/base/utils/tools.h"
-#include "opencaffe/sdk/base/device_mapping.h"
+#include "opencaffe/device_mapping.h"
 #include "opencaffe/mid/parts.h"
 
 namespace OpenCaffe {
