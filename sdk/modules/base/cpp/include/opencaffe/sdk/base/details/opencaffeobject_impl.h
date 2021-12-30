@@ -16,17 +16,17 @@ int OpenCaffeObject::get_analog(uint8_t channel, T &value) {
                     value = (T)(((acquisition_params_.ref_voltage_ * analogs_[channel]) /
                                  (acquisition_params_.resolution_ * analog.parameter.resistance)) +
                                 analog.offset);
-                    break;
+                    return 0;
                 case RESISTANCE:
                     value = (T)(((acquisition_params_.ref_voltage_ * analogs_[channel]) /
                                  (acquisition_params_.resolution_ * analog.parameter.current)) +
                                 analog.offset);
-                    break;
+                    return 0;
                 case VOLTAGE:
                     value =
                         (T)(((acquisition_params_.ref_voltage_ * analogs_[channel]) / acquisition_params_.resolution_) +
                             analog.offset);
-                    break;
+                    return 0;
                 case MAPPING: {
                     uint32_t voltage = (uint32_t)((acquisition_params_.ref_voltage_ * analogs_[channel]) /
                                                   acquisition_params_.resolution_);
@@ -37,7 +37,9 @@ int OpenCaffeObject::get_analog(uint8_t channel, T &value) {
                             return 0;
                         }
                     }
-                } break;
+                    log(LOG_DEBUG) << "Value not mapped: " << std::to_string(voltage) << std::endl;
+                    return 1;
+                }
                 default:
                     std::runtime_error("Wrong convertion type for ID: " + std::to_string(channel));
                     break;
@@ -45,9 +47,10 @@ int OpenCaffeObject::get_analog(uint8_t channel, T &value) {
                 break;
             }
         }
+        log(LOG_DEBUG) << "No analog channel found by ID: " << std::to_string(channel) << std::endl;
         return 1;
     }
-    throw std::runtime_error("No analog channel found by ID: " + std::to_string(channel));
+    throw std::runtime_error("Channel ID higher than max ID: " + std::to_string(channel));
     return 1;
 }
 
