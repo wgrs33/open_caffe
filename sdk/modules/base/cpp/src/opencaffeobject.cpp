@@ -1,6 +1,11 @@
 #include "opencaffe/sdk/base/opencaffeobject.h"
 #include "opencaffe/sdk/base/utils/tools.h"
 
+#include <fstream>
+
+#include <boost/filesystem.hpp>
+
+namespace bfl = boost::filesystem;
 namespace OpenCaffe {
 
 Common::ValueStringMap<T_AnalogPort> analogport_value_map("T_AnalogPort string mapping",
@@ -89,6 +94,12 @@ Common::ValueStringMap<T_CounterPort> counterport_value_map("T_CounterPort strin
 Common::ValueStringMap<T_ConversionType> conversion_value_map(
     "T_ConversionType string mapping",
     {{CURRENT, "CURRENT"}, {RESISTANCE, "RESISTANCE"}, {VOLTAGE, "VOLTAGE"}, {MAPPING, "MAPPING"}});
+
+OpenCaffeObject::OpenCaffeObject(std::string cfg_path) {
+    logger_ = std::make_unique<OpenCaffe::logger>(std::cout, "OpenCaffeObject");
+    logger_->set_log_level(LOG_DEBUG);
+    read_cfg(cfg_path);
+}
 
 void OpenCaffeObject::read_cfg(const std::string cfg_path) {
     bpt::ptree json_file;
@@ -281,6 +292,23 @@ int OpenCaffeObject::update_analog_switches() {
     return 0;
 }
 
+int OpenCaffeObject::read_conv_table(std::string temp_path, std::forward_list<std::pair<uint32_t, int16_t>> table) {
+    std::ifstream tab(temp_path, std::ios::in);
+    if (tab.is_open()) {
+        while (!tab.eof()) {
+            std::pair<uint32_t, int16_t> f;
+            tab >> f.first >> f.second;
+            table.push_front(f);
+        }
+        // log(LOG_DEBUG) << "table\n";
+        // for (auto &item : table) {
+        //     log(LOG_DEBUG) << item.first << "-" << item.second << std::endl;
+        // }
+    } else {
+        throw std::runtime_error("No temp table \"" + temp_path + "\" has been found");
+    }
+}
+
 void OpenCaffeObject::connect_input_to_device(uint8_t id, std::forward_list<uint8_t> list) {
     for (auto item : list) {
         inputs_.register_value(item, id);
@@ -303,6 +331,10 @@ void OpenCaffeObject::connect_counter_to_device(uint8_t id, std::forward_list<ui
     for (auto item : list) {
         counters_.register_value(item, id);
     }
+}
+
+logger &OpenCaffeObject::log(unsigned level) {
+    return (*logger_)(level);
 }
 
 } // namespace OpenCaffe

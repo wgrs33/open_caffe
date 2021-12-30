@@ -1,8 +1,8 @@
 #ifndef SDK_CORE_BASE_DEVICES_MOTOR_H
 #define SDK_CORE_BASE_DEVICES_MOTOR_H
 
-#include "vector"
 #include "opencaffe/sdk/base/devices/device.h"
+#include <functional>
 
 namespace OpenCaffe {
 
