@@ -10,9 +10,11 @@ template<typename T>
 class AnalogDevice : public Device {
 public:
     AnalogDevice(uint8_t id, std::function<int(uint8_t, T &)> fptr);
+
     ~AnalogDevice() = default;
 
     T get_analog();
+
     int update();
 
 private:
@@ -21,7 +23,5 @@ private:
 };
 
 } // namespace OpenCaffe
-
-#include "details/analogdevice_impl.h"
 
 #endif // OPENCAFFE_SDK_BASE_DEVICES_ANALOG_DEVICE_H

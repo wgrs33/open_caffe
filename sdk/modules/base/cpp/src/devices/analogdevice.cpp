@@ -1,5 +1,4 @@
-#ifndef OPENCAFFE_SDK_BASE_DEVICES_ANALOG_DEVICE_IMPL_H
-#define OPENCAFFE_SDK_BASE_DEVICES_ANALOG_DEVICE_IMPL_H
+#include "opencaffe/sdk/base/devices/analogdevice.h"
 
 namespace OpenCaffe {
 
@@ -15,9 +14,7 @@ template<class T>
 int AnalogDevice<T>::update() {
     T val;
     if (fptr_(get_id(), val) == 0) {
-        if (get_status() != Status::OK) {
-            set_status(Status::OK);
-        }
+        set_status(Status::OK);
         val_ = val;
         return 0;
     } else {
@@ -26,6 +23,8 @@ int AnalogDevice<T>::update() {
     }
 }
 
-} // namespace OpenCaffe
+template class AnalogDevice<float>;
+template class AnalogDevice<uint32_t>;
+template class AnalogDevice<int32_t>;
 
-#endif // OPENCAFFE_SDK_BASE_DEVICES_ANALOG_DEVICE_IMPL_H
+} // namespace OpenCaffe
