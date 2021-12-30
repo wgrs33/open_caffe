@@ -10,6 +10,4 @@ target_link_libraries(opencaffe_sdk_core
         Boost::system
         Boost::filesystem
         Boost::boost # Target for header-only dependencies
-    # PUBLIC
-    #     nlohmann_json::nlohmann_json
 )

@@ -75,5 +75,10 @@ if("${isSystemDir}" STREQUAL "-1")
     set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 endif("${isSystemDir}" STREQUAL "-1")
 
+include(CTest)
+if(BUILD_TESTING)
+    # Gtest
+    find_package(GTest REQUIRED)
+endif(BUILD_TESTING)
 
 add_subdirectory(sdk)

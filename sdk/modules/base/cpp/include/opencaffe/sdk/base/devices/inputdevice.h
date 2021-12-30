@@ -19,7 +19,7 @@ public:
     int update();
 
 private:
-    State state_;
+    State state_ = State::OFF;
     std::function<int(uint8_t, bool &)> fptr_;
 };
 
