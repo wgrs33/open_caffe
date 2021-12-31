@@ -1,5 +1,6 @@
 set(opencaffe_sdk_base_test_srcs
     ${CMAKE_CURRENT_SOURCE_DIR}/inputdevice_gtest.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/outputdevice_gtest.cpp
 )
 
 add_executable(gtest_opencaffe_sdk_base ${opencaffe_sdk_base_test_srcs})
