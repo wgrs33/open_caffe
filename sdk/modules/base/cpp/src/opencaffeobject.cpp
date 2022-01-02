@@ -8,92 +8,93 @@
 namespace bfl = boost::filesystem;
 namespace OpenCaffe {
 
-Common::ValueStringMap<T_AnalogPort> analogport_value_map("T_AnalogPort string mapping",
-                                                          {{TEMP_HEATER, "TEMP_HEATER"},
-                                                           {TEMP_STEAM_HEATER, "TEMP_STEAM_HEATER"},
-                                                           {BREW_UNIT_CURRENT, "BREW_UNIT_CURRENT"},
-                                                           {GRINDER_CURRENT, "GRINDER_CURRENT"},
-                                                           {GRINDER_DUO_CURRENT, "GRINDER_DUO_CURRENT"},
-                                                           {BREW_UNIT_POSITION, "BREW_UNIT_POSITION"},
-                                                           {MILK_CONTAINER_POSITION, "MILK_CONTAINER_POSITION"},
-                                                           {CAPPUCCINATORE_POSITION, "CAPPUCCINATORE_POSITION"},
-                                                           {MULTIVALVE_POSITION, "MULTIVALVE_POSITION"},
-                                                           {LIFTER_POSITION, "LIFTER_POSITION"}});
+ValueStringMap<T_AnalogPort> analogport_value_map("T_AnalogPort string mapping",
+                                                  {{TEMP_HEATER, "TEMP_HEATER"},
+                                                   {TEMP_STEAM_HEATER, "TEMP_STEAM_HEATER"},
+                                                   {BREW_UNIT_CURRENT, "BREW_UNIT_CURRENT"},
+                                                   {GRINDER_CURRENT, "GRINDER_CURRENT"},
+                                                   {GRINDER_DUO_CURRENT, "GRINDER_DUO_CURRENT"},
+                                                   {BREW_UNIT_POSITION, "BREW_UNIT_POSITION"},
+                                                   {MILK_CONTAINER_POSITION, "MILK_CONTAINER_POSITION"},
+                                                   {CAPPUCCINATORE_POSITION, "CAPPUCCINATORE_POSITION"},
+                                                   {MULTIVALVE_POSITION, "MULTIVALVE_POSITION"},
+                                                   {LIFTER_POSITION, "LIFTER_POSITION"}});
 
-Common::ValueStringMap<T_DigitalInPort>
-    inport_value_map("T_DigitalInPort string mapping", {{BREW_UNIT_PRESENT, "BREW_UNIT_PRESENT"},
-                                                        {WATERTANK_PRESENT, "WATERTANK_PRESENT"},
-                                                        {WATERTANK_EMPTY, "WATERTANK_EMPTY"},
-                                                        {DREG_DRAWER_PRESENT, "DREG_DRAWER_PRESENT"},
-                                                        {DREG_DRAWER_FULL, "DREG_DRAWER_FULL"},
-                                                        {DRIP_DRAWER_PRESENT, "DRIP_DRAWER_PRESENT"},
-                                                        {DRIP_DRAWER_FULL, "DRIP_DRAWER_FULL"},
-                                                        {DOOR_CLOSED, "DOOR_CLOSED"},
-                                                        {BEAN_CONTAINER_CLOSED, "BEAN_CONTAINER_CLOSED"},
-                                                        {GRINDER_OVERVOLTAGE, "GRINDER_OVERVOLTAGE"},
-                                                        {GRINDER_DUO_OVERVOLTAGE, "GRINDER_DUO_OVERVOLTAGE"},
-                                                        {BREW_UNIT_OVERVOLTAGE, "BREW_UNIT_OVERVOLTAGE"},
-                                                        {MILK_CONTAINER_PRESENT, "MILK_CONTAINER_PRESENT"},
-                                                        {MILK_DRAWER_PRESENT, "MILK_DRAWER_PRESENT"},
-                                                        {CAPPUCCINATORE_MILK_POSITION, "CAPPUCCINATORE_MILK_POSITION"},
-                                                        {CAPPUCCINATORE_FOAM_POSITION, "CAPPUCCINATORE_FOAM_POSITION"},
-                                                        {BREW_UNIT_HOME, "BREW_UNIT_HOME"},
-                                                        {BREW_UNIT_WORK, "BREW_UNIT_WORK"},
-                                                        {MULTIVALVE_LOW, "MULTIVALTE_LOW"},
-                                                        {MULTIVALVE_HIGH, "MULTIVALVE_HIGH"},
-                                                        {LIFTER_BOTTOM, "LIFTER_BOTTOM"},
-                                                        {LIFTER_TOP, "LIFTER_TOP"},
-                                                        {LIFTER_UP_BUTTON, "LIFTER_UP_BUTTON"},
-                                                        {LIFTER_DOWN_BUTTON, "LIFTER_DOWN_BUTTON"}});
+ValueStringMap<T_DigitalInPort> inport_value_map("T_DigitalInPort string mapping",
+                                                 {{BREW_UNIT_PRESENT, "BREW_UNIT_PRESENT"},
+                                                  {WATERTANK_PRESENT, "WATERTANK_PRESENT"},
+                                                  {WATERTANK_EMPTY, "WATERTANK_EMPTY"},
+                                                  {DREG_DRAWER_PRESENT, "DREG_DRAWER_PRESENT"},
+                                                  {DREG_DRAWER_FULL, "DREG_DRAWER_FULL"},
+                                                  {DRIP_DRAWER_PRESENT, "DRIP_DRAWER_PRESENT"},
+                                                  {DRIP_DRAWER_FULL, "DRIP_DRAWER_FULL"},
+                                                  {DOOR_CLOSED, "DOOR_CLOSED"},
+                                                  {BEAN_CONTAINER_CLOSED, "BEAN_CONTAINER_CLOSED"},
+                                                  {GRINDER_OVERVOLTAGE, "GRINDER_OVERVOLTAGE"},
+                                                  {GRINDER_DUO_OVERVOLTAGE, "GRINDER_DUO_OVERVOLTAGE"},
+                                                  {BREW_UNIT_OVERVOLTAGE, "BREW_UNIT_OVERVOLTAGE"},
+                                                  {MILK_CONTAINER_PRESENT, "MILK_CONTAINER_PRESENT"},
+                                                  {MILK_DRAWER_PRESENT, "MILK_DRAWER_PRESENT"},
+                                                  {CAPPUCCINATORE_MILK_POSITION, "CAPPUCCINATORE_MILK_POSITION"},
+                                                  {CAPPUCCINATORE_FOAM_POSITION, "CAPPUCCINATORE_FOAM_POSITION"},
+                                                  {BREW_UNIT_HOME, "BREW_UNIT_HOME"},
+                                                  {BREW_UNIT_WORK, "BREW_UNIT_WORK"},
+                                                  {MULTIVALVE_LOW, "MULTIVALTE_LOW"},
+                                                  {MULTIVALVE_HIGH, "MULTIVALVE_HIGH"},
+                                                  {LIFTER_BOTTOM, "LIFTER_BOTTOM"},
+                                                  {LIFTER_TOP, "LIFTER_TOP"},
+                                                  {LIFTER_UP_BUTTON, "LIFTER_UP_BUTTON"},
+                                                  {LIFTER_DOWN_BUTTON, "LIFTER_DOWN_BUTTON"}});
 
-Common::ValueStringMap<T_DigitalOutPort> outport_value_map("T_DigitalOutPort string mapping",
-                                                           {{LED, "LED"},
-                                                            {ELECTROMAGNET, "ELECTROMAGNET"},
-                                                            {GRINDER, "GRINDER"},
-                                                            {GRINDER_DUO, "GRINDER_DUO"},
-                                                            {HEATER, "HEATER"},
-                                                            {STEAM_HEATER, "STEAM_HEATER"},
-                                                            {CUP_HEATER, "CUP_HEATER"},
-                                                            {MAIN_PUMP, "MAIN_PUMP"},
-                                                            {STEAM_PUMP, "STEAM_PUMP"},
-                                                            {VALVE0, "VALVE0"},
-                                                            {VALVE1, "VALVE1"},
-                                                            {VALVE2, "VALVE2"},
-                                                            {VALVE3, "VALVE3"},
-                                                            {LIFTER_PH1, "LIFTER_PH1"},
-                                                            {LIFTER_PH2, "LIFTER_PH2"},
-                                                            {LIFTER_I0, "LIFTER_I0"},
-                                                            {LIFTER_I1, "LIFTER_I1"},
-                                                            {CAPPUCCINATORE_PH1, "CAPPUCCINATORE_PH1"},
-                                                            {CAPPUCCINATORE_PH2, "CAPPUCCINATORE_PH2"},
-                                                            {CAPPUCCINATORE_I0, "CAPPUCCINATORE_I0"},
-                                                            {CAPPUCCINATORE_I1, "CAPPUCCINATORE_I1"},
-                                                            {MULTIVALVE_PH1, "MULTIVALVE_PH1"},
-                                                            {MULTIVALVE_PH2, "MULTIVALVE_PH2"},
-                                                            {MULTIVALVE_I0, "MULTIVALVE_I0"},
-                                                            {MULTIVALVE_I1, "MULTIVALVE_I1"},
-                                                            {BREW_UNIT_1, "BREW_UNIT_1"},
-                                                            {BREW_UNIT_2, "BREW_UNIT_2"},
-                                                            {BREW_UNIT_3, "BREW_UNIT_3"},
-                                                            {BREW_UNIT_4, "BREW_UNIT_4"},
-                                                            {GRINDER_N, "GRINDER_N"},
-                                                            {GRINDER_DUO_N, "GRINDER_DUO_N"},
-                                                            {MAIN_PUMP_N, "MAIN_PUMP_N"},
-                                                            {STEAM_PUMP_N, "STEAM_PUMP_N"},
-                                                            {HEATER_N, "HEATER_N"},
-                                                            {STEAM_HEATER_N, "STEAM_HEATER_N"},
-                                                            {CUP_HEATER_N, "CUP_HEATER_N"}});
+ValueStringMap<T_DigitalOutPort> outport_value_map("T_DigitalOutPort string mapping",
+                                                   {{LED, "LED"},
+                                                    {ELECTROMAGNET, "ELECTROMAGNET"},
+                                                    {GRINDER, "GRINDER"},
+                                                    {GRINDER_DUO, "GRINDER_DUO"},
+                                                    {HEATER, "HEATER"},
+                                                    {STEAM_HEATER, "STEAM_HEATER"},
+                                                    {CUP_HEATER, "CUP_HEATER"},
+                                                    {MAIN_PUMP, "MAIN_PUMP"},
+                                                    {STEAM_PUMP, "STEAM_PUMP"},
+                                                    {VALVE0, "VALVE0"},
+                                                    {VALVE1, "VALVE1"},
+                                                    {VALVE2, "VALVE2"},
+                                                    {VALVE3, "VALVE3"},
+                                                    {LIFTER_PH1, "LIFTER_PH1"},
+                                                    {LIFTER_PH2, "LIFTER_PH2"},
+                                                    {LIFTER_I0, "LIFTER_I0"},
+                                                    {LIFTER_I1, "LIFTER_I1"},
+                                                    {CAPPUCCINATORE_PH1, "CAPPUCCINATORE_PH1"},
+                                                    {CAPPUCCINATORE_PH2, "CAPPUCCINATORE_PH2"},
+                                                    {CAPPUCCINATORE_I0, "CAPPUCCINATORE_I0"},
+                                                    {CAPPUCCINATORE_I1, "CAPPUCCINATORE_I1"},
+                                                    {MULTIVALVE_PH1, "MULTIVALVE_PH1"},
+                                                    {MULTIVALVE_PH2, "MULTIVALVE_PH2"},
+                                                    {MULTIVALVE_I0, "MULTIVALVE_I0"},
+                                                    {MULTIVALVE_I1, "MULTIVALVE_I1"},
+                                                    {BREW_UNIT_1, "BREW_UNIT_1"},
+                                                    {BREW_UNIT_2, "BREW_UNIT_2"},
+                                                    {BREW_UNIT_3, "BREW_UNIT_3"},
+                                                    {BREW_UNIT_4, "BREW_UNIT_4"},
+                                                    {GRINDER_N, "GRINDER_N"},
+                                                    {GRINDER_DUO_N, "GRINDER_DUO_N"},
+                                                    {MAIN_PUMP_N, "MAIN_PUMP_N"},
+                                                    {STEAM_PUMP_N, "STEAM_PUMP_N"},
+                                                    {HEATER_N, "HEATER_N"},
+                                                    {STEAM_HEATER_N, "STEAM_HEATER_N"},
+                                                    {CUP_HEATER_N, "CUP_HEATER_N"}});
 
-Common::ValueStringMap<T_CounterPort> counterport_value_map("T_CounterPort string mapping",
-                                                            {{FLOWMETER_MAIN, "FLOWMETER_MAIN"},
-                                                             {FLOWMETER_STEAM, "FLOWMETER_STEAM"},
-                                                             {CGRINDER, "CGRINDER"},
-                                                             {CGRINDER_DUO, "CGRINDER_DUO"},
-                                                             {PHASE, "PHASE"}});
+ValueStringMap<T_CounterPort> counterport_value_map("T_CounterPort string mapping",
+                                                    {{FLOWMETER_MAIN, "FLOWMETER_MAIN"},
+                                                     {FLOWMETER_STEAM, "FLOWMETER_STEAM"},
+                                                     {CGRINDER, "CGRINDER"},
+                                                     {CGRINDER_DUO, "CGRINDER_DUO"},
+                                                     {PHASE, "PHASE"}});
 
-Common::ValueStringMap<T_ConversionType> conversion_value_map(
-    "T_ConversionType string mapping",
-    {{CURRENT, "CURRENT"}, {RESISTANCE, "RESISTANCE"}, {VOLTAGE, "VOLTAGE"}, {MAPPING, "MAPPING"}});
+ValueStringMap<T_ConversionType> conversion_value_map("T_ConversionType string mapping", {{CURRENT, "CURRENT"},
+                                                                                          {RESISTANCE, "RESISTANCE"},
+                                                                                          {VOLTAGE, "VOLTAGE"},
+                                                                                          {MAPPING, "MAPPING"}});
 
 OpenCaffeObject::OpenCaffeObject(std::string cfg_path) {
     logger_ = std::make_unique<OpenCaffe::logger>(std::cout, "OpenCaffeObject");
@@ -246,12 +247,12 @@ int OpenCaffeObject::update_inputs() {
     for (auto &input : acquisition_params_.digital_inputs_) {
         if (get_input(input.chan_id, state) == 0) {
             if (state == input.active_state_high_) {
-                inputs_[input.chan_id] = Common::T_SwitchState::E_SWITCH_STATE_CLOSED;
+                inputs_[input.chan_id] = static_cast<uint8_t>(AnalogSwitchState::Closed);
             } else {
-                inputs_[input.chan_id] = Common::T_SwitchState::E_SWITCH_STATE_OPENED;
+                inputs_[input.chan_id] = static_cast<uint8_t>(AnalogSwitchState::Opened);
             }
         } else {
-            inputs_[input.chan_id] = Common::T_SwitchState::E_SWITCH_STATE_OOR;
+            inputs_[input.chan_id] = static_cast<uint8_t>(AnalogSwitchState::OutOfRange);
             err                    = 1;
             log(LOG_ERR) << __PRETTY_FUNCTION__ << " code : " << err << " channel: " << input.chan_id << std::endl;
         }
@@ -269,24 +270,24 @@ int OpenCaffeObject::update_analog_switches() {
         if (get_analog(aswitch.chan_id, channel_val) == 0) {
             uint32_t voltage = (acquisition_params_.ref_voltage_ * channel_val) / acquisition_params_.resolution_;
             if (voltage > (aswitch.no_ref_voltage_ - aswitch.delta_)) {
-                inputs_[aswitch.high_id] = Common::T_SwitchState::E_SWITCH_STATE_OPENED;
-                inputs_[aswitch.low_id]  = Common::T_SwitchState::E_SWITCH_STATE_OPENED;
+                inputs_[aswitch.high_id] = static_cast<uint8_t>(AnalogSwitchState::Opened);
+                inputs_[aswitch.low_id]  = static_cast<uint8_t>(AnalogSwitchState::Opened);
             } else if (voltage > (aswitch.high_ref_voltage_ - aswitch.delta_)) {
-                inputs_[aswitch.high_id] = Common::T_SwitchState::E_SWITCH_STATE_OPENED;
-                inputs_[aswitch.low_id]  = Common::T_SwitchState::E_SWITCH_STATE_CLOSED;
+                inputs_[aswitch.high_id] = static_cast<uint8_t>(AnalogSwitchState::Opened);
+                inputs_[aswitch.low_id]  = static_cast<uint8_t>(AnalogSwitchState::Closed);
             } else if (voltage > (aswitch.low_ref_voltage_ - aswitch.delta_)) {
-                inputs_[aswitch.high_id] = Common::T_SwitchState::E_SWITCH_STATE_CLOSED;
-                inputs_[aswitch.low_id]  = Common::T_SwitchState::E_SWITCH_STATE_OPENED;
+                inputs_[aswitch.high_id] = static_cast<uint8_t>(AnalogSwitchState::Closed);
+                inputs_[aswitch.low_id]  = static_cast<uint8_t>(AnalogSwitchState::Opened);
             } else if (voltage > (aswitch.no_ref_voltage_ - aswitch.delta_)) {
-                inputs_[aswitch.high_id] = Common::T_SwitchState::E_SWITCH_STATE_CLOSED;
-                inputs_[aswitch.low_id]  = Common::T_SwitchState::E_SWITCH_STATE_CLOSED;
+                inputs_[aswitch.high_id] = static_cast<uint8_t>(AnalogSwitchState::Closed);
+                inputs_[aswitch.low_id]  = static_cast<uint8_t>(AnalogSwitchState::Closed);
             } else {
-                inputs_[aswitch.high_id] = Common::T_SwitchState::E_SWITCH_STATE_OOR;
-                inputs_[aswitch.low_id]  = Common::T_SwitchState::E_SWITCH_STATE_OOR;
+                inputs_[aswitch.high_id] = static_cast<uint8_t>(AnalogSwitchState::OutOfRange);
+                inputs_[aswitch.low_id]  = static_cast<uint8_t>(AnalogSwitchState::OutOfRange);
             }
         } else {
-            inputs_[aswitch.high_id] = Common::T_SwitchState::E_SWITCH_STATE_OOR;
-            inputs_[aswitch.low_id]  = Common::T_SwitchState::E_SWITCH_STATE_OOR;
+            inputs_[aswitch.high_id] = static_cast<uint8_t>(AnalogSwitchState::OutOfRange);
+            inputs_[aswitch.low_id]  = static_cast<uint8_t>(AnalogSwitchState::OutOfRange);
         }
     }
     return 0;

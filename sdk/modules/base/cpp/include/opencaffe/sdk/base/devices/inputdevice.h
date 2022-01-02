@@ -8,8 +8,6 @@ namespace OpenCaffe {
 
 class InputDevice : public Device {
 public:
-    enum class State : bool { OFF = false, ON = true };
-
     InputDevice(uint8_t id, std::function<int(uint8_t, bool &)> fptr);
 
     ~InputDevice() = default;

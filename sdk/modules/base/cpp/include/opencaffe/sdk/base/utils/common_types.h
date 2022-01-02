@@ -5,44 +5,14 @@
 #include <iostream>
 #include <vector>
 
-#define K_NULL_PTR ((void *)0)
-
-#define K_MIN_UINT8 0x0U
-#define K_MAX_UINT8 0xFFU
-#define K_MAX_SINT8 127    /* 0x7F */
-#define K_MIN_SINT8 (-128) /* 0x80 */
-#define K_MIN_UINT16 0x0U
-#define K_MAX_UINT16 0xFFFFU
-#define K_MAX_SINT16 32767    /* 0x7FFF */
-#define K_MIN_SINT16 (-32768) /* 0x8000 */
-#define K_MIN_UINT32 0x0U
-#define K_MAX_UINT32 0xFFFFFFFFU
-#define K_MAX_SINT32 2147483647    /* 0x7FFFFFFF */
-#define K_MIN_SINT32 (-2147483648) /* 0x80000000 */
-
-#define TRUE 1
-#define FALSE 0
-
 namespace OpenCaffe {
-namespace Common {
 
-typedef enum {
-    E_SYSTEM_SLEEP = 0U,
-    E_SYSTEM_POWERON,
-    E_SYSTEM_STANDBY,
-    E_SYSTEM_WORK,
-    E_SYSTEM_POWEROFF,
-    E_SYSTEM_ALARM,
-    E_SYSTEM_DESCALING,
-    E_SYSTEM_USER_SET,
-    E_SYSTEM_SERVICE
-} T_SystemStatus;
+enum class SystemState { Sleep, PowerOn, Standby, Work, PowerOff, Alarm, Descaling, UserSet, Service };
 
-typedef enum { E_STATE_UNCHANGED = 0U, E_STATE_CHANGED, E_STATE_UNKNOWN } T_State;
-
-typedef enum { E_VALUE_NOT_AVAILABLE = 0, E_VALUE_VALID, E_VALUE_NOT_REFRESHED, E_VALUE_OOR } T_ValueStatus;
-
-typedef enum { E_SWITCH_STATE_OPENED = 0U, E_SWITCH_STATE_CLOSED, E_SWITCH_STATE_OOR } T_SwitchState;
+enum class ChangeState { Unchanged, Changed, Unknown };
+enum class State : bool { OFF = false, ON = true };
+enum class ValueStatus { NotAvailable, Valid, NotRefreshed, OutOfRange };
+enum class AnalogSwitchState : uint8_t { Opened = 0, Closed = 1, OutOfRange = 2 };
 
 struct BaseParam {
     int chan_id; // channel id
@@ -91,8 +61,6 @@ private:
     const std::string description_;
     const std::vector<std::pair<const Value, const std::string>> values_strings_;
 };
-
-} // namespace Common
 
 } // namespace OpenCaffe
 

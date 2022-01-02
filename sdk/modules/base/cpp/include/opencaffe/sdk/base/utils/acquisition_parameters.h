@@ -9,7 +9,7 @@ namespace OpenCaffe {
 
 // Acquisition parameters
 struct AcquisitionParameters {
-    struct AnalogDoubleSwitch : public Common::BaseParam {
+    struct AnalogDoubleSwitch : public BaseParam {
         uint8_t low_id;             // switch id for low resistance
         uint8_t high_id;            // switch id for high resistance
         uint32_t no_ref_voltage_;   // no switch reference voltage
@@ -18,18 +18,18 @@ struct AcquisitionParameters {
         uint32_t both_ref_voltage_; // both switches reference voltage
         uint32_t delta_;            // voltage delta for switches
     };
-    struct DigitalIOInput : public Common::BaseParam {
+    struct DigitalIOInput : public BaseParam {
         bool active_state_high_;    // is active state is high
         uint32_t debounce_time_ms_; // debouce time to consider signal as stable
     };
-    struct DigitalIOOutput : public Common::BaseParam {
+    struct DigitalIOOutput : public BaseParam {
         bool active_state_high_; // is active state is high
         bool default_state_;     // default io state
     };
-    struct Counter : public Common::BaseParam {
+    struct Counter : public BaseParam {
         uint8_t ratio_;
     };
-    struct Analog : public Common::BaseParam {
+    struct Analog : public BaseParam {
         uint8_t conversion;
         union {
             uint32_t resistance;

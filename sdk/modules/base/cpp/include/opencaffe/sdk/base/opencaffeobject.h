@@ -64,7 +64,7 @@ private:
     RegisteredValue<uint32_t> analogs_{"Analogs"};
     RegisteredValue<uint32_t> counters_{"Counters"};
     std::unique_ptr<OpenCaffe::logger> logger_;
-    Common::T_SystemStatus E_systemStatus;
+    SystemState E_systemStatus;
     AcquisitionParameters acquisition_params_;
 };
 

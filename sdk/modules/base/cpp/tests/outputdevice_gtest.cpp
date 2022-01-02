@@ -18,7 +18,7 @@ TEST_F(OutputDeviceGTest, InitState) {
     OpenCaffe::OutputDevice output(24, set_output_state);
 
     EXPECT_EQ(output.get_status(), OpenCaffe::OutputDevice::Status::NotUpdated);
-    EXPECT_EQ(output.get_state(), OpenCaffe::OutputDevice::State::OFF);
+    EXPECT_EQ(output.get_state(), OpenCaffe::State::OFF);
 }
 
 TEST_F(OutputDeviceGTest, On) {
@@ -26,25 +26,25 @@ TEST_F(OutputDeviceGTest, On) {
 
     EXPECT_EQ(output.get_status(), OpenCaffe::OutputDevice::Status::NotUpdated);
     EXPECT_EQ(output.on(), 0);
-    EXPECT_EQ(output.get_state(), OpenCaffe::OutputDevice::State::ON);
+    EXPECT_EQ(output.get_state(), OpenCaffe::State::ON);
     EXPECT_EQ(output.get_status(), OpenCaffe::OutputDevice::Status::OK);
 }
 
 TEST_F(OutputDeviceGTest, Off) {
     OpenCaffe::OutputDevice output(24, set_output_state);
     output.on();
-    EXPECT_EQ(output.get_state(), OpenCaffe::OutputDevice::State::ON);
+    EXPECT_EQ(output.get_state(), OpenCaffe::State::ON);
     EXPECT_EQ(output.get_status(), OpenCaffe::OutputDevice::Status::OK);
 
     EXPECT_EQ(output.off(), 0);
-    EXPECT_EQ(output.get_state(), OpenCaffe::OutputDevice::State::OFF);
+    EXPECT_EQ(output.get_state(), OpenCaffe::State::OFF);
     EXPECT_EQ(output.get_status(), OpenCaffe::OutputDevice::Status::OK);
 }
 
 TEST_F(OutputDeviceGTest, WrongId) {
     OpenCaffe::OutputDevice output(23, set_output_state);
 
-    EXPECT_EQ(output.get_state(), OpenCaffe::OutputDevice::State::OFF);
+    EXPECT_EQ(output.get_state(), OpenCaffe::State::OFF);
 
     try {
         output.on();

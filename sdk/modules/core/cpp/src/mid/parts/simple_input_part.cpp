@@ -78,7 +78,7 @@ int SimpleInputPart::deinit() {
 
 bool SimpleInputPart::is_full() {
     if (full_) {
-        if (full_->get_state() == InputDevice::State::ON)
+        if (full_->get_state() == State::ON)
             return true;
     } else {
         throw std::runtime_error("This instance doesn't use FULL input");
@@ -88,7 +88,7 @@ bool SimpleInputPart::is_full() {
 
 bool SimpleInputPart::is_present() {
     if (present_) {
-        if (present_->get_state() == InputDevice::State::ON)
+        if (present_->get_state() == State::ON)
             return true;
     } else {
         throw std::runtime_error("This instance doens't use PRESENCE input");
@@ -98,7 +98,7 @@ bool SimpleInputPart::is_present() {
 
 bool SimpleInputPart::is_empty() {
     if (empty_) {
-        if (empty_->get_state() == InputDevice::State::ON)
+        if (empty_->get_state() == State::ON)
             return true;
     } else {
         throw std::runtime_error("This instance doens't use EMPTY input");

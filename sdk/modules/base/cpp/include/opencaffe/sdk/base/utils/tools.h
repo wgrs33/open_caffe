@@ -42,7 +42,7 @@ template<class Container>
 size_t get_param_highest_id(Container &acont) {
     uint8_t highest_id = 0;
     for (auto &item : acont) {
-        Common::BaseParam &param = static_cast<Common::BaseParam &>(item);
+        BaseParam &param = static_cast<BaseParam &>(item);
         if (param.chan_id > highest_id)
             highest_id = param.chan_id;
     }
@@ -106,7 +106,7 @@ void get_param(bpt::ptree &j, std::string key, T &param) {
 }
 
 template<typename T, typename E>
-void get_param(bpt::ptree &j, std::string key, T &param, Common::ValueStringMap<E> &mapping) {
+void get_param(bpt::ptree &j, std::string key, T &param, ValueStringMap<E> &mapping) {
     if (j.find(key) != j.not_found()) {
         param = (T)(mapping.from_string(j.get<std::string>(key)));
     } else {

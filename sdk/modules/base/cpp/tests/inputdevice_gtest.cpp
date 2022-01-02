@@ -23,7 +23,7 @@ TEST_F(InputDeviceGTest, InitState) {
 TEST_F(InputDeviceGTest, UpdateTest) {
     OpenCaffe::InputDevice input(24, get_input_state);
 
-    EXPECT_EQ(input.get_state(), OpenCaffe::InputDevice::State::ON);
+    EXPECT_EQ(input.get_state(), OpenCaffe::State::ON);
     EXPECT_EQ(input.get_status(), OpenCaffe::InputDevice::Status::OK);
 }
 

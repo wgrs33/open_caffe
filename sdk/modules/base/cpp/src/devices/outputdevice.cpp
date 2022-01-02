@@ -27,7 +27,7 @@ int OutputDevice::off() {
     return 1;
 }
 
-OutputDevice::State OutputDevice::get_state() {
+State OutputDevice::get_state() {
     return write_state_;
 }
 
