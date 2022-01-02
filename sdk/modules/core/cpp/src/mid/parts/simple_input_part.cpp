@@ -122,14 +122,7 @@ int SimpleInputPart::check_status() {
 }
 
 int SimpleInputPart::update_inputs() {
-    int res = 0;
-    if (present_)
-        res |= present_->update();
-    if (empty_)
-        res |= empty_->update();
-    if (full_)
-        res |= full_->update();
-    return res;
+    return 0;
 }
 
 } // namespace OpenCaffe

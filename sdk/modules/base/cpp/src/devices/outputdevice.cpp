@@ -6,18 +6,25 @@ OutputDevice::OutputDevice(uint8_t id, std::function<int(uint8_t, bool)> fptr, S
     Device(id), fptr_(fptr), write_state_(default_state) {}
 
 int OutputDevice::on() {
-    if (get_status() == Status::OK) {
-        write_state_ = State::ON;
+    auto tmp     = write_state_;
+    write_state_ = State::ON;
+    if (update() == 0) {
         return 0;
-    } else {
-        (void)off();
-        return 1;
     }
+    write_state_ = tmp;
+    throw std::runtime_error("OutputDevice(" + std::to_string(get_id()) + ")::update() error");
+    return 1;
 }
 
 int OutputDevice::off() {
+    auto tmp     = write_state_;
     write_state_ = State::OFF;
-    return 0;
+    if (update() == 0) {
+        return 0;
+    }
+    write_state_ = tmp;
+    throw std::runtime_error("OutputDevice(" + std::to_string(get_id()) + ")::update() error");
+    return 1;
 }
 
 OutputDevice::State OutputDevice::get_state() {
@@ -25,21 +32,13 @@ OutputDevice::State OutputDevice::get_state() {
 }
 
 int OutputDevice::update() {
-    if (fptr_(get_id(), value(write_state_)) == 0) {
-        if (get_status() != Status::OK) {
-            set_status(Status::OK);
-        }
+    if (fptr_(get_id(), static_cast<bool>(write_state_)) == 0) {
+        set_status(Status::OK);
         return 0;
     } else {
         set_status(Status::Error);
         return 1;
     }
-}
-
-bool OutputDevice::value(State s) {
-    if (s == State::ON)
-        return true;
-    return false;
 }
 
 } // namespace OpenCaffe

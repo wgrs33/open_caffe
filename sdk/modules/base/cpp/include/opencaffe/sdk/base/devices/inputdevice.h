@@ -8,7 +8,7 @@ namespace OpenCaffe {
 
 class InputDevice : public Device {
 public:
-    enum class State : uint8_t { OFF = 0, ON = 1 };
+    enum class State : bool { OFF = false, ON = true };
 
     InputDevice(uint8_t id, std::function<int(uint8_t, bool &)> fptr);
 
@@ -16,9 +16,9 @@ public:
 
     State get_state();
 
-    int update();
-
 private:
+    int update() final;
+
     State state_ = State::OFF;
     std::function<int(uint8_t, bool &)> fptr_;
 };

@@ -21,39 +21,22 @@ TEST_F(OutputDeviceGTest, InitState) {
     EXPECT_EQ(output.get_state(), OpenCaffe::OutputDevice::State::OFF);
 }
 
-TEST_F(OutputDeviceGTest, NotUpdated) {
-    OpenCaffe::OutputDevice output(24, set_output_state);
-
-    EXPECT_EQ(output.get_status(), OpenCaffe::OutputDevice::Status::NotUpdated);
-    EXPECT_EQ(output.get_state(), OpenCaffe::OutputDevice::State::OFF);
-    EXPECT_EQ(output.on(), 1);
-    EXPECT_EQ(output.update(), 0);
-    EXPECT_EQ(output.on(), 0);
-}
-
 TEST_F(OutputDeviceGTest, On) {
     OpenCaffe::OutputDevice output(24, set_output_state);
 
     EXPECT_EQ(output.get_status(), OpenCaffe::OutputDevice::Status::NotUpdated);
-    EXPECT_EQ(output.update(), 0);
-    EXPECT_EQ(output.get_status(), OpenCaffe::OutputDevice::Status::OK);
-
-    output.on();
-    EXPECT_EQ(output.update(), 0);
+    EXPECT_EQ(output.on(), 0);
     EXPECT_EQ(output.get_state(), OpenCaffe::OutputDevice::State::ON);
     EXPECT_EQ(output.get_status(), OpenCaffe::OutputDevice::Status::OK);
 }
 
 TEST_F(OutputDeviceGTest, Off) {
     OpenCaffe::OutputDevice output(24, set_output_state);
-    output.update();
     output.on();
-    EXPECT_EQ(output.update(), 0);
     EXPECT_EQ(output.get_state(), OpenCaffe::OutputDevice::State::ON);
     EXPECT_EQ(output.get_status(), OpenCaffe::OutputDevice::Status::OK);
 
-    output.off();
-    EXPECT_EQ(output.update(), 0);
+    EXPECT_EQ(output.off(), 0);
     EXPECT_EQ(output.get_state(), OpenCaffe::OutputDevice::State::OFF);
     EXPECT_EQ(output.get_status(), OpenCaffe::OutputDevice::Status::OK);
 }
@@ -62,8 +45,13 @@ TEST_F(OutputDeviceGTest, WrongId) {
     OpenCaffe::OutputDevice output(23, set_output_state);
 
     EXPECT_EQ(output.get_state(), OpenCaffe::OutputDevice::State::OFF);
-    output.on();
-    EXPECT_EQ(output.update(), 1);
-    EXPECT_EQ(output.get_state(), OpenCaffe::OutputDevice::State::OFF);
+
+    try {
+        output.on();
+        FAIL();
+    } catch (std::runtime_error const &err) {
+        EXPECT_EQ(std::string(err.what()), "OutputDevice(23)::update() error");
+    } catch (...) { FAIL(); }
+
     EXPECT_EQ(output.get_status(), OpenCaffe::OutputDevice::Status::Error);
 }

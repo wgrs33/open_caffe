@@ -80,20 +80,11 @@ BrewUnit::Position BrewUnit::get_position() {
 }
 
 bool BrewUnit::is_present() {
-    return (bool)present_->get_state();
+    return static_cast<bool>(present_->get_state());
 }
 
 int BrewUnit::update_inputs_() {
-    int res = 0;
-
-    res |= present_->update();
-    res |= home_->update();
-    res |= work_->update();
-    if (current_)
-        res |= analog_current_->update();
-    if (errorctrl_)
-        res |= ctrl_error_->update();
-    return res;
+    return 0;
 }
 
 bool BrewUnit::check_current() {

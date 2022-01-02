@@ -18,13 +18,11 @@ TEST_F(InputDeviceGTest, InitState) {
     OpenCaffe::InputDevice input(24, get_input_state);
 
     EXPECT_EQ(input.get_status(), OpenCaffe::InputDevice::Status::NotUpdated);
-    EXPECT_EQ(input.get_state(), OpenCaffe::InputDevice::State::OFF);
 }
 
 TEST_F(InputDeviceGTest, UpdateTest) {
     OpenCaffe::InputDevice input(24, get_input_state);
 
-    EXPECT_EQ(input.update(), 0);
     EXPECT_EQ(input.get_state(), OpenCaffe::InputDevice::State::ON);
     EXPECT_EQ(input.get_status(), OpenCaffe::InputDevice::Status::OK);
 }
@@ -32,8 +30,12 @@ TEST_F(InputDeviceGTest, UpdateTest) {
 TEST_F(InputDeviceGTest, WrongId) {
     OpenCaffe::InputDevice input(23, get_input_state);
 
-    EXPECT_EQ(input.get_state(), OpenCaffe::InputDevice::State::OFF);
-    EXPECT_EQ(input.update(), 1);
-    EXPECT_EQ(input.get_state(), OpenCaffe::InputDevice::State::OFF);
+    try {
+        input.get_state();
+        FAIL();
+    } catch (std::runtime_error const &err) {
+        EXPECT_EQ(std::string(err.what()), "InputDevice(23)::update() error");
+    } catch (...) { FAIL(); }
+
     EXPECT_EQ(input.get_status(), OpenCaffe::InputDevice::Status::Error);
 }

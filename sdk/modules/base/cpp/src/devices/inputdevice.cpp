@@ -5,6 +5,8 @@ namespace OpenCaffe {
 InputDevice::InputDevice(uint8_t id, std::function<int(uint8_t, bool &)> fptr) : Device(id), fptr_(fptr) {}
 
 InputDevice::State InputDevice::get_state() {
+    if (update() != 0)
+        throw std::runtime_error("InputDevice(" + std::to_string(get_id()) + ")::update() error");
     return state_;
 }
 

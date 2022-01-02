@@ -15,9 +15,9 @@ public:
 
     T get_analog();
 
-    int update();
-
 private:
+    int update() final;
+
     T val_;
     std::function<int(uint8_t, T &)> fptr_;
 };

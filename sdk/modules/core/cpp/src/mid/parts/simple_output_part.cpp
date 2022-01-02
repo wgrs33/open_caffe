@@ -64,15 +64,7 @@ SimpleOutputPart::Process SimpleOutputPart::get_state() {
 }
 
 int SimpleOutputPart::update_outputs() {
-    int res = 0;
-    if (out_)
-        res |= out_->update();
-    if (out2_)
-        res |= out2_->update();
-
-    if (res)
-        state_ = Process::Error;
-    return res;
+    return 0;
 }
 
 } // namespace OpenCaffe

@@ -7,6 +7,8 @@ AnalogDevice<T>::AnalogDevice(uint8_t id, std::function<int(uint8_t, T &)> fptr)
 
 template<class T>
 T AnalogDevice<T>::get_analog() {
+    if (update() != 0)
+        throw std::runtime_error("AnalogDevice(" + std::to_string(get_id()) + ")::update() error");
     return val_;
 }
 
