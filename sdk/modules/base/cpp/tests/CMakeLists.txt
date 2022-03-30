@@ -3,9 +3,11 @@ set(opencaffe_sdk_base_test_srcs
     ${CMAKE_CURRENT_SOURCE_DIR}/outputdevice_gtest.cpp
 )
 
-add_executable(gtest_opencaffe_sdk_base ${opencaffe_sdk_base_test_srcs})
+set(target_name gtest_opencaffe_sdk_base)
 
-target_link_libraries(gtest_opencaffe_sdk_base
+add_executable(${target_name} ${opencaffe_sdk_base_test_srcs})
+
+target_link_libraries(${target_name}
     PUBLIC
         Boost::system
         Boost::filesystem
@@ -14,3 +16,5 @@ target_link_libraries(gtest_opencaffe_sdk_base
         GTest::GTest
         GTest::Main
 )
+
+add_gtest(TEST sdk-base-unit-tests TARGET ${target_name})

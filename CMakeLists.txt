@@ -45,13 +45,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set (boost_components_to_find program_options filesystem timer chrono thread)
 find_package(Boost COMPONENTS ${boost_components_to_find} REQUIRED)
 
-find_package(Doxygen)
-    if(Doxygen_FOUND)
-    add_subdirectory(docs)
-else()
-    message(STATUS "Doxygen not found, not building docs")
-endif()
-
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -79,6 +72,11 @@ include(CTest)
 if(BUILD_TESTING)
     # Gtest
     find_package(GTest REQUIRED)
+    include(add_gtest)
+
+    # Paths where gtest results are stored
+    set(GTEST_XML_OUTPUT_DIRECTORY "${GENERATE_FILES_DIRECTORY}/tests_xml_output/gtest/")
+
 endif(BUILD_TESTING)
 
 add_subdirectory(sdk)
