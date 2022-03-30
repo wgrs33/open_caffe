@@ -3,6 +3,7 @@ set(opencaffe_sdk_base_test_srcs
     ${CMAKE_CURRENT_SOURCE_DIR}/outputdevice_gtest.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/analogdevice_gtest.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/counterdevice_gtest.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/motordevice_gtest.cpp
 )
 
 set(target_name gtest_opencaffe_sdk_base)
