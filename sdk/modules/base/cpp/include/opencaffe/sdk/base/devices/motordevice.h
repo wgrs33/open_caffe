@@ -18,7 +18,7 @@ public:
         E_MID_MTR_PHASE_3 = 0x2
     };
 
-    MotorDevice(MotorType type, uint8_t id);
+    MotorDevice(uint8_t id, MotorType type, std::function<int(uint8_t, uint8_t)> fptr);
     ~MotorDevice() = default;
 
     void set_direction(const MotorDir &dir);

@@ -18,7 +18,9 @@ public:
     int init() {
         set_log_level(LOG_DEBUG);
         try {
-            motor_ = std::make_unique<MotorDevice>(MotorDevice::MotorType::STEPPER_MOTOR, id_);
+            motor_ = std::make_unique<MotorDevice>(id_, MotorDevice::MotorType::STEPPER_MOTOR,
+                                                   std::bind(&OpenCaffeObject::set_outputs, opencaffeobject_,
+                                                             std::placeholders::_1, std::placeholders::_2));
         } catch (const std::exception &e) {
             throw std::logic_error("[StepperPart] Part id: " + std::to_string(id_) + ": " + e.what());
         }

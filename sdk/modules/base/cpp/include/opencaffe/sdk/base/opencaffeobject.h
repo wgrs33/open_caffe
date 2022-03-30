@@ -33,6 +33,8 @@ public:
 
     int set_output(uint8_t channel, bool state);
 
+    int set_outputs(uint8_t channel, uint8_t output_state);
+
     template<typename T>
     int get_analog(uint8_t channel, T &value);
 

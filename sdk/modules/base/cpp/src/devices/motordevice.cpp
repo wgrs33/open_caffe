@@ -6,12 +6,16 @@ inline MotorDevice::MotorPhase &operator++(MotorDevice::MotorPhase &p) {
     switch (p) {
     case MotorDevice::MotorPhase::E_MID_MTR_PHASE_0:
         p = MotorDevice::MotorPhase::E_MID_MTR_PHASE_1;
+        break;
     case MotorDevice::MotorPhase::E_MID_MTR_PHASE_1:
         p = MotorDevice::MotorPhase::E_MID_MTR_PHASE_2;
+        break;
     case MotorDevice::MotorPhase::E_MID_MTR_PHASE_2:
         p = MotorDevice::MotorPhase::E_MID_MTR_PHASE_3;
+        break;
     case MotorDevice::MotorPhase::E_MID_MTR_PHASE_3:
         p = MotorDevice::MotorPhase::E_MID_MTR_PHASE_0;
+        break;
     }
     return p;
 }
@@ -20,17 +24,28 @@ inline MotorDevice::MotorPhase &operator--(MotorDevice::MotorPhase &p) {
     switch (p) {
     case MotorDevice::MotorPhase::E_MID_MTR_PHASE_0:
         p = MotorDevice::MotorPhase::E_MID_MTR_PHASE_3;
+        break;
     case MotorDevice::MotorPhase::E_MID_MTR_PHASE_1:
         p = MotorDevice::MotorPhase::E_MID_MTR_PHASE_0;
+        break;
     case MotorDevice::MotorPhase::E_MID_MTR_PHASE_2:
         p = MotorDevice::MotorPhase::E_MID_MTR_PHASE_1;
+        break;
     case MotorDevice::MotorPhase::E_MID_MTR_PHASE_3:
         p = MotorDevice::MotorPhase::E_MID_MTR_PHASE_2;
+        break;
     }
     return p;
 }
 
-MotorDevice::MotorDevice(MotorType type, uint8_t id) : Device(id), type_(type) {
+MotorDevice::MotorDevice(uint8_t id, MotorType type, std::function<int(uint8_t, uint8_t)> fptr) :
+    Device(id), type_(type), fptr_(fptr) {
+    dir_   = MotorDir::Stop;
+    power_ = MotorPower::None;
+    phase_ = MotorPhase::E_MID_MTR_PHASE_0;
+}
+
+void MotorDevice::reset() {
     dir_   = MotorDir::Stop;
     power_ = MotorPower::None;
     phase_ = MotorPhase::E_MID_MTR_PHASE_0;
@@ -45,10 +60,14 @@ const MotorDevice::MotorDir &MotorDevice::get_direction() {
 }
 
 void MotorDevice::set_power(const MotorDevice::MotorPower &pow) {
+    if (type_ == MotorType::HBRIDGE_MOTOR)
+        throw std::runtime_error("HBRIDGE_MOTOR can't call set_power()");
     power_ = pow;
 }
 
 const MotorDevice::MotorPower &MotorDevice::get_power() {
+    if (type_ == MotorType::HBRIDGE_MOTOR)
+        throw std::runtime_error("HBRIDGE_MOTOR can't call get_power()");
     return power_;
 }
 
@@ -96,9 +115,15 @@ int MotorDevice::execute_move_() {
 int MotorDevice::set_step_phase_() {
     int res = 0;
 
+    if (power_ == MotorPower::None) {
+        phase_ = MotorPhase::E_MID_MTR_PHASE_0;
+        return res;
+    }
+
     switch (dir_) {
     case MotorDir::Stop:
         phase_ = MotorPhase::E_MID_MTR_PHASE_0;
+        power_ = MotorPower::None;
         break;
     case MotorDir::Forward:
         ++phase_;

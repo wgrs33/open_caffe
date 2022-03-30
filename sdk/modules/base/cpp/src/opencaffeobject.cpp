@@ -223,6 +223,11 @@ int OpenCaffeObject::set_output(uint8_t channel, bool state) {
     return 0;
 }
 
+int OpenCaffeObject::set_outputs(uint8_t channel, uint8_t output_state) {
+    log(LOG_WARN) << "set_outputs(uint8_t, uint8_t) NOT IMPLEMENTED!\n";
+    return 0;
+}
+
 int OpenCaffeObject::receive_packet(DataPacket &data) {
     return decode(data);
 }
