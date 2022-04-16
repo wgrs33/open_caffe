@@ -11,7 +11,7 @@ public:
     enum class Type : uint8_t { Simple = 0, DoubleOut = 1 };
     enum class Process : uint8_t { Off = 0, On = 1, Error = 2 };
 
-    SimpleOutputPart(Type type, T_Part id, std::shared_ptr<OpenCaffeObject> &oco);
+    SimpleOutputPart(T_Part id, std::map<int, int> config, std::shared_ptr<OpenCaffeObject> &oco);
     ~SimpleOutputPart();
 
     virtual int init();
@@ -24,9 +24,9 @@ public:
 
 private:
     int update_outputs();
-    Type type_;
     T_Part id_;
     Process state_;
+    std::map<int, int> config_;
     std::unique_ptr<OutputDevice> out_;
     std::unique_ptr<OutputDevice> out2_;
     Device::Status out_status;

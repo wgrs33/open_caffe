@@ -2,61 +2,34 @@
 
 namespace OpenCaffe {
 
-SimpleInputPart::SimpleInputPart(Type type, T_Part id, std::shared_ptr<OpenCaffeObject> &oco) :
-    CallObject(name_map_part[id]), id_(id), opencaffeobject_(oco), type_(type) {}
+SimpleInputPart::SimpleInputPart(T_Part id, std::map<int, int> config, std::shared_ptr<OpenCaffeObject> &oco) :
+    CallObject(name_map_part[id]), id_(id), opencaffeobject_(oco), config_(config) {}
 
 SimpleInputPart::~SimpleInputPart() {}
 
 int SimpleInputPart::init() {
     set_log_level(LOG_DEBUG);
-    std::vector<T_DigitalInPort> vec = input_map_parts[id_];
-    if (vec.size() == 0)
-        throw std::logic_error("[SimpleInputPart] Part id: " + std::to_string(id_) + "(" + name_map_part[id_] +
-                               ") can't be set to SimpleInputPart object");
-    // TODO: check if mapping has sufficient number of ports!!!
     using namespace std::placeholders;
     try {
-        switch (type_) {
-        case Type::Empty:
-            empty_ = std::make_unique<InputDevice>(vec.at(1),
-                                                   std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-            opencaffeobject_->connect_input_to_device(id_, {(uint8_t)vec.at(1)});
-            break;
-        case Type::Full:
-            full_ = std::make_unique<InputDevice>(vec.at(2),
-                                                  std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-            opencaffeobject_->connect_input_to_device(id_, {(uint8_t)vec.at(2)});
-            break;
-        default:
-        case Type::Presence:
-            present_ = std::make_unique<InputDevice>(vec.at(0),
-                                                     std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-            opencaffeobject_->connect_input_to_device(id_, {(uint8_t)vec.at(0)});
-            break;
-        case Type::Presence_Empty:
-            present_ = std::make_unique<InputDevice>(vec.at(0),
-                                                     std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-            empty_   = std::make_unique<InputDevice>(vec.at(1),
-                                                   std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-            opencaffeobject_->connect_input_to_device(id_, {(uint8_t)vec.at(1), (uint8_t)vec.at(0)});
-            break;
-        case Type::Presence_Full:
-            present_ = std::make_unique<InputDevice>(vec.at(0),
-                                                     std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-            full_    = std::make_unique<InputDevice>(vec.at(2),
-                                                  std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-            opencaffeobject_->connect_input_to_device(id_, {(uint8_t)vec.at(0), (uint8_t)vec.at(2)});
-            break;
-        case Type::All:
-            present_ = std::make_unique<InputDevice>(vec.at(0),
-                                                     std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-            empty_   = std::make_unique<InputDevice>(vec.at(1),
-                                                   std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-            full_    = std::make_unique<InputDevice>(vec.at(2),
-                                                  std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-            opencaffeobject_->connect_input_to_device(id_,
-                                                      {(uint8_t)vec.at(0), (uint8_t)vec.at(1), (uint8_t)vec.at(2)});
-            break;
+        for (auto &sensor : config_) {
+            switch (Type(sensor.first)) {
+            case Type::Empty:
+                empty_ = std::make_unique<InputDevice>(
+                    sensor.second, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+                opencaffeobject_->connect_input_to_device(id_, {(uint8_t)sensor.second});
+                break;
+            case Type::Full:
+                full_ = std::make_unique<InputDevice>(sensor.second,
+                                                      std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+                opencaffeobject_->connect_input_to_device(id_, {(uint8_t)sensor.second});
+                break;
+            default:
+            case Type::Presence:
+                present_ = std::make_unique<InputDevice>(
+                    sensor.second, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+                opencaffeobject_->connect_input_to_device(id_, {(uint8_t)sensor.second});
+                break;
+            }
         }
     } catch (const std::exception &e) {
         throw std::logic_error("[SimpleInputPart] Part id: " + std::to_string(id_) + "(" + name_map_part[id_] +

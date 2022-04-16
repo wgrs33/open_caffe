@@ -3,41 +3,63 @@
 
 namespace OpenCaffe {
 
-BrewUnit::BrewUnit(T_Part id, std::shared_ptr<OpenCaffeObject> &oco, uint32_t max_current, bool errctrl) :
-    StepperPart(id, oco), id_(id), errorctrl_(errctrl), opencaffeobject_(oco) {
-    if (max_current > 0) {
-        current_     = true;
-        max_current_ = max_current;
-    }
-}
+BrewUnit::BrewUnit(T_Part id, std::map<int, int> config, std::shared_ptr<OpenCaffeObject> &oco) :
+    CallObject(name_map_part[id]), id_(id), opencaffeobject_(oco), config_(config) {}
 
 int BrewUnit::init() {
     set_log_level(LOG_DEBUG);
-    std::vector<T_DigitalInPort> ins  = input_map_parts[id_];
-    std::vector<T_AnalogPort> analogs = analog_map_parts[id_];
-    if (ins.size() == 0)
-        throw std::logic_error("[BrewUnit] Part id: " + std::to_string(id_) + " can't be set to BrewUnit object");
-    // TODO: check if mapping has sufficient number of ports!!!
+    bool done = false;
     using namespace std::placeholders;
     try {
-        present_ =
-            std::make_unique<InputDevice>(ins.at(0), std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-        home_ =
-            std::make_unique<InputDevice>(ins.at(1), std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-        work_ =
-            std::make_unique<InputDevice>(ins.at(2), std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-        opencaffeobject_->connect_input_to_device(id_, {(uint8_t)ins.at(0)});
-        opencaffeobject_->connect_input_to_device(id_, {(uint8_t)ins.at(1)});
-        opencaffeobject_->connect_input_to_device(id_, {(uint8_t)ins.at(2)});
-        if (current_) {
-            analog_current_ = std::make_unique<AnalogDevice<uint32_t>>(
-                analogs.at(0), std::bind(&OpenCaffeObject::get_analog<uint32_t>, opencaffeobject_, _1, _2));
-            opencaffeobject_->connect_analog_to_device(id_, {(uint8_t)analogs.at(0)});
+        for (auto &sensor : config_) {
+            switch (Type(sensor.first)) {
+            case Type::Present:
+                present_ = std::make_unique<InputDevice>(
+                    sensor.second, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+                opencaffeobject_->connect_input_to_device(id_, {(uint8_t)sensor.second});
+                break;
+            case Type::Home:
+                home_ = std::make_unique<InputDevice>(sensor.second,
+                                                      std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+                opencaffeobject_->connect_input_to_device(id_, {(uint8_t)sensor.second});
+                break;
+            case Type::Work:
+                work_ = std::make_unique<InputDevice>(sensor.second,
+                                                      std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+                opencaffeobject_->connect_input_to_device(id_, {(uint8_t)sensor.second});
+                break;
+            case Type::Motor:
+                motor_ = std::make_unique<MotorDevice>(sensor.second, MotorDevice::MotorType::STEPPER_MOTOR,
+                                                       std::bind(&OpenCaffeObject::set_outputs, opencaffeobject_,
+                                                                 std::placeholders::_1, std::placeholders::_2));
+                opencaffeobject_->connect_motor_to_device(id_, {(uint8_t)sensor.second});
+                done = true;
+                break;
+            case Type::Current:
+                analog_current_ = std::make_unique<AnalogDevice<uint32_t>>(
+                    sensor.second, std::bind(&OpenCaffeObject::get_analog<uint32_t>, opencaffeobject_, _1, _2));
+                opencaffeobject_->connect_analog_to_device(id_, {(uint8_t)sensor.second});
+                break;
+            case Type::Errorctrl:
+                ctrl_error_ = std::make_unique<InputDevice>(
+                    sensor.second, std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
+                opencaffeobject_->connect_input_to_device(id_, {(uint8_t)sensor.second});
+                break;
+            default:
+                throw std::runtime_error("Unrecognized config " + std::to_string(sensor.first));
+            }
         }
-        if (errorctrl_) {
-            ctrl_error_ = std::make_unique<InputDevice>(
-                ins.at(3), std::bind(&OpenCaffeObject::get_input, opencaffeobject_, _1, _2));
-            opencaffeobject_->connect_input_to_device(id_, {(uint8_t)ins.at(3)});
+        if (!present_ || !home_ || !work_ || !done) {
+            std::string missing_msg = "";
+            if (!present_)
+                missing_msg += "PRESENT ";
+            if (!home_)
+                missing_msg += "HOME ";
+            if (!work_)
+                missing_msg += "WORK ";
+            if (!done)
+                missing_msg += "MOTOR ";
+            throw std::runtime_error("Incomplete config. Missing: " + missing_msg);
         }
     } catch (const std::exception &e) {
         throw std::logic_error("[BrewUnit] Part id: " + std::to_string(id_) + ": " + e.what());
@@ -46,6 +68,7 @@ int BrewUnit::init() {
 }
 
 int BrewUnit::main() {
+    motor_->update();
     return update_inputs_();
 }
 
@@ -59,11 +82,27 @@ int BrewUnit::deinit() {
 }
 
 int BrewUnit::go_work() {
-    return move_forward();
+    motor_->set_power(MotorDevice::MotorPower::P33);
+    motor_->set_direction(MotorDevice::MotorDir::Forward);
+    return 0;
 }
 
 int BrewUnit::go_home() {
-    return move_backward();
+    motor_->set_power(MotorDevice::MotorPower::P33);
+    motor_->set_direction(MotorDevice::MotorDir::Backward);
+    return 0;
+}
+
+int BrewUnit::stop() {
+    motor_->set_power(MotorDevice::MotorPower::None);
+    motor_->set_direction(MotorDevice::MotorDir::Stop);
+    return 0;
+}
+
+BrewUnit::Process BrewUnit::get_status() {
+    if (status_map_.find(motor_->get_direction()) != status_map_.end())
+        return status_map_[motor_->get_direction()];
+    return Process::Error;
 }
 
 BrewUnit::Position BrewUnit::get_position() {
@@ -88,7 +127,7 @@ int BrewUnit::update_inputs_() {
 }
 
 bool BrewUnit::check_current() {
-    if (current_)
+    if (analog_current_)
         return analog_current_->get_analog() > max_current_;
     return 0;
 }
