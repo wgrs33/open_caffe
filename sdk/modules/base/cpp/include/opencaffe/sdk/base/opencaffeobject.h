@@ -27,6 +27,8 @@ public:
 
     void connect_counter_to_device(uint8_t id, std::forward_list<uint8_t> list);
 
+    void connect_motor_to_device(uint8_t id, std::forward_list<uint8_t> list);
+
     int get_input(uint8_t channel, bool &state);
 
     int get_output(uint8_t channel, bool &state);
@@ -63,6 +65,7 @@ private:
     std::queue<DataPacket> packet_buffer_;
     RegisteredValue<uint8_t> inputs_{"Inputs"};
     RegisteredValue<uint8_t> outputs_{"Outputs"};
+    RegisteredValue<uint8_t> motors_{"Motors"};
     RegisteredValue<uint32_t> analogs_{"Analogs"};
     RegisteredValue<uint32_t> counters_{"Counters"};
     std::unique_ptr<OpenCaffe::logger> logger_;

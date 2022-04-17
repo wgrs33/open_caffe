@@ -9,9 +9,9 @@ namespace OpenCaffe {
 
 class SimpleInputPart : public CallObject {
 public:
-    enum class Type { Presence = 0, Empty, Full, Presence_Full, Presence_Empty, All };
+    enum class Type : uint8_t { Presence = 0, Empty, Full };
 
-    SimpleInputPart(Type type, T_Part id, std::shared_ptr<OpenCaffeObject> &oco);
+    SimpleInputPart(T_Part id, std::map<int, int> config, std::shared_ptr<OpenCaffeObject> &oco);
     ~SimpleInputPart();
 
     int init();
@@ -25,8 +25,8 @@ public:
 private:
     int check_status();
     int update_inputs();
-    Type type_;
     T_Part id_;
+    std::map<int, int> config_;
     std::unique_ptr<InputDevice> full_;
     std::unique_ptr<InputDevice> present_;
     std::unique_ptr<InputDevice> empty_;

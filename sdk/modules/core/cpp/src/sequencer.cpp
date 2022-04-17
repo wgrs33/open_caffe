@@ -53,11 +53,15 @@ void Sequencer::parse_devices(const std::string &devfile_path) {
             switch (part_type) {
             case T_Part::E_WaterTank:
                 object_list_.push_front(ExecutableObject(std::make_shared<WaterTank>(
-                    SimpleInputPart::Type::Presence_Empty, T_Part::E_WaterTank, opencaffeobject_)));
+                    T_Part::E_WaterTank, std::map<int, int>({{0, WATERTANK_PRESENT}, {1, WATERTANK_EMPTY}}),
+                    opencaffeobject_)));
                 break;
 
             case T_Part::E_Brew:
-                object_list_.push_front(ExecutableObject(std::make_shared<BrewUnit>(T_Part::E_Brew, opencaffeobject_)));
+                object_list_.push_front(ExecutableObject(std::make_shared<BrewUnit>(
+                    T_Part::E_Brew,
+                    std::map<int, int>({{0, BREW_UNIT_PRESENT}, {1, BREW_UNIT_HOME}, {2, BREW_UNIT_WORK}, {3, 0}}),
+                    opencaffeobject_)));
                 break;
 
             default:

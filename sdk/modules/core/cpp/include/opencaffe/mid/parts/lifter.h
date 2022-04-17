@@ -1,12 +1,12 @@
 #ifndef _OPENCAFFE_MID_PARTS_LIFTER_H
 #define _OPENCAFFE_MID_PARTS_LIFTER_H
 
-#include "opencaffe/mid/parts/stepper_part.h"
+#include "opencaffe/sdk/base/devices/motordevice.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
 
 namespace OpenCaffe {
 
-class Lifter : public StepperPart {
+class Lifter : public CallObject {
 public:
     enum class Position { Bottom = 0, Top, Unknown };
 
@@ -24,6 +24,7 @@ public:
 private:
     std::unique_ptr<InputDevice> bottom_;
     std::unique_ptr<InputDevice> top_;
+    std::unique_ptr<MotorDevice> motor_;
 };
 
 } // namespace OpenCaffe

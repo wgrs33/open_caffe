@@ -182,6 +182,7 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
         inputs_.resize(Tools::get_param_highest_id(acquisition_params_.digital_inputs_));
         outputs_.resize(Tools::get_param_highest_id(acquisition_params_.digital_outputs_));
         counters_.resize(Tools::get_param_highest_id(acquisition_params_.counters_));
+        motors_.resize(4);
         size_t analog_channel_size  = Tools::get_param_highest_id(acquisition_params_.analog_channels_);
         size_t analog_switches_size = Tools::get_param_highest_id(acquisition_params_.analog_double_switches_);
         analogs_.resize((analog_switches_size > analog_channel_size) ? analog_switches_size : analog_channel_size);
@@ -224,7 +225,11 @@ int OpenCaffeObject::set_output(uint8_t channel, bool state) {
 }
 
 int OpenCaffeObject::set_outputs(uint8_t channel, uint8_t output_state) {
-    log(LOG_WARN) << "set_outputs(uint8_t, uint8_t) NOT IMPLEMENTED!\n";
+    if (channel < motors_.size()) {
+        motors_[channel] = output_state;
+    } else {
+        return 1;
+    }
     return 0;
 }
 
@@ -336,6 +341,12 @@ void OpenCaffeObject::connect_analog_to_device(uint8_t id, std::forward_list<uin
 void OpenCaffeObject::connect_counter_to_device(uint8_t id, std::forward_list<uint8_t> list) {
     for (auto item : list) {
         counters_.register_value(item, id);
+    }
+}
+
+void OpenCaffeObject::connect_motor_to_device(uint8_t id, std::forward_list<uint8_t> list) {
+    for (auto item : list) {
+        motors_.register_value(item, id);
     }
 }
 

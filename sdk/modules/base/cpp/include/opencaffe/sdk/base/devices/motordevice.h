@@ -6,6 +6,8 @@
 
 namespace OpenCaffe {
 
+enum class Process { Stop, MovingUp, MovingDown, Error };
+
 class MotorDevice : public Device {
 public:
     enum class MotorType : uint8_t { STEPPER_MOTOR, HBRIDGE_MOTOR };
