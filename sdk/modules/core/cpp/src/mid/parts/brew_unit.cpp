@@ -99,7 +99,7 @@ int BrewUnit::stop() {
     return 0;
 }
 
-BrewUnit::Process BrewUnit::get_status() {
+Process BrewUnit::get_status() {
     if (status_map_.find(motor_->get_direction()) != status_map_.end())
         return status_map_[motor_->get_direction()];
     return Process::Error;

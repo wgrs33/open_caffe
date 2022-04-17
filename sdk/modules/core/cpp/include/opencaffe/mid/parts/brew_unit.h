@@ -1,7 +1,6 @@
 #ifndef _OPENCAFFE_MID_PARTS_BREW_UNIT_H
 #define _OPENCAFFE_MID_PARTS_BREW_UNIT_H
 
-#include "opencaffe/mid/parts/stepper_part.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
 #include "opencaffe/sdk/base/devices/analogdevice.h"
 #include "opencaffe/sdk/base/devices/motordevice.h"
@@ -10,7 +9,6 @@ namespace OpenCaffe {
 
 class BrewUnit : public CallObject {
 public:
-    enum class Process { Stop, MovingUp, MovingDown, Error };
     enum class Position : uint8_t { Home = 1, Work = 2, Unknown = 0, Error = 3 };
     enum class Type : uint8_t { Present = 0, Home, Work, Motor, Current, Errorctrl };
 

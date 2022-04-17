@@ -1,12 +1,12 @@
 #ifndef _OPENCAFFE_MID_PARTS_MULTIVALVE_H
 #define _OPENCAFFE_MID_PARTS_MULTIVALVE_H
 
-#include "opencaffe/mid/parts/stepper_part.h"
+#include "opencaffe/sdk/base/devices/motordevice.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
 
 namespace OpenCaffe {
 
-class Multivalve : public StepperPart {
+class Multivalve : public CallObject {
 public:
     enum class Position {
         Steam     = -2, // Heater -> Steam/Cappuccinatore
@@ -33,6 +33,7 @@ public:
 private:
     std::unique_ptr<InputDevice> bottom_sw_;
     std::unique_ptr<InputDevice> top_sw_;
+    std::unique_ptr<MotorDevice> motor_;
 };
 
 } // namespace OpenCaffe
