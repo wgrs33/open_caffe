@@ -1,5 +1,5 @@
-#ifndef _OPENCAFFE_MID_PARTS_AUTOCAPPUCINATORE_H
-#define _OPENCAFFE_MID_PARTS_AUTOCAPPUCINATORE_H
+#ifndef _OPENCAFFE_SDK_CORE_PARTS_AUTOCAPPUCINATORE_H
+#define _OPENCAFFE_SDK_CORE_PARTS_AUTOCAPPUCINATORE_H
 
 #include "opencaffe/sdk/base/devices/motordevice.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
@@ -30,4 +30,4 @@ private:
 
 } // namespace OpenCaffe
 
-#endif //_OPENCAFFE_MID_PARTS_AUTOCAPPUCINATORE_H
+#endif //_OPENCAFFE_SDK_CORE_PARTS_AUTOCAPPUCINATORE_H

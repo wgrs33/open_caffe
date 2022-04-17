@@ -1,5 +1,5 @@
-#ifndef _OPENCAFFE_MID_PARTS_BREW_UNIT_H
-#define _OPENCAFFE_MID_PARTS_BREW_UNIT_H
+#ifndef _OPENCAFFE_SDK_CORE_PARTS_BREW_UNIT_H
+#define _OPENCAFFE_SDK_CORE_PARTS_BREW_UNIT_H
 
 #include "opencaffe/sdk/base/devices/inputdevice.h"
 #include "opencaffe/sdk/base/devices/analogdevice.h"
@@ -49,4 +49,4 @@ private:
 
 } // namespace OpenCaffe
 
-#endif //_OPENCAFFE_MID_PARTS_BREW_UNIT_H
+#endif //_OPENCAFFE_SDK_CORE_PARTS_BREW_UNIT_H

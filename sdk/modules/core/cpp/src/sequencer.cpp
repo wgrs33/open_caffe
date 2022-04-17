@@ -2,7 +2,7 @@
 #include "opencaffe/sdk/opencaffe.h"
 #include "opencaffe/sdk/base/utils/tools.h"
 #include "opencaffe/device_mapping.h"
-#include "opencaffe/mid/parts.h"
+#include "opencaffe/sdk/core/parts.h"
 
 namespace OpenCaffe {
 

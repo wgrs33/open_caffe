@@ -1,7 +1,7 @@
-#ifndef _OPENCAFFE_MID_PARTS_HEATER_H
-#define _OPENCAFFE_MID_PARTS_HEATER_H
+#ifndef _OPENCAFFE_SDK_CORE_PARTS_HEATER_H
+#define _OPENCAFFE_SDK_CORE_PARTS_HEATER_H
 
-#include "opencaffe/mid/parts/simple_output_part.h"
+#include "opencaffe/sdk/core/parts/simple_output_part.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
 
 namespace OpenCaffe {
@@ -29,4 +29,4 @@ private:
 
 } // namespace OpenCaffe
 
-#endif //_OPENCAFFE_MID_PARTS_HEATER_H
+#endif //_OPENCAFFE_SDK_CORE_PARTS_HEATER_H

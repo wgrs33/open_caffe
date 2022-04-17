@@ -1,4 +1,4 @@
-#include "opencaffe/mid/parts/simple_input_part.h"
+#include "opencaffe/sdk/core/parts/simple_input_part.h"
 
 namespace OpenCaffe {
 

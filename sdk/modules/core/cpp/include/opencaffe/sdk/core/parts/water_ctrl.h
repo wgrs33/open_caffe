@@ -1,8 +1,8 @@
-#ifndef _OPENCAFFE_MID_PARTS_WATER_CTRL_H
-#define _OPENCAFFE_MID_PARTS_WATER_CTRL_H
+#ifndef _OPENCAFFE_SDK_CORE_PARTS_WATER_CTRL_H
+#define _OPENCAFFE_SDK_CORE_PARTS_WATER_CTRL_H
 
 #include "opencaffe/sdk/base/callobject.h"
-#include "opencaffe/mid/parts/multivalve.h"
+#include "opencaffe/sdk/core/parts/multivalve.h"
 #include "opencaffe/sdk/base/devices/outputdevice.h"
 
 namespace OpenCaffe {
@@ -27,4 +27,4 @@ private:
 
 } // namespace OpenCaffe
 
-#endif //_OPENCAFFE_MID_PARTS_WATER_CTRL_H
+#endif //_OPENCAFFE_SDK_CORE_PARTS_WATER_CTRL_H

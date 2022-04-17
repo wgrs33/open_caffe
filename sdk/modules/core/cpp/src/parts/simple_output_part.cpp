@@ -1,4 +1,4 @@
-#include "opencaffe/mid/parts/simple_output_part.h"
+#include "opencaffe/sdk/core/parts/simple_output_part.h"
 #include "opencaffe/sdk/base/utils/common_types.h"
 
 namespace OpenCaffe {
