@@ -51,4 +51,31 @@ TEST_F(SimpleInputPartGTest, InitState) {
                                           std::map<int, int>({{0, OpenCaffe::WATERTANK_PRESENT}}), oco_);
 
     EXPECT_EQ(input_part.init(), 0);
+    EXPECT_EQ(input_part.is_present(), 0);
+    try {
+        input_part.is_full();
+    } catch (std::runtime_error &e) {
+        EXPECT_EQ(e.what(), std::string("This instance doesn't use FULL input"));
+    } catch (...) { FAIL() << "Unexpected exception type"; }
+
+    try {
+        input_part.is_empty();
+    } catch (std::runtime_error &e) {
+        EXPECT_EQ(e.what(), std::string("This instance doesn't use EMPTY input"));
+    } catch (...) { FAIL() << "Unexpected exception type"; }
+}
+
+TEST_F(SimpleInputPartGTest, InitStateDoubleIn) {
+    OpenCaffe::SimpleInputPart input_part(
+        OpenCaffe::E_WaterTank,
+        std::map<int, int>({{0, OpenCaffe::WATERTANK_PRESENT}, {1, OpenCaffe::WATERTANK_EMPTY}}), oco_);
+
+    EXPECT_EQ(input_part.init(), 0);
+    EXPECT_EQ(input_part.is_present(), 0);
+    EXPECT_EQ(input_part.is_empty(), 0);
+    try {
+        input_part.is_full();
+    } catch (std::runtime_error &e) {
+        EXPECT_EQ(e.what(), std::string("This instance doesn't use FULL input"));
+    } catch (...) { FAIL() << "Unexpected exception type"; }
 }

@@ -46,4 +46,5 @@ TEST_F(SimpleOutputPartGTest, InitState) {
                                             oco_);
 
     EXPECT_EQ(output_part.init(), 0);
+    EXPECT_EQ(output_part.get_state(), OpenCaffe::SimpleOutputPart::Process::Off);
 }

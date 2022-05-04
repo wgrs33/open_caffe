@@ -30,6 +30,7 @@ int SimpleOutputPart::init() {
         throw std::logic_error("[SimpleOutputPart] Part id: " + std::to_string(id_) + "(" + name_map_part[id_] +
                                "): " + e.what());
     }
+    this->state_ = Process::Off;
     return 0;
 }
 
