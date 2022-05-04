@@ -64,7 +64,7 @@ bool SimpleInputPart::is_present() {
         if (present_->get_state() == State::ON)
             return true;
     } else {
-        throw std::runtime_error("This instance doens't use PRESENCE input");
+        throw std::runtime_error("This instance doesn't use PRESENCE input");
     }
     return false;
 }
@@ -74,7 +74,7 @@ bool SimpleInputPart::is_empty() {
         if (empty_->get_state() == State::ON)
             return true;
     } else {
-        throw std::runtime_error("This instance doens't use EMPTY input");
+        throw std::runtime_error("This instance doesn't use EMPTY input");
     }
     return false;
 }
