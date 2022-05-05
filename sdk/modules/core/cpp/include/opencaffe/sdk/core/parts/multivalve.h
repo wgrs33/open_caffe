@@ -3,10 +3,12 @@
 
 #include "opencaffe/sdk/base/devices/motordevice.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
+#include "opencaffe/sdk/core/icallobject.h"
+#include "opencaffe/sdk/core/coreobject.h"
 
 namespace OpenCaffe {
 
-class Multivalve : public CallObject {
+class Multivalve : public ICallObject, public CoreObject {
 public:
     enum class Position {
         Steam     = -2, // Heater -> Steam/Cappuccinatore

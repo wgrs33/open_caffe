@@ -1,12 +1,13 @@
 #ifndef _OPENCAFFE_SDK_CORE_PARTS_FLOW_METER_H
 #define _OPENCAFFE_SDK_CORE_PARTS_FLOW_METER_H
 
-#include "opencaffe/sdk/base/callobject.h"
 #include "opencaffe/sdk/base/devices/counterdevice.h"
+#include "opencaffe/sdk/core/icallobject.h"
+#include "opencaffe/sdk/core/coreobject.h"
 
 namespace OpenCaffe {
 
-class FlowMeter : public CallObject {
+class FlowMeter : public ICallObject, public CoreObject {
 public:
     enum class Type { Simple = 0 };
 

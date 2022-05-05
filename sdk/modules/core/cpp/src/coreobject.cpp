@@ -1,8 +1,8 @@
-#include "opencaffe/sdk/base/callobject.h"
+#include "opencaffe/sdk/core/coreobject.h"
 
 namespace OpenCaffe {
 
-CallObject::CallObject(const std::string &name) :
+CoreObject::CoreObject(const std::string &name) :
 #if !defined DEBUG && defined NDEBUG
     name_(name), log_prefix_("[<LEVEL>][" + name + "] ") {
 }
@@ -11,7 +11,7 @@ CallObject::CallObject(const std::string &name) :
 }
 #endif
 
-std::string CallObject::get_log_prefix() {
+std::string CoreObject::get_log_prefix() {
     return log_prefix_;
 }
 

@@ -1,13 +1,13 @@
 #ifndef _OPENCAFFE_SDK_CORE_PARTS_SIMPLE_INPUT_PART_H
 #define _OPENCAFFE_SDK_CORE_PARTS_SIMPLE_INPUT_PART_H
 
-#include "opencaffe/sdk/base/callobject.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
-#include "opencaffe/sdk/base/utils/common_types.h"
+#include "opencaffe/sdk/core/icallobject.h"
+#include "opencaffe/sdk/core/coreobject.h"
 
 namespace OpenCaffe {
 
-class SimpleInputPart : public CallObject {
+class SimpleInputPart : public ICallObject, public CoreObject {
 public:
     enum class Type : uint8_t { Presence = 0, Empty, Full };
 

@@ -1,13 +1,14 @@
 #ifndef _OPENCAFFE_SDK_CORE_PARTS_WATER_CTRL_H
 #define _OPENCAFFE_SDK_CORE_PARTS_WATER_CTRL_H
 
-#include "opencaffe/sdk/base/callobject.h"
 #include "opencaffe/sdk/core/parts/multivalve.h"
 #include "opencaffe/sdk/base/devices/outputdevice.h"
+#include "opencaffe/sdk/core/icallobject.h"
+#include "opencaffe/sdk/core/coreobject.h"
 
 namespace OpenCaffe {
 
-class WaterCtrl : public CallObject {
+class WaterCtrl : public ICallObject, public CoreObject {
 public:
     enum class Type { Multivalve = 0, SteamDrop, Steam, Drop };
 

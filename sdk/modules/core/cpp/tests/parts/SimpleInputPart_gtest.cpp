@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "opencaffe/sdk/core/parts/simple_input_part.h"
-#include "opencaffe/sdk/base/opencaffeobject.h"
+#include "opencaffe/sdk/core/opencaffeobject.h"
 #include "opencaffe/sdk/opencaffe.h"
 
 #include <boost/filesystem.hpp>

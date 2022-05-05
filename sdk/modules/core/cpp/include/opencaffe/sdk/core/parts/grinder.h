@@ -1,15 +1,16 @@
 #ifndef _OPENCAFFE_SDK_CORE_PARTS_GRINDER_H
 #define _OPENCAFFE_SDK_CORE_PARTS_GRINDER_H
 
-#include "opencaffe/sdk/base/callobject.h"
 #include "opencaffe/sdk/base/devices/motordevice.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
 #include "opencaffe/sdk/base/devices/outputdevice.h"
 #include "opencaffe/sdk/base/devices/counterdevice.h"
+#include "opencaffe/sdk/core/icallobject.h"
+#include "opencaffe/sdk/core/coreobject.h"
 
 namespace OpenCaffe {
 
-class Grinder : public CallObject {
+class Grinder : public ICallObject {
 public:
     enum class Type { Simple = 0, DoubleOutput, HBridge };
     enum class Process { Stop = 0, Grinding, Error };

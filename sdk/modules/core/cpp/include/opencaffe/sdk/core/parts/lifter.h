@@ -3,10 +3,12 @@
 
 #include "opencaffe/sdk/base/devices/motordevice.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
+#include "opencaffe/sdk/core/icallobject.h"
+#include "opencaffe/sdk/core/coreobject.h"
 
 namespace OpenCaffe {
 
-class Lifter : public CallObject {
+class Lifter : public ICallObject, public CoreObject {
 public:
     enum class Position { Bottom = 0, Top, Unknown };
 

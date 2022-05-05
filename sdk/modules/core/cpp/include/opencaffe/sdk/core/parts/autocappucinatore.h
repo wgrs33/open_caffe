@@ -3,10 +3,12 @@
 
 #include "opencaffe/sdk/base/devices/motordevice.h"
 #include "opencaffe/sdk/base/devices/inputdevice.h"
+#include "opencaffe/sdk/core/icallobject.h"
+#include "opencaffe/sdk/core/coreobject.h"
 
 namespace OpenCaffe {
 
-class AutoCappucinatore : public CallObject {
+class AutoCappucinatore : public ICallObject, public CoreObject {
 public:
     enum class Position { Open = 0, Milk, Foam, Moving, Error };
 

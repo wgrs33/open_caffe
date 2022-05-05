@@ -1,7 +1,9 @@
 #ifndef OPENCAFFE_SDK_BASE_DEVICES_DEVICE_H
 #define OPENCAFFE_SDK_BASE_DEVICES_DEVICE_H
 
-#include "opencaffe/sdk/base/callobject.h"
+#include <cstdint>
+
+#include "opencaffe/sdk/base/utils/common_types.h"
 
 namespace OpenCaffe {
 

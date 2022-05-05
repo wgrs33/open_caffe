@@ -4,10 +4,12 @@
 #include "opencaffe/sdk/base/devices/inputdevice.h"
 #include "opencaffe/sdk/base/devices/analogdevice.h"
 #include "opencaffe/sdk/base/devices/motordevice.h"
+#include "opencaffe/sdk/core/icallobject.h"
+#include "opencaffe/sdk/core/coreobject.h"
 
 namespace OpenCaffe {
 
-class BrewUnit : public CallObject {
+class BrewUnit : public ICallObject, public CoreObject {
 public:
     enum class Position : uint8_t { Home = 1, Work = 2, Unknown = 0, Error = 3 };
     enum class Type : uint8_t { Present = 0, Home, Work, Motor, Current, Errorctrl };

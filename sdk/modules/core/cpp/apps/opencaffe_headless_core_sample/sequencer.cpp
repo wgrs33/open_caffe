@@ -2,6 +2,7 @@
 #include "opencaffe/sdk/base/utils/tools.h"
 #include "opencaffe/device_mapping.h"
 #include "opencaffe/sdk/core/parts.h"
+#include "opencaffe/sdk/core/coreobject.h"
 
 #include "sequencer.h"
 
@@ -9,7 +10,7 @@ namespace OpenCaffe {
 
 struct Sequencer::ExecutableObject {
     ExecutableObject() = delete;
-    ExecutableObject(std::shared_ptr<CallObject> obj) {
+    ExecutableObject(std::shared_ptr<ICallObject> obj) {
         obj_ptr_ = obj;
     }
     int init() {
@@ -21,13 +22,13 @@ struct Sequencer::ExecutableObject {
     int deinit() {
         return obj_ptr_->deinit();
     }
-    std::shared_ptr<CallObject> obj_ptr_;
+    std::shared_ptr<ICallObject> obj_ptr_;
     bool no_20_spare_time_ = false;
     bool no_spare_time_    = false;
     uint32_t time_spare_   = 0U;
 };
 
-Sequencer::Sequencer(const std::string &config, const std::string &devices) : CallObject("Sequencer"), test_(0) {
+Sequencer::Sequencer(const std::string &config, const std::string &devices) : CoreObject("Sequencer"), test_(0) {
     opencaffeobject_ = std::make_shared<OpenCaffeObject>(config);
     parse_devices(devices);
     OC_LOG_DEBUG(get_log_prefix()) << "Ctr done";

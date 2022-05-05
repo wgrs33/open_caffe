@@ -3,7 +3,7 @@
 namespace OpenCaffe {
 
 SimpleInputPart::SimpleInputPart(T_Part id, std::map<int, int> config, std::shared_ptr<OpenCaffeObject> &oco) :
-    CallObject(name_map_part[id]), id_(id), opencaffeobject_(oco), config_(config) {}
+    CoreObject(name_map_part[id]), id_(id), opencaffeobject_(oco), config_(config) {}
 
 SimpleInputPart::~SimpleInputPart() {}
 
