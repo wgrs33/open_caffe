@@ -7,18 +7,13 @@
 #include <memory>
 #include <stdarg.h>
 
-#include "opencaffe/sdk/base/utils/logger.h"
 #include "opencaffe/sdk/base/opencaffeobject.h"
 
 namespace OpenCaffe {
 
 class CallObject {
 public:
-    enum Type { COUT, CERR, CLOG };
-
-    CallObject(Type output = Type::COUT);
-
-    CallObject(std::string name, Type output = Type::COUT);
+    CallObject(const std::string &name);
 
     virtual ~CallObject() = default;
 
@@ -28,12 +23,11 @@ public:
 
     virtual int deinit() = 0;
 
-    logger &log(unsigned level);
-
-    void set_log_level(unsigned level);
+    std::string get_log_prefix();
 
 private:
-    std::unique_ptr<OpenCaffe::logger> logger_;
+    const std::string name_;
+    const std::string log_prefix_;
 
 protected:
     std::shared_ptr<OpenCaffe::OpenCaffeObject> opencaffeobject_;

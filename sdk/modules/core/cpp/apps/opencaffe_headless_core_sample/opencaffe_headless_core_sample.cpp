@@ -1,7 +1,10 @@
 #include <iostream>
 #include <memory>
 #include <algorithm>
-#include "opencaffe/sequencer.h"
+
+#include "opencaffe/sdk/base/utils/log.h"
+
+#include "sequencer.h"
 
 class InputParser {
 public:
@@ -35,8 +38,10 @@ int main(int argc, char **argv) {
         throw std::runtime_error(
             "Usage: ./open_caffe_headless [--acq-config config_path] [--device-config device_path]");
 
-    std::string config_path = "./config.json";
-    std::string device_path = "./devices.json";
+    std::string config_path      = "./config.json";
+    std::string device_path      = "./devices.json";
+    const std::string log_prefix = "[<LEVEL>][<FILE>] ";
+    std::unique_ptr<OpenCaffe::Sequencer> seq;
 
     InputParser argparser(argc, argv);
     std::string &filename = const_cast<std::string &>(argparser.getCmdOption("--acq-config"));
@@ -49,7 +54,13 @@ int main(int argc, char **argv) {
         device_path = filename;
     }
 
-    std::unique_ptr<OpenCaffe::Sequencer> seq = std::make_unique<OpenCaffe::Sequencer>(config_path, device_path);
+    try {
+        seq = std::make_unique<OpenCaffe::Sequencer>(config_path, device_path);
+    } catch (std::exception &e) {
+        res = 1;
+        OC_LOG_ERROR(log_prefix) << "An error occured:" << e.what();
+        return res;
+    }
 
     res = seq->init();
     if (res == 0) {
@@ -57,11 +68,11 @@ int main(int argc, char **argv) {
         if (res == 0) {
             seq->deinit();
         } else {
-            seq->log(LOG_ERR) << "Main loop exited with code: " << res << std::endl;
+            OC_LOG_ERROR(log_prefix) << "Main loop exited with code: " << res;
             seq->deinit();
         }
     } else {
-        seq->log(LOG_ERR) << "Init exited with code: " << res << std::endl;
+        OC_LOG_ERROR(log_prefix) << "Init exited with code: " << res;
         seq->deinit();
     }
 

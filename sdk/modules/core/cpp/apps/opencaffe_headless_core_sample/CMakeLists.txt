@@ -5,7 +5,12 @@ set(common_libraries
     OpenCaffeSDK::core
 )
 
-add_executable(${app} ${app}.cpp)
+add_executable(${app} ${CMAKE_CURRENT_SOURCE_DIR}/${app}.cpp)
+
+target_sources(${app} PRIVATE
+    # sequencer
+    ${CMAKE_CURRENT_SOURCE_DIR}/sequencer.cpp
+)
 
 target_link_libraries(${app} PRIVATE ${common_libraries})
 

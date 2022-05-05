@@ -1,8 +1,9 @@
-#include "opencaffe/sequencer.h"
 #include "opencaffe/sdk/opencaffe.h"
 #include "opencaffe/sdk/base/utils/tools.h"
 #include "opencaffe/device_mapping.h"
 #include "opencaffe/sdk/core/parts.h"
+
+#include "sequencer.h"
 
 namespace OpenCaffe {
 
@@ -27,11 +28,9 @@ struct Sequencer::ExecutableObject {
 };
 
 Sequencer::Sequencer(const std::string &config, const std::string &devices) : CallObject("Sequencer"), test_(0) {
-    set_log_level(LOG_DEBUG);
-    // log(LOG_DEBUG) << "test_: " << test_ << std::endl;
     opencaffeobject_ = std::make_shared<OpenCaffeObject>(config);
     parse_devices(devices);
-    OBJECT_LINE(log(LOG_DEBUG), this) << "Sequencer ctr done" << std::endl;
+    OC_LOG_DEBUG(get_log_prefix()) << "Ctr done";
 }
 
 Sequencer::~Sequencer() {}
@@ -71,7 +70,7 @@ void Sequencer::parse_devices(const std::string &devfile_path) {
             ++cnt;
         }
     }
-    log(LOG_DEBUG) << "Number of devices: " << cnt << std::endl;
+    OC_LOG_INFO(get_log_prefix()) << "Number of devices:" << cnt;
 }
 
 int Sequencer::init() {
@@ -119,12 +118,12 @@ int Sequencer::deinit() {
         if (res != 0)
             break;
     }
-    DEBUG_LINE(log(LOG_DEBUG)) << "Finished" << std::endl;
+    OC_LOG_DEBUG(get_log_prefix()) << "Finished";
     return res;
 }
 
 void Sequencer::set_test(int value) {
-    DEBUG_LINE(log(LOG_DEBUG)) << "value: " << value << std::endl;
+    OC_LOG_DEBUG(get_log_prefix()) << "value:" << value;
     test_ = value;
 }
 

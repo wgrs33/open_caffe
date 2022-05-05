@@ -37,7 +37,7 @@ int OpenCaffeObject::get_analog(uint8_t channel, T &value) {
                             return 0;
                         }
                     }
-                    log(LOG_DEBUG) << "Value not mapped: " << std::to_string(voltage) << std::endl;
+                    OC_LOG_ERROR(_log_prefix) << "Value not mapped:" << std::to_string(voltage);
                     return 1;
                 }
                 default:
@@ -47,7 +47,7 @@ int OpenCaffeObject::get_analog(uint8_t channel, T &value) {
                 break;
             }
         }
-        log(LOG_DEBUG) << "No analog channel found by ID: " << std::to_string(channel) << std::endl;
+        OC_LOG_ERROR(_log_prefix) << "No analog channel found by ID:" << std::to_string(channel);
         return 1;
     }
     throw std::runtime_error("Channel ID higher than max ID: " + std::to_string(channel));

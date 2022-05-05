@@ -9,7 +9,6 @@ SimpleOutputPart::SimpleOutputPart(T_Part id, std::map<int, int> config, std::sh
 SimpleOutputPart::~SimpleOutputPart() {}
 
 int SimpleOutputPart::init() {
-    set_log_level(LOG_DEBUG);
     using namespace std::placeholders;
     try {
         for (auto &sensor : config_) {

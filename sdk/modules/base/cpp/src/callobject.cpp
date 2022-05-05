@@ -2,40 +2,17 @@
 
 namespace OpenCaffe {
 
-CallObject::CallObject(Type output) {
-    switch (output) {
-    case Type::COUT:
-        logger_ = std::make_unique<OpenCaffe::logger>(std::cout, "");
-        break;
-    case Type::CERR:
-        logger_ = std::make_unique<OpenCaffe::logger>(std::cerr, "");
-        break;
-    case Type::CLOG:
-        logger_ = std::make_unique<OpenCaffe::logger>(std::clog, "");
-        break;
-    }
+CallObject::CallObject(const std::string &name) :
+#if !defined DEBUG && defined NDEBUG
+    name_(name), log_prefix_("[<LEVEL>][" + name + "] ") {
 }
-
-CallObject::CallObject(std::string name, Type output) {
-    switch (output) {
-    case Type::COUT:
-        logger_ = std::make_unique<OpenCaffe::logger>(std::cout, name);
-        break;
-    case Type::CERR:
-        logger_ = std::make_unique<OpenCaffe::logger>(std::cerr, name);
-        break;
-    case Type::CLOG:
-        logger_ = std::make_unique<OpenCaffe::logger>(std::clog, name);
-        break;
-    }
+#else
+    name_(name), log_prefix_("[<FILE>:<LINE>][<FUNCTION>][<LEVEL>][" + name + "] ") {
 }
+#endif
 
-logger &CallObject::log(unsigned level) {
-    return (*logger_)(level);
-}
-
-void CallObject::set_log_level(unsigned level) {
-    logger_->set_log_level(level);
+std::string CallObject::get_log_prefix() {
+    return log_prefix_;
 }
 
 } // namespace OpenCaffe
