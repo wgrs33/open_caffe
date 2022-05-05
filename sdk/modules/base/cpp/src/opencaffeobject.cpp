@@ -97,10 +97,14 @@ ValueStringMap<T_ConversionType> conversion_value_map("T_ConversionType string m
                                                                                           {MAPPING, "MAPPING"}});
 
 OpenCaffeObject::OpenCaffeObject(std::string cfg_path) {
-    logger_ = std::make_unique<OpenCaffe::logger>(std::cout, "OpenCaffeObject");
-    logger_->set_log_level(LOG_DEBUG);
     read_cfg(cfg_path);
 }
+
+#if !defined DEBUG && defined NDEBUG
+const std::string OpenCaffeObject::_log_prefix = "[<LEVEL>][OpenCaffeObject] ";
+#else
+const std::string OpenCaffeObject::_log_prefix = "[<FILE>:<LINE>][<FUNCTION>][<LEVEL>][OpenCaffeObject] ";
+#endif
 
 void OpenCaffeObject::read_cfg(const std::string cfg_path) {
     bpt::ptree json_file;
@@ -190,11 +194,11 @@ void OpenCaffeObject::read_cfg(const std::string cfg_path) {
             analogs_.register_value(aswitch.chan_id, T_ConstantDefines::AnalogSwitchID);
         }
     }
-    log(LOG_DEBUG) << "analog_channels: " << acquisition_params_.analog_channels_.size() << std::endl;
-    log(LOG_DEBUG) << "analog_switches: " << acquisition_params_.analog_double_switches_.size() << std::endl;
-    log(LOG_DEBUG) << "digital_inputs_: " << acquisition_params_.digital_inputs_.size() << std::endl;
-    log(LOG_DEBUG) << "digital_outputs: " << acquisition_params_.digital_outputs_.size() << std::endl;
-    log(LOG_DEBUG) << "counters: " << acquisition_params_.counters_.size() << std::endl;
+    OC_LOG_TRACE(_log_prefix) << "analog_channels:" << acquisition_params_.analog_channels_.size();
+    OC_LOG_TRACE(_log_prefix) << "analog_switches:" << acquisition_params_.analog_double_switches_.size();
+    OC_LOG_TRACE(_log_prefix) << "digital_inputs_:" << acquisition_params_.digital_inputs_.size();
+    OC_LOG_TRACE(_log_prefix) << "digital_outputs:" << acquisition_params_.digital_outputs_.size();
+    OC_LOG_TRACE(_log_prefix) << "counters:" << acquisition_params_.counters_.size();
 }
 
 int OpenCaffeObject::get_input(uint8_t channel, bool &state) {
@@ -264,7 +268,7 @@ int OpenCaffeObject::update_inputs() {
         } else {
             inputs_[input.chan_id] = static_cast<uint8_t>(AnalogSwitchState::OutOfRange);
             err                    = 1;
-            log(LOG_ERR) << __PRETTY_FUNCTION__ << " code : " << err << " channel: " << input.chan_id << std::endl;
+            OC_LOG_ERROR(_log_prefix) << __FUNCTION__ << "code:" << err << "channel:" << input.chan_id;
         }
     }
     if (update_analog_switches() != 0)
@@ -311,10 +315,10 @@ int OpenCaffeObject::read_conv_table(std::string temp_path, std::forward_list<st
             tab >> f.first >> f.second;
             table.push_front(f);
         }
-        // log(LOG_DEBUG) << "table\n";
-        // for (auto &item : table) {
-        //     log(LOG_DEBUG) << item.first << "-" << item.second << std::endl;
-        // }
+        OC_LOG_DEBUG(_log_prefix) << "table";
+        for (auto &item : table) {
+            OC_LOG_DEBUG(_log_prefix) << item.first << "-" << item.second;
+        }
     } else {
         throw std::runtime_error("No temp table \"" + temp_path + "\" has been found");
     }
@@ -348,10 +352,6 @@ void OpenCaffeObject::connect_motor_to_device(uint8_t id, std::forward_list<uint
     for (auto item : list) {
         motors_.register_value(item, id);
     }
-}
-
-logger &OpenCaffeObject::log(unsigned level) {
-    return (*logger_)(level);
 }
 
 } // namespace OpenCaffe

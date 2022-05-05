@@ -4,8 +4,8 @@
 #include "opencaffe/sdk/base/utils/acquisition_parameters.h"
 #include "opencaffe/sdk/base/utils/common_types.h"
 #include "opencaffe/sdk/base/utils/communication_layer.h"
-#include "opencaffe/sdk/base/utils/logger.h"
 #include "opencaffe/sdk/base/utils/registered_value.h"
+#include "opencaffe/sdk/base/utils/log.h"
 
 #include <vector>
 #include <queue>
@@ -60,17 +60,16 @@ private:
 
     int update_analog_switches(void);
 
-    logger &log(unsigned level);
-
     std::queue<DataPacket> packet_buffer_;
     RegisteredValue<uint8_t> inputs_{"Inputs"};
     RegisteredValue<uint8_t> outputs_{"Outputs"};
     RegisteredValue<uint8_t> motors_{"Motors"};
     RegisteredValue<uint32_t> analogs_{"Analogs"};
     RegisteredValue<uint32_t> counters_{"Counters"};
-    std::unique_ptr<OpenCaffe::logger> logger_;
     SystemState E_systemStatus;
     AcquisitionParameters acquisition_params_;
+
+    static const std::string _log_prefix;
 };
 
 } // namespace OpenCaffe

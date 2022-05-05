@@ -7,7 +7,6 @@ BrewUnit::BrewUnit(T_Part id, std::map<int, int> config, std::shared_ptr<OpenCaf
     CallObject(name_map_part[id]), id_(id), opencaffeobject_(oco), config_(config) {}
 
 int BrewUnit::init() {
-    set_log_level(LOG_DEBUG);
     bool done = false;
     using namespace std::placeholders;
     try {
