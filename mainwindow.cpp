@@ -3,6 +3,7 @@
 #include <chrono>
 #include <iostream>
 #include <QtSerialPort>
+#include <QGraphicsOpacityEffect>
 #include <QDebug>
 
 QSerialPort *serial;
@@ -19,14 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
                        (this->height() - label->height())/2,
                        label->width(), label->height());
 
-//    QLabel *label = new QLabel(this);
-//    label->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-//    label->setText("first line\nsecond line");
-//    label->setAlignment(Qt::AlignBottom | Qt::AlignRight);
-//    //Here is how to change position:
-//    label->setGeometry(10,10,this->width()/2,this->height()/2);
-
-    QPixmap bkgnd(":/resources/images/background.png");
+    QPixmap bkgnd(":/resources/images/background2.png");
     bkgnd = bkgnd.scaled(this->size(), Qt::KeepAspectRatio);
     QPalette palette;
     palette.setBrush(QPalette::Background, bkgnd);

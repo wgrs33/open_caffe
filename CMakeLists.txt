@@ -24,8 +24,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #    endif()
 #endif()
 
-find_package(QT NAMES Qt5 COMPONENTS Widgets Core SerialPort REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core SerialPort REQUIRED)
+find_package(QT NAMES Qt5 COMPONENTS Widgets Core SerialPort Quick REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core SerialPort Quick REQUIRED)
 find_package(Threads REQUIRED)
 
 set(PROJECT_SOURCES
@@ -33,6 +33,7 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        resources.qrc
 )
 
 qt5_add_resources(RESOURCES resources.qrc)
@@ -60,5 +61,6 @@ target_link_libraries(QtSerialPort_test PRIVATE
                                         Qt${QT_VERSION_MAJOR}::Widgets
                                         Qt${QT_VERSION_MAJOR}::Core
                                         Qt${QT_VERSION_MAJOR}::SerialPort
+                                        Qt${QT_VERSION_MAJOR}::Quick
                                         Threads::Threads
 )
